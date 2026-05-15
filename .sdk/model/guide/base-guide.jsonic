@@ -1,0 +1,30 @@
+# Guide
+
+guide: {
+  metrics: count: entity: 3
+  metrics: count: path: 4
+  metrics: count: method: 4
+
+  entity: get_random_by_category: {
+    path: "/{category}": {
+      rename: param: "category": *"id"
+      op: list: method: *GET
+    }
+  }
+
+  entity: image: {
+    path: "/endpoints": {
+      op: list: method: *GET
+    }
+    path: "/stats": {
+      op: load: method: *GET
+    }
+  }
+
+  entity: search: {
+    path: "/search": {
+      op: list: method: *GET
+    }
+  }
+
+}

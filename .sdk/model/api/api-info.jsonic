@@ -1,0 +1,29 @@
+# API Information
+
+
+main: {
+  kit: {
+    info: {
+      contact: {
+        email: "contact@nekos.best"
+        url: "https://nekos.best"
+      }
+      description: "nekos.best is a RESTful API serving fully SFW and high quality anime images and GIFs. No authorization required, fully SFW content, crediting creators, fast response times with 99.9% uptime, wide variety of endpoints, and CORS enabled."
+      license: {
+        name: "API License"
+        url: "https://nekos.best"
+      }
+      servers: [
+        {
+          description: "Production API Server"
+          url: "https://nekos.best/api/v2"
+        }
+      ]
+      termsOfService: "https://nekos.best"
+      title: "nekos.best API"
+      version: "1.0.0"
+    }
+  }
+}
+
+}

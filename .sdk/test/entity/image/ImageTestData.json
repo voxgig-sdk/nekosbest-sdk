@@ -1,0 +1,34 @@
+{
+  "existing": {
+    "image": {
+      "IMAGE00": {
+        "category": "s28",
+        "endpoint": [],
+        "total_gif": "s2a",
+        "total_image": "s2b"
+      },
+      "IMAGE01": {
+        "category": "s50",
+        "endpoint": [],
+        "total_gif": "s52",
+        "total_image": "s53"
+      },
+      "IMAGE02": {
+        "category": "s78",
+        "endpoint": [],
+        "total_gif": "s7a",
+        "total_image": "s7b"
+      }
+    }
+  },
+  "new": {
+    "image": {
+      "image_ref01": {
+        "category": "sa0",
+        "endpoint": [],
+        "total_gif": "sa2",
+        "total_image": "sa3"
+      }
+    }
+  }
+}

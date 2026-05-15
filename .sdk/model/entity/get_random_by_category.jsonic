@@ -1,0 +1,90 @@
+# Entity: get_random_by_category
+
+main: kit: entity: get_random_by_category: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "anime_name"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "artist_href"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "artist_name"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "source_url"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "url"
+      req: true
+      type: "`$STRING`"
+    }
+  ]
+
+  name: "get_random_by_category"
+  op: {
+    list: {
+      name: "list"
+      points: [
+        {
+          args: {
+            params: [
+              {
+                example: "neko"
+                kind: "param"
+                name: "id"
+                orig: "category"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+            query: [
+              {
+                example: 1
+                kind: "query"
+                name: "amount"
+                orig: "amount"
+                reqd: false
+                type: "`$INTEGER`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/{category}"
+          parts: [
+            "{id}"
+          ]
+          rename: {
+            param: {
+              category: "id"
+            }
+          }
+          select: {
+            exist: [
+              "amount"
+              "id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

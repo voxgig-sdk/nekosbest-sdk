@@ -1,0 +1,26 @@
+# BasicGetRandomByCategoryFlow
+
+main: kit: flow: BasicGetRandomByCategoryFlow:
+{
+  entity: "get_random_by_category",
+  kind: "basic",
+  name: "BasicGetRandomByCategoryFlow",
+  step: [
+    {
+      match: {
+        category: "category01"
+      }
+
+      op: "list",
+      valid: [
+        {
+          apply: "ItemExists",
+          def: {
+            ref: "get_random_by_category_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicGetRandomByCategoryFlow"
+}

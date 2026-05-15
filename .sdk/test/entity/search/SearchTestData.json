@@ -1,0 +1,38 @@
+{
+  "existing": {
+    "search": {
+      "SEARCH00": {
+        "anime_name": "s32",
+        "artist_href": "s33",
+        "artist_name": "s34",
+        "source_url": "s35",
+        "url": "s36"
+      },
+      "SEARCH01": {
+        "anime_name": "s64",
+        "artist_href": "s65",
+        "artist_name": "s66",
+        "source_url": "s67",
+        "url": "s68"
+      },
+      "SEARCH02": {
+        "anime_name": "s96",
+        "artist_href": "s97",
+        "artist_name": "s98",
+        "source_url": "s99",
+        "url": "s9a"
+      }
+    }
+  },
+  "new": {
+    "search": {
+      "search_ref01": {
+        "anime_name": "sc8",
+        "artist_href": "sc9",
+        "artist_name": "sca",
+        "source_url": "scb",
+        "url": "scc"
+      }
+    }
+  }
+}

@@ -1,0 +1,349 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "nekos.best API",
+    "description": "nekos.best is a RESTful API serving fully SFW and high quality anime images and GIFs. No authorization required, fully SFW content, crediting creators, fast response times with 99.9% uptime, wide variety of endpoints, and CORS enabled.",
+    "version": "1.0.0",
+    "contact": {
+      "email": "contact@nekos.best",
+      "url": "https://nekos.best"
+    },
+    "termsOfService": "https://nekos.best",
+    "license": {
+      "name": "API License",
+      "url": "https://nekos.best"
+    }
+  },
+  "externalDocs": {
+    "description": "Official API Documentation",
+    "url": "https://docs.nekos.best/"
+  },
+  "servers": [
+    {
+      "url": "https://nekos.best/api/v2",
+      "description": "Production API Server"
+    }
+  ],
+  "tags": [
+    {
+      "name": "images",
+      "description": "Anime image endpoints"
+    },
+    {
+      "name": "gifs",
+      "description": "Anime GIF endpoints"
+    }
+  ],
+  "paths": {
+    "/{category}": {
+      "get": {
+        "tags": [
+          "images"
+        ],
+        "summary": "Get random image or GIF from a category",
+        "description": "Returns a random SFW anime image or GIF from the specified category. Approximately 48 different categories are available.",
+        "operationId": "getRandomByCategory",
+        "parameters": [
+          {
+            "name": "category",
+            "in": "path",
+            "description": "The category name (e.g., neko, husbando, kitsune, waifu, etc.)",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "neko"
+            }
+          },
+          {
+            "name": "amount",
+            "in": "query",
+            "description": "Number of images/GIFs to return (1-20)",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 20,
+              "default": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response with image/GIF data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ImageResponse"
+                },
+                "examples": {
+                  "single": {
+                    "summary": "Single image response",
+                    "value": {
+                      "results": [
+                        {
+                          "artist_href": "https://www.pixiv.net/en/users/12345",
+                          "artist_name": "Artist Name",
+                          "source_url": "https://www.pixiv.net/en/artworks/67890",
+                          "url": "https://nekos.best/api/v2/neko/001.png",
+                          "anime_name": "Anime Title"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - invalid parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Category not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/endpoints": {
+      "get": {
+        "tags": [
+          "images"
+        ],
+        "summary": "Get list of available endpoints",
+        "description": "Returns a list of all available category endpoints that can be used to fetch images and GIFs.",
+        "operationId": "getEndpoints",
+        "responses": {
+          "200": {
+            "description": "Successful response with list of available endpoints",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "endpoints": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "description": "Array of available category names"
+                    }
+                  }
+                },
+                "examples": {
+                  "endpoints": {
+                    "summary": "Available endpoints",
+                    "value": {
+                      "endpoints": [
+                        "neko",
+                        "husbando",
+                        "kitsune",
+                        "waifu",
+                        "pat",
+                        "hug",
+                        "kiss",
+                        "slap",
+                        "cuddle",
+                        "bite"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/search": {
+      "get": {
+        "tags": [
+          "images"
+        ],
+        "summary": "Search for images by query",
+        "description": "Search for specific anime images or GIFs across categories using a search query.",
+        "operationId": "searchImages",
+        "parameters": [
+          {
+            "name": "query",
+            "in": "query",
+            "description": "Search query string",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "category",
+            "in": "query",
+            "description": "Filter by specific category",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "amount",
+            "in": "query",
+            "description": "Number of results to return",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 20,
+              "default": 10
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful search results",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ImageResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - missing or invalid query parameter",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/stats": {
+      "get": {
+        "tags": [
+          "images"
+        ],
+        "summary": "Get API statistics",
+        "description": "Returns statistics about the API including total number of images, GIFs, and categories available.",
+        "operationId": "getStats",
+        "responses": {
+          "200": {
+            "description": "Successful response with API statistics",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "total_images": {
+                      "type": "integer",
+                      "description": "Total number of images available"
+                    },
+                    "total_gifs": {
+                      "type": "integer",
+                      "description": "Total number of GIFs available"
+                    },
+                    "categories": {
+                      "type": "integer",
+                      "description": "Total number of categories"
+                    }
+                  }
+                },
+                "examples": {
+                  "stats": {
+                    "summary": "API statistics",
+                    "value": {
+                      "total_images": 5000,
+                      "total_gifs": 3000,
+                      "categories": 48
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ImageResponse": {
+        "type": "object",
+        "properties": {
+          "results": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ImageItem"
+            },
+            "description": "Array of image/GIF objects"
+          }
+        },
+        "required": [
+          "results"
+        ]
+      },
+      "ImageItem": {
+        "type": "object",
+        "properties": {
+          "artist_href": {
+            "type": "string",
+            "format": "uri",
+            "description": "URL to the artist's profile or website",
+            "example": "https://www.pixiv.net/en/users/12345"
+          },
+          "artist_name": {
+            "type": "string",
+            "description": "Name of the artist who created the image",
+            "example": "Artist Name"
+          },
+          "source_url": {
+            "type": "string",
+            "format": "uri",
+            "description": "Original source URL of the image",
+            "example": "https://www.pixiv.net/en/artworks/67890"
+          },
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "description": "Direct URL to the image or GIF hosted on nekos.best",
+            "example": "https://nekos.best/api/v2/neko/001.png"
+          },
+          "anime_name": {
+            "type": "string",
+            "description": "Name of the anime the character is from (if applicable)",
+            "example": "Anime Title"
+          }
+        },
+        "required": [
+          "url"
+        ]
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "description": "Error message"
+          },
+          "message": {
+            "type": "string",
+            "description": "Detailed error description"
+          }
+        }
+      }
+    }
+  }
+}
