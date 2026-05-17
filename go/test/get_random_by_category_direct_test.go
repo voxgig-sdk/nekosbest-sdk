@@ -6,8 +6,8 @@ import (
 	"strings"
 	"testing"
 
-	sdk "github.com/voxgig-sdk/nekosbest-sdk"
-	"github.com/voxgig-sdk/nekosbest-sdk/core"
+	sdk "github.com/voxgig-sdk/nekosbest-sdk/go"
+	"github.com/voxgig-sdk/nekosbest-sdk/go/core"
 )
 
 func TestGetRandomByCategoryDirect(t *testing.T) {

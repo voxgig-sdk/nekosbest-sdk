@@ -9,10 +9,10 @@ import (
 	"testing"
 	"time"
 
-	sdk "github.com/voxgig-sdk/nekosbest-sdk"
-	"github.com/voxgig-sdk/nekosbest-sdk/core"
+	sdk "github.com/voxgig-sdk/nekosbest-sdk/go"
+	"github.com/voxgig-sdk/nekosbest-sdk/go/core"
 
-	vs "github.com/voxgig/struct"
+	vs "github.com/voxgig-sdk/nekosbest-sdk/go/utility/struct"
 )
 
 func TestSearchEntity(t *testing.T) {

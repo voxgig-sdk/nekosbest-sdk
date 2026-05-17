@@ -5,19 +5,22 @@
         "category": "s28",
         "endpoint": [],
         "total_gif": "s2a",
-        "total_image": "s2b"
+        "total_image": "s2b",
+        "id": "IMAGE00"
       },
       "IMAGE01": {
         "category": "s50",
         "endpoint": [],
         "total_gif": "s52",
-        "total_image": "s53"
+        "total_image": "s53",
+        "id": "IMAGE01"
       },
       "IMAGE02": {
         "category": "s78",
         "endpoint": [],
         "total_gif": "s7a",
-        "total_image": "s7b"
+        "total_image": "s7b",
+        "id": "IMAGE02"
       }
     }
   },

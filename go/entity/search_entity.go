@@ -1,9 +1,9 @@
 package entity
 
 import (
-	"github.com/voxgig-sdk/nekosbest-sdk/core"
+	"github.com/voxgig-sdk/nekosbest-sdk/go/core"
 
-	vs "github.com/voxgig/struct"
+	vs "github.com/voxgig-sdk/nekosbest-sdk/go/utility/struct"
 )
 
 type SearchEntity struct {

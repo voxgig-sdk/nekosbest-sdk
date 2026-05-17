@@ -1,10 +1,10 @@
 package voxgignekosbestsdk
 
 import (
-	"github.com/voxgig-sdk/nekosbest-sdk/core"
-	"github.com/voxgig-sdk/nekosbest-sdk/entity"
-	"github.com/voxgig-sdk/nekosbest-sdk/feature"
-	_ "github.com/voxgig-sdk/nekosbest-sdk/utility"
+	"github.com/voxgig-sdk/nekosbest-sdk/go/core"
+	"github.com/voxgig-sdk/nekosbest-sdk/go/entity"
+	"github.com/voxgig-sdk/nekosbest-sdk/go/feature"
+	_ "github.com/voxgig-sdk/nekosbest-sdk/go/utility"
 )
 
 // Type aliases preserve external API.

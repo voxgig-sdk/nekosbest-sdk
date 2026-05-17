@@ -29,7 +29,7 @@ class Config {
 
 
   options = {
-    base: 'https://nekos.best/api/v2',
+    base: '$$main.kit.info.servers.0.url$$',
 
     'AUTHBLOCK'headers: 'HEADERS',
 
