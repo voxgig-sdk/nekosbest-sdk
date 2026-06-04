@@ -22,8 +22,29 @@ main: {
       termsOfService: "https://nekos.best"
       title: "nekos.best API"
       version: "1.0.0"
+      tagline: "Fetch SFW anime images and GIFs by reaction category, with artist and source attribution"
+      homepage: "https://nekos.best/"
+      docs_url: "https://docs.nekos.best/"
+      license_short: "Free public API; image content remains the property of original artists — attribution required."
+      license_md: `- Free to use without authentication
+- Image and GIF assets are sourced from third-party artists; the API returns \`artist_name\`, \`artist_href\`, and \`source_url\` so you can attribute correctly
+- See the project's Terms of Service, Privacy Policy, and DMCA pages linked from the docs site for takedown and usage rules`
+      about_md: `[nekos.best](https://nekos.best/) is a community-run RESTful API that serves fully SFW, high-quality anime images and GIFs organised by reaction or character category (neko, hug, tickle, and many more). The project also publishes official client libraries for Python, JavaScript, and Rust.
+
+What you get from the API:
+
+- \`GET /endpoints\` — dynamically discover the current list of categories and which file format (image or GIF) each one returns
+- \`GET /{category}\` — fetch a random asset (or up to 20 via \`?amount=\`) with metadata: image URL, dimensions, \`artist_name\`, \`artist_href\`, \`anime_name\`, and \`source_url\`
+- \`GET /search\` — search assets by \`query\` and \`type\` (1 = images, 2 = GIFs), with optional \`category\` and \`amount\` filters
+- \`GET /{category}/{filename}.{format}\` — direct asset retrieval, with metadata returned via URL-encoded HTTP response headers
+
+No API key or authentication is required. The docs recommend calling \`/endpoints\` at runtime rather than hard-coding the category list, since new categories are added over time. v2 is the current maintained version of the API.`
+      entity_desc: {
+        get_random_by_category: "Fetches a random image or GIF from a named category (e.g. `neko`, `hug`, `tickle`) via `GET /{category}`, with `?amount=` returning up to 20 results."
+        image: "Represents a returned asset record — image/GIF URL plus metadata fields including `artist_name`, `artist_href`, `anime_name`, and `source_url`."
+        search: "Searches assets by metadata via `GET /search`, requiring `query` and `type` (1 for images, 2 for GIFs), with optional `category` and `amount` parameters."
+      }
+      auth: false
     }
   }
-}
-
 }

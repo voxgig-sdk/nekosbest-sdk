@@ -114,7 +114,6 @@ function basicSetup(extra?: any) {
     'NEKOSBEST_TEST_GET_RANDOM_BY_CATEGORY_ENTID': idmap,
     'NEKOSBEST_TEST_LIVE': 'FALSE',
     'NEKOSBEST_TEST_EXPLAIN': 'FALSE',
-    'NEKOSBEST_APIKEY': 'NONE',
   })
 
   idmap = env['NEKOSBEST_TEST_GET_RANDOM_BY_CATEGORY_ENTID']
@@ -124,7 +123,6 @@ function basicSetup(extra?: any) {
   if (live) {
     client = new NekosbestSDK(merge([
       {
-        apikey: env.NEKOSBEST_APIKEY,
       },
       extra
     ]))

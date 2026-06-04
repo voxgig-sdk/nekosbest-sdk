@@ -76,14 +76,12 @@ def get_random_by_category_direct_setup(mockres)
   env = Runner.env_override({
     "NEKOSBEST_TEST_GET_RANDOM_BY_CATEGORY_ENTID" => {},
     "NEKOSBEST_TEST_LIVE" => "FALSE",
-    "NEKOSBEST_APIKEY" => "NONE",
   })
 
   live = env["NEKOSBEST_TEST_LIVE"] == "TRUE"
 
   if live
     merged_opts = {
-      "apikey" => env["NEKOSBEST_APIKEY"],
     }
     client = NekosbestSDK.new(merged_opts)
     return {

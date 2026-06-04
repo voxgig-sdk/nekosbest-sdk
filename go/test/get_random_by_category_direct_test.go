@@ -118,14 +118,12 @@ func get_random_by_categoryDirectSetup(mockres any) *get_random_by_categoryDirec
 	env := envOverride(map[string]any{
 		"NEKOSBEST_TEST_GET_RANDOM_BY_CATEGORY_ENTID": map[string]any{},
 		"NEKOSBEST_TEST_LIVE":    "FALSE",
-		"NEKOSBEST_APIKEY":       "NONE",
 	})
 
 	live := env["NEKOSBEST_TEST_LIVE"] == "TRUE"
 
 	if live {
 		mergedOpts := map[string]any{
-			"apikey": env["NEKOSBEST_APIKEY"],
 		}
 		client := sdk.NewNekosbestSDK(mergedOpts)
 

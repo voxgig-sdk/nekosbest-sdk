@@ -98,7 +98,6 @@ def _image_basic_setup(extra):
         "NEKOSBEST_TEST_IMAGE_ENTID": idmap,
         "NEKOSBEST_TEST_LIVE": "FALSE",
         "NEKOSBEST_TEST_EXPLAIN": "FALSE",
-        "NEKOSBEST_APIKEY": "NONE",
     })
 
     idmap_resolved = helpers.to_map(
@@ -109,7 +108,6 @@ def _image_basic_setup(extra):
     if env.get("NEKOSBEST_TEST_LIVE") == "TRUE":
         merged_opts = vs.merge([
             {
-                "apikey": env.get("NEKOSBEST_APIKEY"),
             },
             extra or {},
         ])

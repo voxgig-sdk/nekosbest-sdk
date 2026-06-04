@@ -92,7 +92,6 @@ function image_basic_setup($extra)
         "NEKOSBEST_TEST_IMAGE_ENTID" => $idmap,
         "NEKOSBEST_TEST_LIVE" => "FALSE",
         "NEKOSBEST_TEST_EXPLAIN" => "FALSE",
-        "NEKOSBEST_APIKEY" => "NONE",
     ]);
 
     $idmap_resolved = Helpers::to_map(
@@ -104,7 +103,6 @@ function image_basic_setup($extra)
     if ($env["NEKOSBEST_TEST_LIVE"] === "TRUE") {
         $merged_opts = Vs::merge([
             [
-                "apikey" => $env["NEKOSBEST_APIKEY"],
             ],
             $extra ?? [],
         ]);

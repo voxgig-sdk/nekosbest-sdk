@@ -119,7 +119,6 @@ func searchBasicSetup(extra map[string]any) *entityTestSetup {
 		"NEKOSBEST_TEST_SEARCH_ENTID": idmap,
 		"NEKOSBEST_TEST_LIVE":      "FALSE",
 		"NEKOSBEST_TEST_EXPLAIN":   "FALSE",
-		"NEKOSBEST_APIKEY":         "NONE",
 	})
 
 	idmapResolved := core.ToMapAny(env["NEKOSBEST_TEST_SEARCH_ENTID"])
@@ -130,7 +129,6 @@ func searchBasicSetup(extra map[string]any) *entityTestSetup {
 	if env["NEKOSBEST_TEST_LIVE"] == "TRUE" {
 		mergedOpts := vs.Merge([]any{
 			map[string]any{
-				"apikey": env["NEKOSBEST_APIKEY"],
 			},
 			extra,
 		})
