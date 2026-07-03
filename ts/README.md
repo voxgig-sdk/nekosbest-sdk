@@ -10,7 +10,7 @@ The TypeScript SDK for the Nekosbest API — a type-safe, entity-oriented client
 
 ## Install
 ```bash
-npm install nekosbest
+npm install @voxgig-sdk/nekosbest
 ```
 ## Tutorial: your first API call
 

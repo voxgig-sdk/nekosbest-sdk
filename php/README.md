@@ -10,7 +10,7 @@ The PHP SDK for the Nekosbest API — an entity-oriented client using PHP conven
 
 ## Install
 ```bash
-composer require voxgig/nekosbest-sdk
+composer require voxgig-sdk/nekosbest
 ```
 
 

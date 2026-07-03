@@ -10,13 +10,13 @@ The Ruby SDK for the Nekosbest API — an entity-oriented client using idiomatic
 
 ## Install
 ```bash
-gem install nekosbest-sdk
+gem install voxgig-sdk-nekosbest
 ```
 
 Or add to your `Gemfile`:
 
 ```ruby
-gem "nekosbest-sdk"
+gem "voxgig-sdk-nekosbest"
 ```
 
 Then run:

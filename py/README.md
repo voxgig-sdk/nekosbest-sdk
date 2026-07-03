@@ -10,7 +10,7 @@ The Python SDK for the Nekosbest API — an entity-oriented client following Pyt
 
 ## Install
 ```bash
-pip install nekosbest-sdk
+pip install voxgig-sdk-nekosbest
 ```
 
 Or install from source:
