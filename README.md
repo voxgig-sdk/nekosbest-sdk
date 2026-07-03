@@ -1,21 +1,8 @@
 # Nekosbest SDK
 
-Fetch SFW anime images and GIFs by reaction category, with artist and source attribution
+nekos.best API client, generated from the OpenAPI spec.
 
 > TypeScript, Python, PHP, Golang, Ruby, Lua SDKs, a CLI, an interactive REPL, and an MCP server for AI agents — all generated from one OpenAPI spec by [@voxgig/sdkgen](https://github.com/voxgig/sdkgen).
-
-## About nekos.best API
-
-[nekos.best](https://nekos.best/) is a community-run RESTful API that serves fully SFW, high-quality anime images and GIFs organised by reaction or character category (neko, hug, tickle, and many more). The project also publishes official client libraries for Python, JavaScript, and Rust.
-
-What you get from the API:
-
-- `GET /endpoints` — dynamically discover the current list of categories and which file format (image or GIF) each one returns
-- `GET /{category}` — fetch a random asset (or up to 20 via `?amount=`) with metadata: image URL, dimensions, `artist_name`, `artist_href`, `anime_name`, and `source_url`
-- `GET /search` — search assets by `query` and `type` (1 = images, 2 = GIFs), with optional `category` and `amount` filters
-- `GET /{category}/{filename}.{format}` — direct asset retrieval, with metadata returned via URL-encoded HTTP response headers
-
-No API key or authentication is required. The docs recommend calling `/endpoints` at runtime rather than hard-coding the category list, since new categories are added over time. v2 is the current maintained version of the API.
 
 ## Try it
 
@@ -49,29 +36,31 @@ gem install nekosbest-sdk
 luarocks install nekosbest-sdk
 ```
 
-## 30-second quickstart
+## Quickstart
 
 ### TypeScript
 
 ```ts
 import { NekosbestSDK } from 'nekosbest'
 
-const client = new NekosbestSDK({})
+const client = new NekosbestSDK({
+  apikey: process.env.NEKOSBEST_APIKEY,
+})
 
 // List all getrandombycategorys
 const getrandombycategorys = await client.GetRandomByCategory().list()
+console.log(getrandombycategorys.data)
 ```
 
-See the [TypeScript README](ts/README.md) for the
-full guide, or scroll down for the same example in other languages.
+See the [TypeScript README](ts/README.md) for the full guide.
 
-## What's in the box
+## Surfaces
 
-| Surface | Use it for | Path |
-| --- | --- | --- |
-| **SDK** (TypeScript, Python, PHP, Golang, Ruby, Lua) | App integration | `ts/` `py/` `php/` `go/` `rb/` `lua/` |
-| **CLI** | Scripts, CI, ops, one-off API calls | `go-cli/` |
-| **MCP server** | AI agents (Claude, Cursor, Cline) | `go-mcp/` |
+| Surface | Path |
+| --- | --- |
+| **SDK** (TypeScript, Python, PHP, Golang, Ruby, Lua) | `ts/` `py/` `php/` `go/` `rb/` `lua/` |
+| **CLI** | `go-cli/` |
+| **MCP server** | `go-mcp/` |
 
 ## Use it from an AI agent (MCP)
 
@@ -101,9 +90,9 @@ The API exposes 3 entities:
 
 | Entity | Description | API path |
 | --- | --- | --- |
-| **GetRandomByCategory** | Fetches a random image or GIF from a named category (e.g. `neko`, `hug`, `tickle`) via `GET /{category}`, with `?amount=` returning up to 20 results. | `/{category}` |
-| **Image** | Represents a returned asset record — image/GIF URL plus metadata fields including `artist_name`, `artist_href`, `anime_name`, and `source_url`. | `/endpoints` |
-| **Search** | Searches assets by metadata via `GET /search`, requiring `query` and `type` (1 for images, 2 for GIFs), with optional `category` and `amount` parameters. | `/search` |
+| **GetRandomByCategory** |  | `/{category}` |
+| **Image** |  | `/endpoints` |
+| **Search** |  | `/search` |
 
 Each entity supports the following operations where available: **load**,
 **list**, **create**, **update**, and **remove**.
@@ -113,12 +102,16 @@ Each entity supports the following operations where available: **load**,
 ### Python
 
 ```python
+import os
 from nekosbest_sdk import NekosbestSDK
 
-client = NekosbestSDK({})
+client = NekosbestSDK({
+    "apikey": os.environ.get("NEKOSBEST_APIKEY"),
+})
 
 # List all getrandombycategorys
-getrandombycategorys, err = client.GetRandomByCategory(None).list(None, None)
+getrandombycategorys, err = client.GetRandomByCategory().list()
+print(getrandombycategorys)
 ```
 
 ### PHP
@@ -127,10 +120,13 @@ getrandombycategorys, err = client.GetRandomByCategory(None).list(None, None)
 <?php
 require_once 'nekosbest_sdk.php';
 
-$client = new NekosbestSDK([]);
+$client = new NekosbestSDK([
+    "apikey" => getenv("NEKOSBEST_APIKEY"),
+]);
 
 // List all getrandombycategorys
-[$getrandombycategorys, $err] = $client->GetRandomByCategory(null)->list(null, null);
+[$getrandombycategorys, $err] = $client->GetRandomByCategory()->list();
+print_r($getrandombycategorys);
 ```
 
 ### Golang
@@ -138,10 +134,13 @@ $client = new NekosbestSDK([]);
 ```go
 import sdk "github.com/voxgig-sdk/nekosbest-sdk/go"
 
-client := sdk.NewNekosbestSDK(map[string]any{})
+client := sdk.NewNekosbestSDK(map[string]any{
+    "apikey": os.Getenv("NEKOSBEST_APIKEY"),
+})
 
 // List all getrandombycategorys
 getrandombycategorys, err := client.GetRandomByCategory(nil).List(nil, nil)
+fmt.Println(getrandombycategorys)
 ```
 
 ### Ruby
@@ -149,10 +148,13 @@ getrandombycategorys, err := client.GetRandomByCategory(nil).List(nil, nil)
 ```ruby
 require_relative "Nekosbest_sdk"
 
-client = NekosbestSDK.new({})
+client = NekosbestSDK.new({
+  "apikey" => ENV["NEKOSBEST_APIKEY"],
+})
 
 # List all getrandombycategorys
-getrandombycategorys, err = client.GetRandomByCategory(nil).list(nil, nil)
+getrandombycategorys, err = client.GetRandomByCategory().list
+puts getrandombycategorys
 ```
 
 ### Lua
@@ -160,10 +162,13 @@ getrandombycategorys, err = client.GetRandomByCategory(nil).list(nil, nil)
 ```lua
 local sdk = require("nekosbest_sdk")
 
-local client = sdk.new({})
+local client = sdk.new({
+  apikey = os.getenv("NEKOSBEST_APIKEY"),
+})
 
 -- List all getrandombycategorys
-local getrandombycategorys, err = client:GetRandomByCategory(nil):list(nil, nil)
+local getrandombycategorys, err = client:GetRandomByCategory():list()
+print(getrandombycategorys)
 ```
 
 ## Unit testing in offline mode
@@ -182,25 +187,21 @@ const result = await client.GetRandomByCategory().load({ id: 'test01' })
 ### Python
 
 ```python
-client = NekosbestSDK.test(None, None)
-result, err = client.GetRandomByCategory(None).load(
-    {"id": "test01"}, None
-)
+client = NekosbestSDK.test()
+result, err = client.GetRandomByCategory().load({"id": "test01"})
 ```
 
 ### PHP
 
 ```php
-$client = NekosbestSDK::test(null, null);
-[$result, $err] = $client->GetRandomByCategory(null)->load(
-    ["id" => "test01"], null
-);
+$client = NekosbestSDK::test();
+[$result, $err] = $client->GetRandomByCategory()->load(["id" => "test01"]);
 ```
 
 ### Golang
 
 ```go
-client := sdk.TestSDK(nil, nil)
+client := sdk.Test()
 result, err := client.GetRandomByCategory(nil).Load(
     map[string]any{"id": "test01"}, nil,
 )
@@ -209,19 +210,15 @@ result, err := client.GetRandomByCategory(nil).Load(
 ### Ruby
 
 ```ruby
-client = NekosbestSDK.test(nil, nil)
-result, err = client.GetRandomByCategory(nil).load(
-  { "id" => "test01" }, nil
-)
+client = NekosbestSDK.test
+result, err = client.GetRandomByCategory().load({ "id" => "test01" })
 ```
 
 ### Lua
 
 ```lua
-local client = sdk.test(nil, nil)
-local result, err = client:GetRandomByCategory(nil):load(
-  { id = "test01" }, nil
-)
+local client = sdk.test()
+local result, err = client:GetRandomByCategory():load({ id = "test01" })
 ```
 
 ## How it works
@@ -325,15 +322,6 @@ local result, err = client:direct({
 - [Golang](go/README.md)
 - [Ruby](rb/README.md)
 - [Lua](lua/README.md)
-
-## Using the nekos.best API
-
-- Upstream: [https://nekos.best/](https://nekos.best/)
-- API docs: [https://docs.nekos.best/](https://docs.nekos.best/)
-
-- Free to use without authentication
-- Image and GIF assets are sourced from third-party artists; the API returns `artist_name`, `artist_href`, and `source_url` so you can attribute correctly
-- See the project's Terms of Service, Privacy Policy, and DMCA pages linked from the docs site for takedown and usage rules
 
 ---
 

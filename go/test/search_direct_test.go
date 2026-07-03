@@ -93,12 +93,14 @@ func searchDirectSetup(mockres any) *searchDirectSetupResult {
 	env := envOverride(map[string]any{
 		"NEKOSBEST_TEST_SEARCH_ENTID": map[string]any{},
 		"NEKOSBEST_TEST_LIVE":    "FALSE",
+		"NEKOSBEST_APIKEY":       "NONE",
 	})
 
 	live := env["NEKOSBEST_TEST_LIVE"] == "TRUE"
 
 	if live {
 		mergedOpts := map[string]any{
+			"apikey": env["NEKOSBEST_APIKEY"],
 		}
 		client := sdk.NewNekosbestSDK(mergedOpts)
 
