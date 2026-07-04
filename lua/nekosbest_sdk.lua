@@ -244,18 +244,57 @@ end
 
 
 
+-- Idiomatic facade: client:get_random_by_category():list() / client:get_random_by_category():load({ id = ... })
+function NekosbestSDK:get_random_by_category(data)
+  local EntityMod = require("entity.get_random_by_category_entity")
+  if data == nil then
+    if self._get_random_by_category == nil then
+      self._get_random_by_category = EntityMod.new(self, nil)
+    end
+    return self._get_random_by_category
+  end
+  return EntityMod.new(self, data)
+end
+
+-- Deprecated: use client:get_random_by_category() instead.
 function NekosbestSDK:GetRandomByCategory(data)
   local EntityMod = require("entity.get_random_by_category_entity")
   return EntityMod.new(self, data)
 end
 
 
+-- Idiomatic facade: client:image():list() / client:image():load({ id = ... })
+function NekosbestSDK:image(data)
+  local EntityMod = require("entity.image_entity")
+  if data == nil then
+    if self._image == nil then
+      self._image = EntityMod.new(self, nil)
+    end
+    return self._image
+  end
+  return EntityMod.new(self, data)
+end
+
+-- Deprecated: use client:image() instead.
 function NekosbestSDK:Image(data)
   local EntityMod = require("entity.image_entity")
   return EntityMod.new(self, data)
 end
 
 
+-- Idiomatic facade: client:search():list() / client:search():load({ id = ... })
+function NekosbestSDK:search(data)
+  local EntityMod = require("entity.search_entity")
+  if data == nil then
+    if self._search == nil then
+      self._search = EntityMod.new(self, nil)
+    end
+    return self._search
+  end
+  return EntityMod.new(self, data)
+end
+
+-- Deprecated: use client:search() instead.
 function NekosbestSDK:Search(data)
   local EntityMod = require("entity.search_entity")
   return EntityMod.new(self, data)

@@ -50,14 +50,12 @@ class ImageEntityTest extends TestCase
         $image_ref01_ent = $client->Image(null);
         $image_ref01_match = [];
 
-        [$image_ref01_list_result, $err] = $image_ref01_ent->list($image_ref01_match, null);
-        $this->assertNull($err);
+        $image_ref01_list_result = $image_ref01_ent->list($image_ref01_match, null);
         $this->assertIsArray($image_ref01_list_result);
 
         // LOAD
         $image_ref01_match_dt0 = [];
-        [$image_ref01_data_dt0_loaded, $err] = $image_ref01_ent->load($image_ref01_match_dt0, null);
-        $this->assertNull($err);
+        $image_ref01_data_dt0_loaded = $image_ref01_ent->load($image_ref01_match_dt0, null);
         $this->assertNotNull($image_ref01_data_dt0_loaded);
 
     }
@@ -92,7 +90,6 @@ function image_basic_setup($extra)
         "NEKOSBEST_TEST_IMAGE_ENTID" => $idmap,
         "NEKOSBEST_TEST_LIVE" => "FALSE",
         "NEKOSBEST_TEST_EXPLAIN" => "FALSE",
-        "NEKOSBEST_APIKEY" => "NONE",
     ]);
 
     $idmap_resolved = Helpers::to_map(
@@ -104,7 +101,6 @@ function image_basic_setup($extra)
     if ($env["NEKOSBEST_TEST_LIVE"] === "TRUE") {
         $merged_opts = Vs::merge([
             [
-                "apikey" => $env["NEKOSBEST_APIKEY"],
             ],
             $extra ?? [],
         ]);

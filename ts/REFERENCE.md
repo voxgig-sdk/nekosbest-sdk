@@ -18,7 +18,6 @@ Create a new SDK client instance.
 | Name | Type | Description |
 | --- | --- | --- |
 | `options` | `object` | SDK configuration options. |
-| `options.apikey` | `string` | API key for authentication. |
 | `options.base` | `string` | Base URL for API requests. |
 | `options.prefix` | `string` | URL prefix appended after base. |
 | `options.suffix` | `string` | URL suffix appended after path. |
@@ -134,7 +133,7 @@ Alias for `NekosbestSDK.test()`.
 ## GetRandomByCategoryEntity
 
 ```ts
-const get_random_by_category = client.GetRandomByCategory()
+const get_random_by_category = client.get_random_by_category
 ```
 
 ### Fields
@@ -154,7 +153,7 @@ const get_random_by_category = client.GetRandomByCategory()
 List entities matching the given criteria. Returns an array.
 
 ```ts
-const results = await client.GetRandomByCategory().list()
+const results = await client.get_random_by_category.list()
 ```
 
 ### Common Methods
@@ -188,7 +187,7 @@ Return a copy of the entity options.
 ## ImageEntity
 
 ```ts
-const image = client.Image()
+const image = client.image
 ```
 
 ### Fields
@@ -207,7 +206,7 @@ const image = client.Image()
 List entities matching the given criteria. Returns an array.
 
 ```ts
-const results = await client.Image().list()
+const results = await client.image.list()
 ```
 
 #### `load(match: object, ctrl?: object)`
@@ -215,7 +214,7 @@ const results = await client.Image().list()
 Load a single entity matching the given criteria.
 
 ```ts
-const result = await client.Image().load({ id: 'image_id' })
+const result = await client.image.load({ id: 'image_id' })
 ```
 
 ### Common Methods
@@ -249,7 +248,7 @@ Return a copy of the entity options.
 ## SearchEntity
 
 ```ts
-const search = client.Search()
+const search = client.search
 ```
 
 ### Fields
@@ -269,7 +268,7 @@ const search = client.Search()
 List entities matching the given criteria. Returns an array.
 
 ```ts
-const results = await client.Search().list()
+const results = await client.search.list()
 ```
 
 ### Common Methods

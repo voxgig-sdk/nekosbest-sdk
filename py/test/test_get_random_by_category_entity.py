@@ -52,8 +52,7 @@ class TestGetRandomByCategoryEntity:
             "category": setup["idmap"]["category01"],
         }
 
-        get_random_by_category_ref01_list_result, err = get_random_by_category_ref01_ent.list(get_random_by_category_ref01_match, None)
-        assert err is None
+        get_random_by_category_ref01_list_result = get_random_by_category_ref01_ent.list(get_random_by_category_ref01_match, None)
         assert isinstance(get_random_by_category_ref01_list_result, list)
 
 
@@ -94,7 +93,6 @@ def _get_random_by_category_basic_setup(extra):
         "NEKOSBEST_TEST_GET_RANDOM_BY_CATEGORY_ENTID": idmap,
         "NEKOSBEST_TEST_LIVE": "FALSE",
         "NEKOSBEST_TEST_EXPLAIN": "FALSE",
-        "NEKOSBEST_APIKEY": "NONE",
     })
 
     idmap_resolved = helpers.to_map(
@@ -105,7 +103,6 @@ def _get_random_by_category_basic_setup(extra):
     if env.get("NEKOSBEST_TEST_LIVE") == "TRUE":
         merged_opts = vs.merge([
             {
-                "apikey": env.get("NEKOSBEST_APIKEY"),
             },
             extra or {},
         ])

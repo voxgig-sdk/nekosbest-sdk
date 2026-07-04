@@ -107,14 +107,12 @@ function image_direct_setup(mockres)
   local env = runner.env_override({
     ["NEKOSBEST_TEST_IMAGE_ENTID"] = {},
     ["NEKOSBEST_TEST_LIVE"] = "FALSE",
-    ["NEKOSBEST_APIKEY"] = "NONE",
   })
 
   local live = env["NEKOSBEST_TEST_LIVE"] == "TRUE"
 
   if live then
     local merged_opts = {
-      apikey = env["NEKOSBEST_APIKEY"],
     }
     local client = sdk.new(merged_opts)
     return {

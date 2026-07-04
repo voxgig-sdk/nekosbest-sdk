@@ -14,9 +14,13 @@ import type {
   Control,
 } from '../types'
 
+import type {
+  GetRandomByCategory,
+  GetRandomByCategoryListMatch,
+} from '../NekosbestTypes'
 
 // TODO: needs Entity superclass
-class GetRandomByCategoryEntity extends NekosbestEntityBase {
+class GetRandomByCategoryEntity extends NekosbestEntityBase<GetRandomByCategory> {
 
   constructor(client: NekosbestSDK, entopts: any) {
     super(client, entopts)
@@ -33,7 +37,7 @@ class GetRandomByCategoryEntity extends NekosbestEntityBase {
 
 
 
-  async list(this: any, reqmatch?: any, ctrl?: Control) {
+  async list(this: any, reqmatch?: GetRandomByCategoryListMatch, ctrl?: Control): Promise<GetRandomByCategory[]> {
 
     const utility = this._utility
 
@@ -133,7 +137,9 @@ class GetRandomByCategoryEntity extends NekosbestEntityBase {
         throw err
       }
       else {
-        return undefined
+        // Off-happy-path (throw disabled): typed as any so the method's
+        // Promise<GetRandomByCategory[]> return stays clean under strict null checks.
+        return undefined as any
       }
     }
   }

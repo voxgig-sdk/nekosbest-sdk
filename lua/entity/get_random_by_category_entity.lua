@@ -81,6 +81,10 @@ end
 
 
 
+---@param reqmatch GetRandomByCategoryListMatch
+---@param ctrl? table
+---@return GetRandomByCategory[]
+---@return string? err
 function GetRandomByCategoryEntity:list(reqmatch, ctrl)
   local utility = self._utility
   local ctx = utility.make_context({

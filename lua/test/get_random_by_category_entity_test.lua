@@ -94,7 +94,6 @@ function get_random_by_category_basic_setup(extra)
     ["NEKOSBEST_TEST_GET_RANDOM_BY_CATEGORY_ENTID"] = idmap,
     ["NEKOSBEST_TEST_LIVE"] = "FALSE",
     ["NEKOSBEST_TEST_EXPLAIN"] = "FALSE",
-    ["NEKOSBEST_APIKEY"] = "NONE",
   })
 
   local idmap_resolved = helpers.to_map(
@@ -106,7 +105,6 @@ function get_random_by_category_basic_setup(extra)
   if env["NEKOSBEST_TEST_LIVE"] == "TRUE" then
     local merged_opts = vs.merge({
       {
-        apikey = env["NEKOSBEST_APIKEY"],
       },
       extra or {},
     })

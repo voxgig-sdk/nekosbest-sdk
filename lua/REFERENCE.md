@@ -19,7 +19,6 @@ Create a new SDK client instance.
 | Name | Type | Description |
 | --- | --- | --- |
 | `options` | `table` | SDK configuration options. |
-| `options.apikey` | `string` | API key for authentication. |
 | `options.base` | `string` | Base URL for API requests. |
 | `options.prefix` | `string` | URL prefix appended after base. |
 | `options.suffix` | `string` | URL suffix appended after path. |
@@ -92,7 +91,7 @@ same parameters as `direct()`.
 ## GetRandomByCategoryEntity
 
 ```lua
-local get_random_by_category = client:GetRandomByCategory(nil)
+local get_random_by_category = client:get_random_by_category(nil)
 ```
 
 ### Fields
@@ -112,7 +111,7 @@ local get_random_by_category = client:GetRandomByCategory(nil)
 List entities matching the given criteria. Returns an array.
 
 ```lua
-local results, err = client:GetRandomByCategory():list()
+local results, err = client:get_random_by_category():list()
 ```
 
 ### Common Methods
@@ -148,7 +147,7 @@ Return the entity name.
 ## ImageEntity
 
 ```lua
-local image = client:Image(nil)
+local image = client:image(nil)
 ```
 
 ### Fields
@@ -167,7 +166,7 @@ local image = client:Image(nil)
 List entities matching the given criteria. Returns an array.
 
 ```lua
-local results, err = client:Image():list()
+local results, err = client:image():list()
 ```
 
 #### `load(reqmatch, ctrl) -> any, err`
@@ -175,7 +174,7 @@ local results, err = client:Image():list()
 Load a single entity matching the given criteria.
 
 ```lua
-local result, err = client:Image():load({ id = "image_id" })
+local result, err = client:image():load({ id = "image_id" })
 ```
 
 ### Common Methods
@@ -211,7 +210,7 @@ Return the entity name.
 ## SearchEntity
 
 ```lua
-local search = client:Search(nil)
+local search = client:search(nil)
 ```
 
 ### Fields
@@ -231,7 +230,7 @@ local search = client:Search(nil)
 List entities matching the given criteria. Returns an array.
 
 ```lua
-local results, err = client:Search():list()
+local results, err = client:search():list()
 ```
 
 ### Common Methods

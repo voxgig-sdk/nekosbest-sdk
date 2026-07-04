@@ -245,16 +245,25 @@ func (sdk *NekosbestSDK) Direct(fetchargs map[string]any) (map[string]any, error
 }
 
 
+// GetRandomByCategory returns a GetRandomByCategory entity bound to this client.
+// Idiomatic usage: client.GetRandomByCategory(nil).List(nil, nil) or
+// client.GetRandomByCategory(nil).Load(map[string]any{"id": ...}, nil).
 func (sdk *NekosbestSDK) GetRandomByCategory(data map[string]any) NekosbestEntity {
 	return NewGetRandomByCategoryEntityFunc(sdk, data)
 }
 
 
+// Image returns a Image entity bound to this client.
+// Idiomatic usage: client.Image(nil).List(nil, nil) or
+// client.Image(nil).Load(map[string]any{"id": ...}, nil).
 func (sdk *NekosbestSDK) Image(data map[string]any) NekosbestEntity {
 	return NewImageEntityFunc(sdk, data)
 }
 
 
+// Search returns a Search entity bound to this client.
+// Idiomatic usage: client.Search(nil).List(nil, nil) or
+// client.Search(nil).Load(map[string]any{"id": ...}, nil).
 func (sdk *NekosbestSDK) Search(data map[string]any) NekosbestEntity {
 	return NewSearchEntityFunc(sdk, data)
 }

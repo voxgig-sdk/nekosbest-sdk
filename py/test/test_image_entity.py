@@ -50,14 +50,12 @@ class TestImageEntity:
         image_ref01_ent = client.Image(None)
         image_ref01_match = {}
 
-        image_ref01_list_result, err = image_ref01_ent.list(image_ref01_match, None)
-        assert err is None
+        image_ref01_list_result = image_ref01_ent.list(image_ref01_match, None)
         assert isinstance(image_ref01_list_result, list)
 
         # LOAD
         image_ref01_match_dt0 = {}
-        image_ref01_data_dt0_loaded, err = image_ref01_ent.load(image_ref01_match_dt0, None)
-        assert err is None
+        image_ref01_data_dt0_loaded = image_ref01_ent.load(image_ref01_match_dt0, None)
         assert image_ref01_data_dt0_loaded is not None
 
 
@@ -98,7 +96,6 @@ def _image_basic_setup(extra):
         "NEKOSBEST_TEST_IMAGE_ENTID": idmap,
         "NEKOSBEST_TEST_LIVE": "FALSE",
         "NEKOSBEST_TEST_EXPLAIN": "FALSE",
-        "NEKOSBEST_APIKEY": "NONE",
     })
 
     idmap_resolved = helpers.to_map(
@@ -109,7 +106,6 @@ def _image_basic_setup(extra):
     if env.get("NEKOSBEST_TEST_LIVE") == "TRUE":
         merged_opts = vs.merge([
             {
-                "apikey": env.get("NEKOSBEST_APIKEY"),
             },
             extra or {},
         ])

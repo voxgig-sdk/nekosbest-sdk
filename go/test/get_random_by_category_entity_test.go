@@ -121,7 +121,6 @@ func get_random_by_categoryBasicSetup(extra map[string]any) *entityTestSetup {
 		"NEKOSBEST_TEST_GET_RANDOM_BY_CATEGORY_ENTID": idmap,
 		"NEKOSBEST_TEST_LIVE":      "FALSE",
 		"NEKOSBEST_TEST_EXPLAIN":   "FALSE",
-		"NEKOSBEST_APIKEY":         "NONE",
 	})
 
 	idmapResolved := core.ToMapAny(env["NEKOSBEST_TEST_GET_RANDOM_BY_CATEGORY_ENTID"])
@@ -132,7 +131,6 @@ func get_random_by_categoryBasicSetup(extra map[string]any) *entityTestSetup {
 	if env["NEKOSBEST_TEST_LIVE"] == "TRUE" {
 		mergedOpts := vs.Merge([]any{
 			map[string]any{
-				"apikey": env["NEKOSBEST_APIKEY"],
 			},
 			extra,
 		})

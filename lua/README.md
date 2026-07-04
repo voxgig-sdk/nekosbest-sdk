@@ -9,12 +9,9 @@ The Lua SDK for the Nekosbest API — an entity-oriented client using Lua conven
 
 
 ## Install
-```bash
-luarocks install voxgig-sdk-nekosbest
-```
-
-If the module is not yet published, add the source directory to
-your `LUA_PATH`:
+This package is not yet published to LuaRocks. Install it from the
+GitHub release tag (`lua/vX.Y.Z`, see [Releases](https://github.com/voxgig-sdk/nekosbest-sdk/releases)),
+or add the source directory to your `LUA_PATH`:
 
 ```bash
 export LUA_PATH="path/to/lua/?.lua;path/to/lua/?/init.lua;;"
@@ -31,15 +28,13 @@ loading a specific record.
 ```lua
 local sdk = require("nekosbest_sdk")
 
-local client = sdk.new({
-  apikey = os.getenv("NEKOSBEST_APIKEY"),
-})
+local client = sdk.new()
 ```
 
 ### 2. List getrandombycategorys
 
 ```lua
-local result, err = client:GetRandomByCategory():list()
+local result, err = client:getrandombycategory():list()
 if err then error(err) end
 
 if type(result) == "table" then
@@ -93,7 +88,7 @@ Create a mock client for unit testing — no server required:
 ```lua
 local client = sdk.test()
 
-local result, err = client:Nekosbest():load({ id = "test01" })
+local result, err = client:getrandombycategory():load({ id = "test01" })
 -- result contains mock response data
 ```
 
@@ -127,7 +122,6 @@ Create a `.env.local` file at the project root:
 
 ```
 NEKOSBEST_TEST_LIVE=TRUE
-NEKOSBEST_APIKEY=<your-key>
 ```
 
 Then run:
@@ -150,7 +144,6 @@ Creates a new SDK client.
 
 | Option | Type | Description |
 | --- | --- | --- |
-| `apikey` | `string` | API key for authentication. |
 | `base` | `string` | Base URL of the API server. |
 | `prefix` | `string` | URL path prefix prepended to all requests. |
 | `suffix` | `string` | URL path suffix appended to all requests. |
@@ -260,7 +253,7 @@ API path: `/search`
 
 ### GetRandomByCategory
 
-Create an instance: `const get_random_by_category = client.GetRandomByCategory()`
+Create an instance: `const get_random_by_category = client.get_random_by_category`
 
 #### Operations
 
@@ -281,13 +274,13 @@ Create an instance: `const get_random_by_category = client.GetRandomByCategory()
 #### Example: List
 
 ```ts
-const get_random_by_categorys = await client.GetRandomByCategory().list()
+const get_random_by_categorys = await client.get_random_by_category.list()
 ```
 
 
 ### Image
 
-Create an instance: `const image = client.Image()`
+Create an instance: `const image = client.image`
 
 #### Operations
 
@@ -308,19 +301,19 @@ Create an instance: `const image = client.Image()`
 #### Example: Load
 
 ```ts
-const image = await client.Image().load({ id: 'image_id' })
+const image = await client.image.load({ id: 'image_id' })
 ```
 
 #### Example: List
 
 ```ts
-const images = await client.Image().list()
+const images = await client.image.list()
 ```
 
 
 ### Search
 
-Create an instance: `const search = client.Search()`
+Create an instance: `const search = client.search`
 
 #### Operations
 
@@ -341,7 +334,7 @@ Create an instance: `const search = client.Search()`
 #### Example: List
 
 ```ts
-const searchs = await client.Search().list()
+const searchs = await client.search.list()
 ```
 
 
@@ -416,11 +409,11 @@ Entity instances are stateful. After a successful `load`, the entity
 stores the returned data and match criteria internally.
 
 ```lua
-local moon = client:Moon(nil)
-moon:load({ planet_id = "earth", id = "luna" }, nil)
+local getrandombycategory = client:getrandombycategory()
+getrandombycategory:load({ id = "example_id" })
 
--- moon:data_get() now returns the loaded moon data
--- moon:match_get() returns the last match criteria
+-- getrandombycategory:data_get() now returns the loaded getrandombycategory data
+-- getrandombycategory:match_get() returns the last match criteria
 ```
 
 Call `make()` to create a fresh instance with the same configuration

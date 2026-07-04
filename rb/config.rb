@@ -15,9 +15,6 @@ module NekosbestConfig
       },
       "options" => {
         "base" => "https://nekos.best/api/v2",
-        "auth" => {
-          "prefix" => "Bearer",
-        },
         "headers" => {
           "content-type" => "application/json",
         },
@@ -84,6 +81,7 @@ module NekosbestConfig
                         "orig" => "category",
                         "reqd" => true,
                         "type" => "`$STRING`",
+                        "index$" => 0,
                       },
                     ],
                     "query" => [

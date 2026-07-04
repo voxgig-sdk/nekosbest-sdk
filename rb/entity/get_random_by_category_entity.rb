@@ -45,6 +45,7 @@ class GetRandomByCategoryEntity
     end
   end
 
+  # @return [GetRandomByCategory, Hash] the current GetRandomByCategory data
   def data_get
     @_utility.feature_hook.call(@_entctx, "GetData")
     VoxgigStruct.clone(@_data)
@@ -57,6 +58,7 @@ class GetRandomByCategoryEntity
     end
   end
 
+  # @return [Hash] the current match filter (any subset of GetRandomByCategory fields)
   def match_get
     @_utility.feature_hook.call(@_entctx, "GetMatch")
     VoxgigStruct.clone(@_match)
@@ -65,6 +67,11 @@ class GetRandomByCategoryEntity
   
 
   
+  # List GetRandomByCategory items matching the given filter.
+  #
+  # @param reqmatch [GetRandomByCategoryListMatch, Hash, nil] match filter (any subset of GetRandomByCategory fields)
+  # @param ctrl [Object, nil] optional per-call control
+  # @return [Array<GetRandomByCategory>, Array] the matching GetRandomByCategory items; raises NekosbestError on failure
   def list(reqmatch, ctrl = nil)
     utility = @_utility
     ctx = utility.make_context.call({

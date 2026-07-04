@@ -4,6 +4,7 @@
 main: {
   kit: {
     info: {
+      auth: false
       contact: {
         email: "contact@nekos.best"
         url: "https://nekos.best"

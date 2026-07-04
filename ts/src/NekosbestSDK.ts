@@ -4,6 +4,8 @@ import { GetRandomByCategoryEntity } from './entity/GetRandomByCategoryEntity'
 import { ImageEntity } from './entity/ImageEntity'
 import { SearchEntity } from './entity/SearchEntity'
 
+export type * from './NekosbestTypes'
+
 
 import { inspect } from 'node:util'
 
@@ -204,18 +206,42 @@ class NekosbestSDK {
 
 
 
+  _get_random_by_category?: GetRandomByCategoryEntity
+
+  // Idiomatic facade: `client.get_random_by_category.list()` / `client.get_random_by_category.load({ id })`.
+  get get_random_by_category(): GetRandomByCategoryEntity {
+    return (this._get_random_by_category ??= new GetRandomByCategoryEntity(this, undefined))
+  }
+
+  /** @deprecated Use `client.get_random_by_category` instead. */
   GetRandomByCategory(data?: any) {
     const self = this
     return new GetRandomByCategoryEntity(self,data)
   }
 
 
+  _image?: ImageEntity
+
+  // Idiomatic facade: `client.image.list()` / `client.image.load({ id })`.
+  get image(): ImageEntity {
+    return (this._image ??= new ImageEntity(this, undefined))
+  }
+
+  /** @deprecated Use `client.image` instead. */
   Image(data?: any) {
     const self = this
     return new ImageEntity(self,data)
   }
 
 
+  _search?: SearchEntity
+
+  // Idiomatic facade: `client.search.list()` / `client.search.load({ id })`.
+  get search(): SearchEntity {
+    return (this._search ??= new SearchEntity(this, undefined))
+  }
+
+  /** @deprecated Use `client.search` instead. */
   Search(data?: any) {
     const self = this
     return new SearchEntity(self,data)
