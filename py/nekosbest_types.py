@@ -4,65 +4,68 @@
 # params (op.<name>.points[].args.params[]). Field/param types come from the
 # canonical type sentinels via @voxgig/sdkgen canonToType (source of truth:
 # @voxgig/apidef VALID_CANON). Do not edit by hand.
+#
+# These are TypedDicts, not dataclasses: the SDK ops return/accept plain dicts
+# at runtime, and a TypedDict IS a dict shape, so the types match the runtime.
+# Optional (req:false) keys are modelled as TypedDict key-optionality
+# (total=False), split into a required base + total=False subclass when a type
+# has both required and optional keys.
 
 from __future__ import annotations
 
-from dataclasses import dataclass
-from typing import Optional, Any
+from typing import TypedDict, Any
 
 
-@dataclass
-class GetRandomByCategory:
+class GetRandomByCategoryRequired(TypedDict):
     url: str
-    anime_name: Optional[str] = None
-    artist_href: Optional[str] = None
-    artist_name: Optional[str] = None
-    source_url: Optional[str] = None
 
 
-@dataclass
-class GetRandomByCategoryListMatch:
+class GetRandomByCategory(GetRandomByCategoryRequired, total=False):
+    anime_name: str
+    artist_href: str
+    artist_name: str
+    source_url: str
+
+
+class GetRandomByCategoryListMatch(TypedDict):
     id: str
 
 
-@dataclass
-class Image:
-    category: Optional[int] = None
-    endpoint: Optional[list] = None
-    total_gif: Optional[int] = None
-    total_image: Optional[int] = None
+class Image(TypedDict, total=False):
+    category: int
+    endpoint: list
+    total_gif: int
+    total_image: int
 
 
-@dataclass
-class ImageLoadMatch:
-    category: Optional[int] = None
-    endpoint: Optional[list] = None
-    total_gif: Optional[int] = None
-    total_image: Optional[int] = None
+class ImageLoadMatch(TypedDict, total=False):
+    category: int
+    endpoint: list
+    total_gif: int
+    total_image: int
 
 
-@dataclass
-class ImageListMatch:
-    category: Optional[int] = None
-    endpoint: Optional[list] = None
-    total_gif: Optional[int] = None
-    total_image: Optional[int] = None
+class ImageListMatch(TypedDict, total=False):
+    category: int
+    endpoint: list
+    total_gif: int
+    total_image: int
 
 
-@dataclass
-class Search:
+class SearchRequired(TypedDict):
     url: str
-    anime_name: Optional[str] = None
-    artist_href: Optional[str] = None
-    artist_name: Optional[str] = None
-    source_url: Optional[str] = None
 
 
-@dataclass
-class SearchListMatch:
-    anime_name: Optional[str] = None
-    artist_href: Optional[str] = None
-    artist_name: Optional[str] = None
-    source_url: Optional[str] = None
-    url: Optional[str] = None
+class Search(SearchRequired, total=False):
+    anime_name: str
+    artist_href: str
+    artist_name: str
+    source_url: str
 
+
+class SearchListMatch(TypedDict, total=False):
+    anime_name: str
+    artist_href: str
+    artist_name: str
+    source_url: str
+    url: str

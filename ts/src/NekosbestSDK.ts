@@ -206,42 +206,21 @@ class NekosbestSDK {
 
 
 
-  _get_random_by_category?: GetRandomByCategoryEntity
-
-  // Idiomatic facade: `client.get_random_by_category.list()` / `client.get_random_by_category.load({ id })`.
-  get get_random_by_category(): GetRandomByCategoryEntity {
-    return (this._get_random_by_category ??= new GetRandomByCategoryEntity(this, undefined))
-  }
-
-  /** @deprecated Use `client.get_random_by_category` instead. */
+  // Entity access: `client.GetRandomByCategory().list()` / `client.GetRandomByCategory().load({ id })`.
   GetRandomByCategory(data?: any) {
     const self = this
     return new GetRandomByCategoryEntity(self,data)
   }
 
 
-  _image?: ImageEntity
-
-  // Idiomatic facade: `client.image.list()` / `client.image.load({ id })`.
-  get image(): ImageEntity {
-    return (this._image ??= new ImageEntity(this, undefined))
-  }
-
-  /** @deprecated Use `client.image` instead. */
+  // Entity access: `client.Image().list()` / `client.Image().load({ id })`.
   Image(data?: any) {
     const self = this
     return new ImageEntity(self,data)
   }
 
 
-  _search?: SearchEntity
-
-  // Idiomatic facade: `client.search.list()` / `client.search.load({ id })`.
-  get search(): SearchEntity {
-    return (this._search ??= new SearchEntity(this, undefined))
-  }
-
-  /** @deprecated Use `client.search` instead. */
+  // Entity access: `client.Search().list()` / `client.Search().load({ id })`.
   Search(data?: any) {
     const self = this
     return new SearchEntity(self,data)

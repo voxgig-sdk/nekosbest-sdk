@@ -88,7 +88,7 @@ Prepare a fetch definition without sending. Returns the `fetchdef` and raises on
 ## GetRandomByCategoryEntity
 
 ```python
-get_random_by_category = client.get_random_by_category
+get_random_by_category = client.GetRandomByCategory()
 ```
 
 ### Fields
@@ -108,7 +108,9 @@ get_random_by_category = client.get_random_by_category
 List entities matching the given criteria. Returns a list and raises on error.
 
 ```python
-results = client.get_random_by_category.list({})
+results = client.GetRandomByCategory().list({})
+for get_random_by_category in results:
+    print(get_random_by_category)
 ```
 
 ### Common Methods
@@ -143,7 +145,7 @@ Return the entity name.
 ## ImageEntity
 
 ```python
-image = client.image
+image = client.Image()
 ```
 
 ### Fields
@@ -162,7 +164,9 @@ image = client.image
 List entities matching the given criteria. Returns a list and raises on error.
 
 ```python
-results = client.image.list({})
+results = client.Image().list({})
+for image in results:
+    print(image)
 ```
 
 #### `load(reqmatch, ctrl=None) -> dict`
@@ -170,7 +174,7 @@ results = client.image.list({})
 Load a single entity matching the given criteria. Returns the entity data and raises on error.
 
 ```python
-result = client.image.load({"id": "image_id"})
+result = client.Image().load({"id": "image_id"})
 ```
 
 ### Common Methods
@@ -205,7 +209,7 @@ Return the entity name.
 ## SearchEntity
 
 ```python
-search = client.search
+search = client.Search()
 ```
 
 ### Fields
@@ -225,7 +229,9 @@ search = client.search
 List entities matching the given criteria. Returns a list and raises on error.
 
 ```python
-results = client.search.list({})
+results = client.Search().list({})
+for search in results:
+    print(search)
 ```
 
 ### Common Methods

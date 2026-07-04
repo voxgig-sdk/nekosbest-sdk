@@ -220,57 +220,27 @@ class NekosbestSDK:
         }
 
 
-    @property
-    def get_random_by_category(self):
-        """Idiomatic facade: client.get_random_by_category.list() / client.get_random_by_category.load({"id": ...})."""
-        from entity.get_random_by_category_entity import GetRandomByCategoryEntity
-        cached = getattr(self, "_get_random_by_category", None)
-        if cached is None:
-            cached = GetRandomByCategoryEntity(self, None)
-            self._get_random_by_category = cached
-        return cached
-
-    def GetRandomByCategory(self, data=None):
-        # Deprecated: use client.get_random_by_category instead.
+    def GetRandomByCategory(self, data=None) -> "GetRandomByCategoryEntity":
+        """Entity factory: client.GetRandomByCategory().list({}) / client.GetRandomByCategory().load({"id": ...})."""
         from entity.get_random_by_category_entity import GetRandomByCategoryEntity
         return GetRandomByCategoryEntity(self, data)
 
 
-    @property
-    def image(self):
-        """Idiomatic facade: client.image.list() / client.image.load({"id": ...})."""
-        from entity.image_entity import ImageEntity
-        cached = getattr(self, "_image", None)
-        if cached is None:
-            cached = ImageEntity(self, None)
-            self._image = cached
-        return cached
-
-    def Image(self, data=None):
-        # Deprecated: use client.image instead.
+    def Image(self, data=None) -> "ImageEntity":
+        """Entity factory: client.Image().list({}) / client.Image().load({"id": ...})."""
         from entity.image_entity import ImageEntity
         return ImageEntity(self, data)
 
 
-    @property
-    def search(self):
-        """Idiomatic facade: client.search.list() / client.search.load({"id": ...})."""
-        from entity.search_entity import SearchEntity
-        cached = getattr(self, "_search", None)
-        if cached is None:
-            cached = SearchEntity(self, None)
-            self._search = cached
-        return cached
-
-    def Search(self, data=None):
-        # Deprecated: use client.search instead.
+    def Search(self, data=None) -> "SearchEntity":
+        """Entity factory: client.Search().list({}) / client.Search().load({"id": ...})."""
         from entity.search_entity import SearchEntity
         return SearchEntity(self, data)
 
 
 
     @classmethod
-    def test(cls, testopts=None, sdkopts=None):
+    def test(cls, testopts=None, sdkopts=None) -> "NekosbestSDK":
         if sdkopts is None:
             sdkopts = {}
         sdkopts = vs.clone(sdkopts)
@@ -290,3 +260,11 @@ class NekosbestSDK:
         sdk.mode = "test"
 
         return sdk
+
+
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from entity.get_random_by_category_entity import GetRandomByCategoryEntity
+    from entity.image_entity import ImageEntity
+    from entity.search_entity import SearchEntity

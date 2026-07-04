@@ -94,7 +94,7 @@ same parameters as `direct()`. Raises on error.
 ## GetRandomByCategoryEntity
 
 ```ruby
-get_random_by_category = client.get_random_by_category
+get_random_by_category = client.GetRandomByCategory
 ```
 
 ### Fields
@@ -114,7 +114,7 @@ get_random_by_category = client.get_random_by_category
 List entities matching the given criteria. Returns an array. Raises on error.
 
 ```ruby
-results = client.get_random_by_category.list(nil)
+results = client.GetRandomByCategory.list(nil)
 ```
 
 ### Common Methods
@@ -150,7 +150,7 @@ Return the entity name.
 ## ImageEntity
 
 ```ruby
-image = client.image
+image = client.Image
 ```
 
 ### Fields
@@ -169,7 +169,7 @@ image = client.image
 List entities matching the given criteria. Returns an array. Raises on error.
 
 ```ruby
-results = client.image.list(nil)
+results = client.Image.list(nil)
 ```
 
 #### `load(reqmatch, ctrl = nil) -> result`
@@ -177,7 +177,7 @@ results = client.image.list(nil)
 Load a single entity matching the given criteria. Raises on error.
 
 ```ruby
-result = client.image.load({ "id" => "image_id" })
+result = client.Image.load({ "id" => "image_id" })
 ```
 
 ### Common Methods
@@ -213,7 +213,7 @@ Return the entity name.
 ## SearchEntity
 
 ```ruby
-search = client.search
+search = client.Search
 ```
 
 ### Fields
@@ -233,7 +233,7 @@ search = client.search
 List entities matching the given criteria. Returns an array. Raises on error.
 
 ```ruby
-results = client.search.list(nil)
+results = client.Search.list(nil)
 ```
 
 ### Common Methods

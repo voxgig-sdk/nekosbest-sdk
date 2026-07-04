@@ -233,10 +233,10 @@ class NekosbestSDK
 
     private $_get_random_by_category = null;
 
-    // Idiomatic facade: $client->get_random_by_category()->list() / ->load(["id" => ...]).
-    // Also serves the deprecated PascalCase alias GetRandomByCategory() (PHP method
-    // names are case-insensitive).
-    public function get_random_by_category($data = null)
+    // Canonical facade: $client->GetRandomByCategory()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->get_random_by_category()
+    // resolves here too.
+    public function GetRandomByCategory($data = null)
     {
         require_once __DIR__ . '/entity/get_random_by_category_entity.php';
         if ($data === null) {
@@ -251,10 +251,10 @@ class NekosbestSDK
 
     private $_image = null;
 
-    // Idiomatic facade: $client->image()->list() / ->load(["id" => ...]).
-    // Also serves the deprecated PascalCase alias Image() (PHP method
-    // names are case-insensitive).
-    public function image($data = null)
+    // Canonical facade: $client->Image()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->image()
+    // resolves here too.
+    public function Image($data = null)
     {
         require_once __DIR__ . '/entity/image_entity.php';
         if ($data === null) {
@@ -269,10 +269,10 @@ class NekosbestSDK
 
     private $_search = null;
 
-    // Idiomatic facade: $client->search()->list() / ->load(["id" => ...]).
-    // Also serves the deprecated PascalCase alias Search() (PHP method
-    // names are case-insensitive).
-    public function search($data = null)
+    // Canonical facade: $client->Search()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->search()
+    // resolves here too.
+    public function Search($data = null)
     {
         require_once __DIR__ . '/entity/search_entity.php';
         if ($data === null) {

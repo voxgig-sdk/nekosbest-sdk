@@ -28,16 +28,14 @@ require_relative "Nekosbest_sdk"
 client = NekosbestSDK.new
 ```
 
-### 2. List getrandombycategorys
+### 2. List getrandombycategory records
 
 ```ruby
 begin
-  result = client.getrandombycategory.list
-  if result.is_a?(Array)
-    result.each do |item|
-      d = item.data_get
-      puts "#{d["id"]} #{d["name"]}"
-    end
+  # list returns an Array of GetRandomByCategory records — iterate directly.
+  getrandombycategorys = client.GetRandomByCategory.list
+  getrandombycategorys.each do |item|
+    puts "#{item["id"]} #{item["name"]}"
   end
 rescue => err
   warn "list failed: #{err}"
@@ -85,13 +83,17 @@ end
 
 ### Use test mode
 
-Create a mock client for unit testing — no server required:
+Create a mock client for unit testing — no server required. Seed fixture
+data via the `entity` option so offline calls resolve without a live server:
 
 ```ruby
-client = NekosbestSDK.test
+client = NekosbestSDK.test({
+  "entity" => { "getrandombycategory" => { "test01" => { "id" => "test01" } } },
+})
 
-result = client.getrandombycategory.load({ "id" => "test01" })
-# result contains mock response data
+# load returns the bare mock record (raises on error).
+getrandombycategory = client.GetRandomByCategory.load({ "id" => "test01" })
+puts getrandombycategory
 ```
 
 ### Use a custom fetch function
@@ -168,7 +170,7 @@ Creates a test-mode client with mock transport. Both arguments may be `nil`.
 | `prepare` | `(fetchargs) -> Hash` | Build an HTTP request definition without sending. Raises on error. |
 | `direct` | `(fetchargs) -> Hash` | Build and send an HTTP request. Returns a result hash (`result["ok"]`); does not raise. |
 | `GetRandomByCategory` | `(data) -> GetRandomByCategoryEntity` | Create a GetRandomByCategory entity instance. |
-| `Image` | `(data) -> ImageEntity` | Create a Image entity instance. |
+| `Image` | `(data) -> ImageEntity` | Create an Image entity instance. |
 | `Search` | `(data) -> SearchEntity` | Create a Search entity instance. |
 
 ### Entity interface
@@ -256,7 +258,7 @@ API path: `/search`
 
 ### GetRandomByCategory
 
-Create an instance: `const get_random_by_category = client.get_random_by_category`
+Create an instance: `get_random_by_category = client.GetRandomByCategory`
 
 #### Operations
 
@@ -276,14 +278,15 @@ Create an instance: `const get_random_by_category = client.get_random_by_categor
 
 #### Example: List
 
-```ts
-const get_random_by_categorys = await client.get_random_by_category.list()
+```ruby
+# list returns an Array of GetRandomByCategory records (raises on error).
+get_random_by_categorys = client.GetRandomByCategory.list
 ```
 
 
 ### Image
 
-Create an instance: `const image = client.image`
+Create an instance: `image = client.Image`
 
 #### Operations
 
@@ -303,20 +306,22 @@ Create an instance: `const image = client.image`
 
 #### Example: Load
 
-```ts
-const image = await client.image.load({ id: 'image_id' })
+```ruby
+# load returns the bare Image record (raises on error).
+image = client.Image.load({ "id" => "image_id" })
 ```
 
 #### Example: List
 
-```ts
-const images = await client.image.list()
+```ruby
+# list returns an Array of Image records (raises on error).
+images = client.Image.list
 ```
 
 
 ### Search
 
-Create an instance: `const search = client.search`
+Create an instance: `search = client.Search`
 
 #### Operations
 
@@ -336,8 +341,9 @@ Create an instance: `const search = client.search`
 
 #### Example: List
 
-```ts
-const searchs = await client.search.list()
+```ruby
+# list returns an Array of Search records (raises on error).
+searchs = client.Search.list
 ```
 
 
@@ -412,7 +418,7 @@ Entity instances are stateful. After a successful `load`, the entity
 stores the returned data and match criteria internally.
 
 ```ruby
-getrandombycategory = client.getrandombycategory
+getrandombycategory = client.GetRandomByCategory
 getrandombycategory.load({ "id" => "example_id" })
 
 # getrandombycategory.data_get now returns the loaded getrandombycategory data

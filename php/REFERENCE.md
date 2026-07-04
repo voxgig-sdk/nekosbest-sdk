@@ -93,7 +93,7 @@ Prepare a fetch definition without sending the request. Returns the
 ## GetRandomByCategoryEntity
 
 ```php
-$get_random_by_category = $client->get_random_by_category();
+$get_random_by_category = $client->GetRandomByCategory();
 ```
 
 ### Fields
@@ -113,7 +113,7 @@ $get_random_by_category = $client->get_random_by_category();
 List entities matching the given criteria. Returns an array. Throws on error.
 
 ```php
-$results = $client->get_random_by_category()->list([]);
+$results = $client->GetRandomByCategory()->list([]);
 ```
 
 ### Common Methods
@@ -149,7 +149,7 @@ Return the entity name.
 ## ImageEntity
 
 ```php
-$image = $client->image();
+$image = $client->Image();
 ```
 
 ### Fields
@@ -168,7 +168,7 @@ $image = $client->image();
 List entities matching the given criteria. Returns an array. Throws on error.
 
 ```php
-$results = $client->image()->list([]);
+$results = $client->Image()->list([]);
 ```
 
 #### `load(array $reqmatch, ?array $ctrl = null): mixed`
@@ -176,7 +176,7 @@ $results = $client->image()->list([]);
 Load a single entity matching the given criteria. Throws on error.
 
 ```php
-$result = $client->image()->load(["id" => "image_id"]);
+$result = $client->Image()->load(["id" => "image_id"]);
 ```
 
 ### Common Methods
@@ -212,7 +212,7 @@ Return the entity name.
 ## SearchEntity
 
 ```php
-$search = $client->search();
+$search = $client->Search();
 ```
 
 ### Fields
@@ -232,7 +232,7 @@ $search = $client->search();
 List entities matching the given criteria. Returns an array. Throws on error.
 
 ```php
-$results = $client->search()->list([]);
+$results = $client->Search()->list([]);
 ```
 
 ### Common Methods

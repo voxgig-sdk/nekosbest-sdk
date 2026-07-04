@@ -29,18 +29,16 @@ require_once 'nekosbest_sdk.php';
 $client = new NekosbestSDK();
 ```
 
-### 2. List getrandombycategorys
+### 2. List getrandombycategory records
 
 ```php
 try {
-    $result = $client->getrandombycategory()->list();
-    if (is_array($result)) {
-        foreach ($result as $item) {
-            $d = $item->data_get();
-            echo $d["id"] . " " . $d["name"] . "\n";
-        }
+    // list() returns an array of GetRandomByCategory records — iterate directly.
+    $getrandombycategorys = $client->GetRandomByCategory()->list();
+    foreach ($getrandombycategorys as $item) {
+        echo $item["id"] . " " . $item["name"] . "\n";
     }
-} catch (\Exception $err) {
+} catch (\Throwable $err) {
     echo "Error: " . $err->getMessage();
 }
 ```
@@ -86,13 +84,17 @@ print_r($fetchdef["headers"]);
 
 ### Use test mode
 
-Create a mock client for unit testing — no server required:
+Create a mock client for unit testing — no server required. Seed fixture
+data via the `entity` option so offline calls resolve without a live server:
 
 ```php
-$client = NekosbestSDK::test();
+$client = NekosbestSDK::test([
+    "entity" => ["getrandombycategory" => ["test01" => ["id" => "test01"]]],
+]);
 
-$result = $client->getrandombycategory()->load(["id" => "test01"]);
-// $result contains mock response data
+// load() returns the bare mock record (throws on error).
+$getrandombycategory = $client->GetRandomByCategory()->load(["id" => "test01"]);
+print_r($getrandombycategory);
 ```
 
 ### Use a custom fetch function
@@ -172,7 +174,7 @@ Creates a test-mode client with mock transport. Both arguments may be `null`.
 | `prepare` | `(array $fetchargs): array` | Build an HTTP request definition without sending. |
 | `direct` | `(array $fetchargs): array` | Build and send an HTTP request. |
 | `GetRandomByCategory` | `($data): GetRandomByCategoryEntity` | Create a GetRandomByCategory entity instance. |
-| `Image` | `($data): ImageEntity` | Create a Image entity instance. |
+| `Image` | `($data): ImageEntity` | Create an Image entity instance. |
 | `Search` | `($data): SearchEntity` | Create a Search entity instance. |
 
 ### Entity interface
@@ -261,7 +263,7 @@ API path: `/search`
 
 ### GetRandomByCategory
 
-Create an instance: `const get_random_by_category = client.get_random_by_category`
+Create an instance: `$get_random_by_category = $client->GetRandomByCategory();`
 
 #### Operations
 
@@ -281,14 +283,15 @@ Create an instance: `const get_random_by_category = client.get_random_by_categor
 
 #### Example: List
 
-```ts
-const get_random_by_categorys = await client.get_random_by_category.list()
+```php
+// list() returns an array of GetRandomByCategory records (throws on error).
+$get_random_by_categorys = $client->GetRandomByCategory()->list();
 ```
 
 
 ### Image
 
-Create an instance: `const image = client.image`
+Create an instance: `$image = $client->Image();`
 
 #### Operations
 
@@ -308,20 +311,22 @@ Create an instance: `const image = client.image`
 
 #### Example: Load
 
-```ts
-const image = await client.image.load({ id: 'image_id' })
+```php
+// load() returns the bare Image record (throws on error).
+$image = $client->Image()->load(["id" => "image_id"]);
 ```
 
 #### Example: List
 
-```ts
-const images = await client.image.list()
+```php
+// list() returns an array of Image records (throws on error).
+$images = $client->Image()->list();
 ```
 
 
 ### Search
 
-Create an instance: `const search = client.search`
+Create an instance: `$search = $client->Search();`
 
 #### Operations
 
@@ -341,8 +346,9 @@ Create an instance: `const search = client.search`
 
 #### Example: List
 
-```ts
-const searchs = await client.search.list()
+```php
+// list() returns an array of Search records (throws on error).
+$searchs = $client->Search()->list();
 ```
 
 
@@ -417,7 +423,7 @@ Entity instances are stateful. After a successful `load`, the entity
 stores the returned data and match criteria internally.
 
 ```php
-$getrandombycategory = $client->getrandombycategory();
+$getrandombycategory = $client->GetRandomByCategory();
 $getrandombycategory->load(["id" => "example_id"]);
 
 // $getrandombycategory->dataGet() now returns the loaded getrandombycategory data

@@ -31,17 +31,17 @@ local sdk = require("nekosbest_sdk")
 local client = sdk.new()
 ```
 
-### 2. List getrandombycategorys
+### 2. List getrandombycategory records
+
+Entity operations return `(value, err)`. For `list`, `value` is the
+array of records itself — iterate it directly (there is no wrapper).
 
 ```lua
-local result, err = client:getrandombycategory():list()
+local getrandombycategorys, err = client:GetRandomByCategory():list()
 if err then error(err) end
 
-if type(result) == "table" then
-  for _, item in ipairs(result) do
-    local d = item:data_get()
-    print(d["id"], d["name"])
-  end
+for _, item in ipairs(getrandombycategorys) do
+  print(item["id"], item["name"])
 end
 ```
 
@@ -88,8 +88,8 @@ Create a mock client for unit testing — no server required:
 ```lua
 local client = sdk.test()
 
-local result, err = client:getrandombycategory():load({ id = "test01" })
--- result contains mock response data
+local result, err = client:GetRandomByCategory():load({ id = "test01" })
+-- result is the loaded data; err is set on failure
 ```
 
 ### Use a custom fetch function
@@ -168,7 +168,7 @@ Creates a test-mode client with mock transport. Both arguments may be `nil`.
 | `prepare` | `(fetchargs) -> table, err` | Build an HTTP request definition without sending. |
 | `direct` | `(fetchargs) -> table, err` | Build and send an HTTP request. |
 | `GetRandomByCategory` | `(data) -> GetRandomByCategoryEntity` | Create a GetRandomByCategory entity instance. |
-| `Image` | `(data) -> ImageEntity` | Create a Image entity instance. |
+| `Image` | `(data) -> ImageEntity` | Create an Image entity instance. |
 | `Search` | `(data) -> SearchEntity` | Create a Search entity instance. |
 
 ### Entity interface
@@ -191,17 +191,22 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return `(any, err)`. The first value is a
-`table` with these keys:
+Entity operations return `(value, err)`. The `value` is the operation's
+data **directly** — there is no wrapper:
 
-| Key | Type | Description |
-| --- | --- | --- |
-| `ok` | `boolean` | `true` if the HTTP status is 2xx. |
-| `status` | `number` | HTTP status code. |
-| `headers` | `table` | Response headers. |
-| `data` | `any` | Parsed JSON response body. |
+| Operation | `value` |
+| --- | --- |
+| `load` / `create` / `update` / `remove` | the entity record (a `table`) |
+| `list` | an array (`table`) of entity records |
 
-On error, `ok` is `false` and `err` contains the error value.
+Check `err` first (it is non-`nil` on failure), then use `value`:
+
+    local get_random_by_category, err = client:GetRandomByCategory():load({ id = "example_id" })
+    if err then error(err) end
+    -- get_random_by_category is the loaded record
+
+Only `direct()` returns a response envelope — a `table` with `ok`,
+`status`, `headers`, and `data` keys.
 
 ### Entities
 
@@ -253,7 +258,7 @@ API path: `/search`
 
 ### GetRandomByCategory
 
-Create an instance: `const get_random_by_category = client.get_random_by_category`
+Create an instance: `local get_random_by_category = client:GetRandomByCategory(nil)`
 
 #### Operations
 
@@ -273,14 +278,14 @@ Create an instance: `const get_random_by_category = client.get_random_by_categor
 
 #### Example: List
 
-```ts
-const get_random_by_categorys = await client.get_random_by_category.list()
+```lua
+local get_random_by_categorys, err = client:GetRandomByCategory():list()
 ```
 
 
 ### Image
 
-Create an instance: `const image = client.image`
+Create an instance: `local image = client:Image(nil)`
 
 #### Operations
 
@@ -300,20 +305,20 @@ Create an instance: `const image = client.image`
 
 #### Example: Load
 
-```ts
-const image = await client.image.load({ id: 'image_id' })
+```lua
+local image, err = client:Image():load({ id = "image_id" })
 ```
 
 #### Example: List
 
-```ts
-const images = await client.image.list()
+```lua
+local images, err = client:Image():list()
 ```
 
 
 ### Search
 
-Create an instance: `const search = client.search`
+Create an instance: `local search = client:Search(nil)`
 
 #### Operations
 
@@ -333,8 +338,8 @@ Create an instance: `const search = client.search`
 
 #### Example: List
 
-```ts
-const searchs = await client.search.list()
+```lua
+local searchs, err = client:Search():list()
 ```
 
 
@@ -409,7 +414,7 @@ Entity instances are stateful. After a successful `load`, the entity
 stores the returned data and match criteria internally.
 
 ```lua
-local getrandombycategory = client:getrandombycategory()
+local getrandombycategory = client:GetRandomByCategory()
 getrandombycategory:load({ id = "example_id" })
 
 -- getrandombycategory:data_get() now returns the loaded getrandombycategory data

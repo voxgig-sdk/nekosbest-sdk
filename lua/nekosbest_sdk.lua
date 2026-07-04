@@ -244,8 +244,9 @@ end
 
 
 
--- Idiomatic facade: client:get_random_by_category():list() / client:get_random_by_category():load({ id = ... })
-function NekosbestSDK:get_random_by_category(data)
+-- Idiomatic facade: client:GetRandomByCategory():list() / client:GetRandomByCategory():load({ id = ... })
+-- Entity access is capitalised (PascalCase) for parity with the other SDKs.
+function NekosbestSDK:GetRandomByCategory(data)
   local EntityMod = require("entity.get_random_by_category_entity")
   if data == nil then
     if self._get_random_by_category == nil then
@@ -256,15 +257,10 @@ function NekosbestSDK:get_random_by_category(data)
   return EntityMod.new(self, data)
 end
 
--- Deprecated: use client:get_random_by_category() instead.
-function NekosbestSDK:GetRandomByCategory(data)
-  local EntityMod = require("entity.get_random_by_category_entity")
-  return EntityMod.new(self, data)
-end
 
-
--- Idiomatic facade: client:image():list() / client:image():load({ id = ... })
-function NekosbestSDK:image(data)
+-- Idiomatic facade: client:Image():list() / client:Image():load({ id = ... })
+-- Entity access is capitalised (PascalCase) for parity with the other SDKs.
+function NekosbestSDK:Image(data)
   local EntityMod = require("entity.image_entity")
   if data == nil then
     if self._image == nil then
@@ -275,15 +271,10 @@ function NekosbestSDK:image(data)
   return EntityMod.new(self, data)
 end
 
--- Deprecated: use client:image() instead.
-function NekosbestSDK:Image(data)
-  local EntityMod = require("entity.image_entity")
-  return EntityMod.new(self, data)
-end
 
-
--- Idiomatic facade: client:search():list() / client:search():load({ id = ... })
-function NekosbestSDK:search(data)
+-- Idiomatic facade: client:Search():list() / client:Search():load({ id = ... })
+-- Entity access is capitalised (PascalCase) for parity with the other SDKs.
+function NekosbestSDK:Search(data)
   local EntityMod = require("entity.search_entity")
   if data == nil then
     if self._search == nil then
@@ -291,12 +282,6 @@ function NekosbestSDK:search(data)
     end
     return self._search
   end
-  return EntityMod.new(self, data)
-end
-
--- Deprecated: use client:search() instead.
-function NekosbestSDK:Search(data)
-  local EntityMod = require("entity.search_entity")
   return EntityMod.new(self, data)
 end
 

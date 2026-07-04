@@ -26,9 +26,11 @@ import { NekosbestSDK } from '@voxgig-sdk/nekosbest'
 
 const client = new NekosbestSDK()
 
-// List all getrandombycategorys
-const getrandombycategorys = await client.getrandombycategory.list()
-console.log(getrandombycategorys.data)
+// List all getrandombycategorys (returns GetRandomByCategory[])
+const getrandombycategorys = await client.GetRandomByCategory().list()
+for (const getrandombycategory of getrandombycategorys) {
+  console.log(getrandombycategory)
+}
 ```
 
 See the [TypeScript README](ts/README.md) for the full guide.
@@ -85,9 +87,10 @@ from nekosbest_sdk import NekosbestSDK
 
 client = NekosbestSDK()
 
-# List all getrandombycategorys
-getrandombycategorys = client.getrandombycategory.list()
-print(getrandombycategorys)
+# List all getrandombycategorys (returns a list, raises on error)
+getrandombycategorys = client.GetRandomByCategory().list({})
+for getrandombycategory in getrandombycategorys:
+    print(getrandombycategory)
 ```
 
 ### PHP
@@ -98,8 +101,8 @@ require_once 'nekosbest_sdk.php';
 
 $client = new NekosbestSDK();
 
-// List all getrandombycategorys (throws on error)
-$getrandombycategorys = $client->getrandombycategory()->list();
+// List all getrandombycategorys (returns an array; throws on error)
+$getrandombycategorys = $client->GetRandomByCategory()->list();
 print_r($getrandombycategorys);
 ```
 
@@ -122,8 +125,8 @@ require_relative "Nekosbest_sdk"
 
 client = NekosbestSDK.new
 
-# List all getrandombycategorys
-getrandombycategorys = client.getrandombycategory.list
+# List all getrandombycategorys (returns an Array; raises on error)
+getrandombycategorys = client.GetRandomByCategory.list
 puts getrandombycategorys
 ```
 
@@ -135,7 +138,7 @@ local sdk = require("nekosbest_sdk")
 local client = sdk.new()
 
 -- List all getrandombycategorys
-local getrandombycategorys, err = client:getrandombycategory():list()
+local getrandombycategorys, err = client:GetRandomByCategory():list()
 print(getrandombycategorys)
 ```
 
@@ -148,22 +151,27 @@ in-memory mock, so unit tests run offline.
 
 ```ts
 const client = NekosbestSDK.test()
-const result = await client.getrandombycategory.load({ id: 'test01' })
-// result.ok === true, result.data contains mock data
+const getrandombycategory = await client.GetRandomByCategory().load({ id: 'test01' })
+// getrandombycategory is a bare GetRandomByCategory populated with mock data
+console.log(getrandombycategory)
 ```
 
 ### Python
 
 ```python
 client = NekosbestSDK.test()
-result = client.getrandombycategory.load({"id": "test01"})
+getrandombycategory = client.GetRandomByCategory().load({"id": "test01"})
+print(getrandombycategory)
 ```
 
 ### PHP
 
 ```php
-$client = NekosbestSDK::test();
-$result = $client->getrandombycategory()->load(["id" => "test01"]);
+// Seed fixture data so offline calls resolve without a live server.
+$client = NekosbestSDK::test([
+    "entity" => ["getrandombycategory" => ["test01" => ["id" => "test01"]]],
+]);
+$getrandombycategory = $client->GetRandomByCategory()->load(["id" => "test01"]);
 ```
 
 ### Golang
@@ -178,15 +186,18 @@ result, err := client.GetRandomByCategory(nil).Load(
 ### Ruby
 
 ```ruby
-client = NekosbestSDK.test
-result = client.getrandombycategory.load({ "id" => "test01" })
+# Seed fixture data so offline calls resolve without a live server.
+client = NekosbestSDK.test({
+  "entity" => { "getrandombycategory" => { "test01" => { "id" => "test01" } } },
+})
+getrandombycategory = client.GetRandomByCategory.load({ "id" => "test01" })
 ```
 
 ### Lua
 
 ```lua
 local client = sdk.test()
-local result, err = client:getrandombycategory():load({ id = "test01" })
+local result, err = client:GetRandomByCategory():load({ id = "test01" })
 ```
 
 ## How it works
@@ -234,6 +245,9 @@ const result = await client.direct({
   method: 'GET',
   params: { id: 'example' },
 })
+if (result instanceof Error) {
+  throw result
+}
 console.log(result.data)
 ```
 

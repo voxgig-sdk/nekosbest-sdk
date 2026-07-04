@@ -133,7 +133,7 @@ Alias for `NekosbestSDK.test()`.
 ## GetRandomByCategoryEntity
 
 ```ts
-const get_random_by_category = client.get_random_by_category
+const get_random_by_category = client.GetRandomByCategory()
 ```
 
 ### Fields
@@ -153,7 +153,7 @@ const get_random_by_category = client.get_random_by_category
 List entities matching the given criteria. Returns an array.
 
 ```ts
-const results = await client.get_random_by_category.list()
+const results = await client.GetRandomByCategory().list()
 ```
 
 ### Common Methods
@@ -187,7 +187,7 @@ Return a copy of the entity options.
 ## ImageEntity
 
 ```ts
-const image = client.image
+const image = client.Image()
 ```
 
 ### Fields
@@ -206,7 +206,7 @@ const image = client.image
 List entities matching the given criteria. Returns an array.
 
 ```ts
-const results = await client.image.list()
+const results = await client.Image().list()
 ```
 
 #### `load(match: object, ctrl?: object)`
@@ -214,7 +214,7 @@ const results = await client.image.list()
 Load a single entity matching the given criteria.
 
 ```ts
-const result = await client.image.load({ id: 'image_id' })
+const result = await client.Image().load({ id: 'image_id' })
 ```
 
 ### Common Methods
@@ -248,7 +248,7 @@ Return a copy of the entity options.
 ## SearchEntity
 
 ```ts
-const search = client.search
+const search = client.Search()
 ```
 
 ### Fields
@@ -268,7 +268,7 @@ const search = client.search
 List entities matching the given criteria. Returns an array.
 
 ```ts
-const results = await client.search.list()
+const results = await client.Search().list()
 ```
 
 ### Common Methods

@@ -91,7 +91,7 @@ same parameters as `direct()`.
 ## GetRandomByCategoryEntity
 
 ```lua
-local get_random_by_category = client:get_random_by_category(nil)
+local get_random_by_category = client:GetRandomByCategory(nil)
 ```
 
 ### Fields
@@ -111,7 +111,7 @@ local get_random_by_category = client:get_random_by_category(nil)
 List entities matching the given criteria. Returns an array.
 
 ```lua
-local results, err = client:get_random_by_category():list()
+local results, err = client:GetRandomByCategory():list()
 ```
 
 ### Common Methods
@@ -147,7 +147,7 @@ Return the entity name.
 ## ImageEntity
 
 ```lua
-local image = client:image(nil)
+local image = client:Image(nil)
 ```
 
 ### Fields
@@ -166,7 +166,7 @@ local image = client:image(nil)
 List entities matching the given criteria. Returns an array.
 
 ```lua
-local results, err = client:image():list()
+local results, err = client:Image():list()
 ```
 
 #### `load(reqmatch, ctrl) -> any, err`
@@ -174,7 +174,7 @@ local results, err = client:image():list()
 Load a single entity matching the given criteria.
 
 ```lua
-local result, err = client:image():load({ id = "image_id" })
+local result, err = client:Image():load({ id = "image_id" })
 ```
 
 ### Common Methods
@@ -210,7 +210,7 @@ Return the entity name.
 ## SearchEntity
 
 ```lua
-local search = client:search(nil)
+local search = client:Search(nil)
 ```
 
 ### Fields
@@ -230,7 +230,7 @@ local search = client:search(nil)
 List entities matching the given criteria. Returns an array.
 
 ```lua
-local results, err = client:search():list()
+local results, err = client:Search():list()
 ```
 
 ### Common Methods

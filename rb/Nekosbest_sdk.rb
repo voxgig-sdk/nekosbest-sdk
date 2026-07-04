@@ -208,39 +208,21 @@ class NekosbestSDK
   end
 
 
-  # Idiomatic facade: client.get_random_by_category.list / client.get_random_by_category.load({ "id" => ... })
-  def get_random_by_category
-    require_relative 'entity/get_random_by_category_entity'
-    @get_random_by_category ||= GetRandomByCategoryEntity.new(self, nil)
-  end
-
-  # Deprecated: use client.get_random_by_category instead.
+  # Canonical facade: client.GetRandomByCategory.list / client.GetRandomByCategory.load({ "id" => ... })
   def GetRandomByCategory(data = nil)
     require_relative 'entity/get_random_by_category_entity'
     GetRandomByCategoryEntity.new(self, data)
   end
 
 
-  # Idiomatic facade: client.image.list / client.image.load({ "id" => ... })
-  def image
-    require_relative 'entity/image_entity'
-    @image ||= ImageEntity.new(self, nil)
-  end
-
-  # Deprecated: use client.image instead.
+  # Canonical facade: client.Image.list / client.Image.load({ "id" => ... })
   def Image(data = nil)
     require_relative 'entity/image_entity'
     ImageEntity.new(self, data)
   end
 
 
-  # Idiomatic facade: client.search.list / client.search.load({ "id" => ... })
-  def search
-    require_relative 'entity/search_entity'
-    @search ||= SearchEntity.new(self, nil)
-  end
-
-  # Deprecated: use client.search instead.
+  # Canonical facade: client.Search.list / client.Search.load({ "id" => ... })
   def Search(data = nil)
     require_relative 'entity/search_entity'
     SearchEntity.new(self, data)

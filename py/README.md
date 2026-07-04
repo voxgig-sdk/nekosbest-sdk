@@ -31,14 +31,16 @@ from nekosbest_sdk import NekosbestSDK
 client = NekosbestSDK()
 ```
 
-### 2. List getrandombycategorys
+### 2. List getrandombycategory records
+
+`list()` returns a `list` of records (each a `dict`) and raises on
+error — iterate it directly.
 
 ```python
 try:
-    result = client.getrandombycategory.list()
-    for item in result:
-        d = item.data_get()
-        print(d["id"], d["name"])
+    getrandombycategorys = client.GetRandomByCategory().list({})
+    for getrandombycategory in getrandombycategorys:
+        print(getrandombycategory)
 except Exception as err:
     print(f"list failed: {err}")
 ```
@@ -86,8 +88,9 @@ Create a mock client for unit testing — no server required:
 ```python
 client = NekosbestSDK.test()
 
-result = client.getrandombycategory.load({"id": "test01"})
-# result contains mock response data
+# Entity ops return the bare record and raise on error.
+getrandombycategory = client.GetRandomByCategory().load({"id": "test01"})
+# getrandombycategory contains the mock response record
 ```
 
 ### Use a custom fetch function
@@ -164,7 +167,7 @@ Creates a test-mode client with mock transport. Both arguments may be `None`.
 | `prepare` | `(fetchargs) -> dict` | Build an HTTP request definition without sending. Raises on error. |
 | `direct` | `(fetchargs) -> dict` | Build and send an HTTP request. Returns a result dict (branch on `ok`). |
 | `GetRandomByCategory` | `(data) -> GetRandomByCategoryEntity` | Create a GetRandomByCategory entity instance. |
-| `Image` | `(data) -> ImageEntity` | Create a Image entity instance. |
+| `Image` | `(data) -> ImageEntity` | Create an Image entity instance. |
 | `Search` | `(data) -> SearchEntity` | Create a Search entity instance. |
 
 ### Entity interface
@@ -253,7 +256,7 @@ API path: `/search`
 
 ### GetRandomByCategory
 
-Create an instance: `const get_random_by_category = client.get_random_by_category`
+Create an instance: `get_random_by_category = client.GetRandomByCategory()`
 
 #### Operations
 
@@ -273,14 +276,14 @@ Create an instance: `const get_random_by_category = client.get_random_by_categor
 
 #### Example: List
 
-```ts
-const get_random_by_categorys = await client.get_random_by_category.list()
+```python
+get_random_by_categorys = client.GetRandomByCategory().list({})
 ```
 
 
 ### Image
 
-Create an instance: `const image = client.image`
+Create an instance: `image = client.Image()`
 
 #### Operations
 
@@ -300,20 +303,20 @@ Create an instance: `const image = client.image`
 
 #### Example: Load
 
-```ts
-const image = await client.image.load({ id: 'image_id' })
+```python
+image = client.Image().load({"id": "image_id"})
 ```
 
 #### Example: List
 
-```ts
-const images = await client.image.list()
+```python
+images = client.Image().list({})
 ```
 
 
 ### Search
 
-Create an instance: `const search = client.search`
+Create an instance: `search = client.Search()`
 
 #### Operations
 
@@ -333,8 +336,8 @@ Create an instance: `const search = client.search`
 
 #### Example: List
 
-```ts
-const searchs = await client.search.list()
+```python
+searchs = client.Search().list({})
 ```
 
 
@@ -408,7 +411,7 @@ Entity instances are stateful. After a successful `load`, the entity
 stores the returned data and match criteria internally.
 
 ```python
-getrandombycategory = client.getrandombycategory
+getrandombycategory = client.GetRandomByCategory()
 getrandombycategory.load({"id": "example_id"})
 
 # getrandombycategory.data_get() now returns the loaded getrandombycategory data
