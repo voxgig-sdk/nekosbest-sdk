@@ -140,11 +140,11 @@ const get_random_by_category = client.GetRandomByCategory()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `anime_name` | ``$STRING`` | No |  |
-| `artist_href` | ``$STRING`` | No |  |
-| `artist_name` | ``$STRING`` | No |  |
-| `source_url` | ``$STRING`` | No |  |
-| `url` | ``$STRING`` | Yes |  |
+| `anime_name` | `string` | No |  |
+| `artist_href` | `string` | No |  |
+| `artist_name` | `string` | No |  |
+| `source_url` | `string` | No |  |
+| `url` | `string` | Yes |  |
 
 ### Operations
 
@@ -194,10 +194,10 @@ const image = client.Image()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `category` | ``$INTEGER`` | No |  |
-| `endpoint` | ``$ARRAY`` | No |  |
-| `total_gif` | ``$INTEGER`` | No |  |
-| `total_image` | ``$INTEGER`` | No |  |
+| `category` | `number` | No |  |
+| `endpoint` | `any[]` | No |  |
+| `total_gif` | `number` | No |  |
+| `total_image` | `number` | No |  |
 
 ### Operations
 
@@ -214,7 +214,7 @@ const results = await client.Image().list()
 Load a single entity matching the given criteria.
 
 ```ts
-const result = await client.Image().load({ id: 'image_id' })
+const result = await client.Image().load()
 ```
 
 ### Common Methods
@@ -255,11 +255,11 @@ const search = client.Search()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `anime_name` | ``$STRING`` | No |  |
-| `artist_href` | ``$STRING`` | No |  |
-| `artist_name` | ``$STRING`` | No |  |
-| `source_url` | ``$STRING`` | No |  |
-| `url` | ``$STRING`` | Yes |  |
+| `anime_name` | `string` | No |  |
+| `artist_href` | `string` | No |  |
+| `artist_name` | `string` | No |  |
+| `source_url` | `string` | No |  |
+| `url` | `string` | Yes |  |
 
 ### Operations
 

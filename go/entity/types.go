@@ -30,8 +30,7 @@ type Image struct {
 	TotalImage *int `json:"total_image,omitempty"`
 }
 
-// ImageLoadMatch mirrors the image fields as an all-optional match
-// filter (Go analog of Partial<Image>).
+// ImageLoadMatch is the typed request payload for Image.LoadTyped.
 type ImageLoadMatch struct {
 	Category *int `json:"category,omitempty"`
 	Endpoint *[]any `json:"endpoint,omitempty"`
@@ -39,8 +38,7 @@ type ImageLoadMatch struct {
 	TotalImage *int `json:"total_image,omitempty"`
 }
 
-// ImageListMatch mirrors the image fields as an all-optional match
-// filter (Go analog of Partial<Image>).
+// ImageListMatch is the typed request payload for Image.ListTyped.
 type ImageListMatch struct {
 	Category *int `json:"category,omitempty"`
 	Endpoint *[]any `json:"endpoint,omitempty"`
@@ -57,8 +55,7 @@ type Search struct {
 	Url string `json:"url"`
 }
 
-// SearchListMatch mirrors the search fields as an all-optional match
-// filter (Go analog of Partial<Search>).
+// SearchListMatch is the typed request payload for Search.ListTyped.
 type SearchListMatch struct {
 	AnimeName *string `json:"anime_name,omitempty"`
 	ArtistHref *string `json:"artist_href,omitempty"`

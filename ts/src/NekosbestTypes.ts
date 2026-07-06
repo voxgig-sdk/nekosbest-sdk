@@ -24,9 +24,19 @@ export interface Image {
   total_image?: number
 }
 
-export type ImageLoadMatch = Partial<Image>
+export interface ImageLoadMatch {
+  category?: number
+  endpoint?: any[]
+  total_gif?: number
+  total_image?: number
+}
 
-export type ImageListMatch = Partial<Image>
+export interface ImageListMatch {
+  category?: number
+  endpoint?: any[]
+  total_gif?: number
+  total_image?: number
+}
 
 export interface Search {
   anime_name?: string
@@ -36,5 +46,11 @@ export interface Search {
   url: string
 }
 
-export type SearchListMatch = Partial<Search>
+export interface SearchListMatch {
+  anime_name?: string
+  artist_href?: string
+  artist_name?: string
+  source_url?: string
+  url?: string
+}
 

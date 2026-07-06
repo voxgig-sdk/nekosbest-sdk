@@ -4,6 +4,8 @@
 
 The Ruby SDK for the Nekosbest API — an entity-oriented client using idiomatic Ruby conventions.
 
+The SDK exposes the API as capitalised, semantic **Entities** — for example `client.GetRandomByCategory` — with named operations (`list`/`load`) instead of raw URL paths and query strings. Working with resources and verbs keeps call sites self-describing and reduces cognitive load.
+
 > Other languages, the CLI, and MCP server live alongside this one — see
 > the [top-level README](../README.md).
 
@@ -35,11 +37,38 @@ begin
   # list returns an Array of GetRandomByCategory records — iterate directly.
   getrandombycategorys = client.GetRandomByCategory.list
   getrandombycategorys.each do |item|
-    puts "#{item["id"]} #{item["name"]}"
+    puts "#{item["anime_name"]}"
   end
 rescue => err
   warn "list failed: #{err}"
 end
+```
+
+
+## Error handling
+
+Entity operations raise on failure, so rescue them:
+
+```ruby
+begin
+  getrandombycategorys = client.GetRandomByCategory.list()
+rescue => err
+  warn "list failed: #{err}"
+end
+```
+
+`direct` does **not** raise — it returns the result hash. Branch on
+`ok`; on failure `status` holds the HTTP status (for error responses) and
+`err` holds a transport error, so read both defensively:
+
+```ruby
+result = client.direct({
+  "path" => "/api/resource/{id}",
+  "method" => "GET",
+  "params" => { "id" => "example_id" },
+})
+
+warn "request failed: #{result["err"] || "HTTP #{result["status"]}"}" unless result["ok"]
 ```
 
 
@@ -60,7 +89,9 @@ if result["ok"]
   puts result["status"]  # 200
   puts result["data"]    # response body
 else
-  warn result["err"]
+  # On an HTTP error status there is no err (only a transport failure sets
+  # it), so fall back to the status code.
+  warn(result["err"] || "HTTP #{result["status"]}")
 end
 ```
 
@@ -83,16 +114,13 @@ end
 
 ### Use test mode
 
-Create a mock client for unit testing — no server required. Seed fixture
-data via the `entity` option so offline calls resolve without a live server:
+Create a mock client for unit testing — no server required:
 
 ```ruby
-client = NekosbestSDK.test({
-  "entity" => { "getrandombycategory" => { "test01" => { "id" => "test01" } } },
-})
+client = NekosbestSDK.test
 
-# load returns the bare mock record (raises on error).
-getrandombycategory = client.GetRandomByCategory.load({ "id" => "test01" })
+# Entity ops return the bare mock record (raises on error).
+getrandombycategory = client.GetRandomByCategory.list()
 puts getrandombycategory
 ```
 
@@ -180,10 +208,7 @@ All entities share the same interface.
 | Method | Signature | Description |
 | --- | --- | --- |
 | `load` | `(reqmatch, ctrl) -> any` | Load a single entity by match criteria. Raises on error. |
-| `list` | `(reqmatch, ctrl) -> Array` | List entities matching the criteria. Raises on error. |
-| `create` | `(reqdata, ctrl) -> any` | Create a new entity. Raises on error. |
-| `update` | `(reqdata, ctrl) -> any` | Update an existing entity. Raises on error. |
-| `remove` | `(reqmatch, ctrl) -> any` | Remove an entity. Raises on error. |
+| `list` | `(reqmatch = nil, ctrl) -> Array` | List entities matching the criteria (call with no argument to list all). Raises on error. |
 | `data_get` | `() -> Hash` | Get entity data. |
 | `data_set` | `(data)` | Set entity data. |
 | `match_get` | `() -> Hash` | Get entity match criteria. |
@@ -270,11 +295,11 @@ Create an instance: `get_random_by_category = client.GetRandomByCategory`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `anime_name` | ``$STRING`` |  |
-| `artist_href` | ``$STRING`` |  |
-| `artist_name` | ``$STRING`` |  |
-| `source_url` | ``$STRING`` |  |
-| `url` | ``$STRING`` |  |
+| `anime_name` | `String` |  |
+| `artist_href` | `String` |  |
+| `artist_name` | `String` |  |
+| `source_url` | `String` |  |
+| `url` | `String` |  |
 
 #### Example: List
 
@@ -299,16 +324,16 @@ Create an instance: `image = client.Image`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `category` | ``$INTEGER`` |  |
-| `endpoint` | ``$ARRAY`` |  |
-| `total_gif` | ``$INTEGER`` |  |
-| `total_image` | ``$INTEGER`` |  |
+| `category` | `Integer` |  |
+| `endpoint` | `Array` |  |
+| `total_gif` | `Integer` |  |
+| `total_image` | `Integer` |  |
 
 #### Example: Load
 
 ```ruby
 # load returns the bare Image record (raises on error).
-image = client.Image.load({ "id" => "image_id" })
+image = client.Image.load()
 ```
 
 #### Example: List
@@ -333,11 +358,11 @@ Create an instance: `search = client.Search`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `anime_name` | ``$STRING`` |  |
-| `artist_href` | ``$STRING`` |  |
-| `artist_name` | ``$STRING`` |  |
-| `source_url` | ``$STRING`` |  |
-| `url` | ``$STRING`` |  |
+| `anime_name` | `String` |  |
+| `artist_href` | `String` |  |
+| `artist_name` | `String` |  |
+| `source_url` | `String` |  |
+| `url` | `String` |  |
 
 #### Example: List
 
@@ -347,12 +372,16 @@ searchs = client.Search.list
 ```
 
 
-## Explanation
+## Advanced
+
+> The sections above cover everyday use. The material below explains the
+> SDK's internals — useful when extending it with custom features, but not
+> needed for normal use.
 
 ### The operation pipeline
 
-Every entity operation (load, list, create, update, remove) follows a
-six-stage pipeline. Each stage fires a feature hook before executing:
+Every entity operation follows a six-stage pipeline. Each stage fires a
+feature hook before executing:
 
 ```
 PrePoint → PreSpec → PreRequest → PreResponse → PreResult → PreDone
@@ -369,8 +398,9 @@ PrePoint → PreSpec → PreRequest → PreResponse → PreResult → PreDone
 - **PreDone**: Final stage before returning to the caller. Entity
   state (match, data) is updated here.
 
-If any stage returns an error, the pipeline short-circuits and the
-error is returned to the caller as a second return value.
+If any stage errors, the pipeline short-circuits and the error surfaces
+to the caller — see [Error handling](#error-handling) for how that looks
+in this language.
 
 ### Features and hooks
 
@@ -414,14 +444,14 @@ when needed.
 
 ### Entity state
 
-Entity instances are stateful. After a successful `load`, the entity
+Entity instances are stateful. After a successful `list`, the entity
 stores the returned data and match criteria internally.
 
 ```ruby
 getrandombycategory = client.GetRandomByCategory
-getrandombycategory.load({ "id" => "example_id" })
+getrandombycategory.list()
 
-# getrandombycategory.data_get now returns the loaded getrandombycategory data
+# getrandombycategory.data_get now returns the getrandombycategory data from the last list
 # getrandombycategory.match_get returns the last match criteria
 ```
 

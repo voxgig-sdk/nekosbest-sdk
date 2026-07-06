@@ -63,7 +63,7 @@ Image = Struct.new(
   keyword_init: true
 )
 
-# Match filter for Image#load (any subset of Image fields).
+# Request payload for Image#load.
 #
 # @!attribute [rw] category
 #   @return [Integer, nil]
@@ -84,7 +84,7 @@ ImageLoadMatch = Struct.new(
   keyword_init: true
 )
 
-# Match filter for Image#list (any subset of Image fields).
+# Request payload for Image#list.
 #
 # @!attribute [rw] category
 #   @return [Integer, nil]
@@ -130,7 +130,7 @@ Search = Struct.new(
   keyword_init: true
 )
 
-# Match filter for Search#list (any subset of Search fields).
+# Request payload for Search#list.
 #
 # @!attribute [rw] anime_name
 #   @return [String, nil]

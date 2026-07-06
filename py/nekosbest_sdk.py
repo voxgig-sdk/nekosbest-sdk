@@ -221,19 +221,19 @@ class NekosbestSDK:
 
 
     def GetRandomByCategory(self, data=None) -> "GetRandomByCategoryEntity":
-        """Entity factory: client.GetRandomByCategory().list({}) / client.GetRandomByCategory().load({"id": ...})."""
+        """Entity factory: client.GetRandomByCategory().list() / client.GetRandomByCategory().load({"id": ...})."""
         from entity.get_random_by_category_entity import GetRandomByCategoryEntity
         return GetRandomByCategoryEntity(self, data)
 
 
     def Image(self, data=None) -> "ImageEntity":
-        """Entity factory: client.Image().list({}) / client.Image().load({"id": ...})."""
+        """Entity factory: client.Image().list() / client.Image().load({"id": ...})."""
         from entity.image_entity import ImageEntity
         return ImageEntity(self, data)
 
 
     def Search(self, data=None) -> "SearchEntity":
-        """Entity factory: client.Search().list({}) / client.Search().load({"id": ...})."""
+        """Entity factory: client.Search().list() / client.Search().load({"id": ...})."""
         from entity.search_entity import SearchEntity
         return SearchEntity(self, data)
 

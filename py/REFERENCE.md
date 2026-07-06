@@ -95,20 +95,20 @@ get_random_by_category = client.GetRandomByCategory()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `anime_name` | ``$STRING`` | No |  |
-| `artist_href` | ``$STRING`` | No |  |
-| `artist_name` | ``$STRING`` | No |  |
-| `source_url` | ``$STRING`` | No |  |
-| `url` | ``$STRING`` | Yes |  |
+| `anime_name` | `str` | No |  |
+| `artist_href` | `str` | No |  |
+| `artist_name` | `str` | No |  |
+| `source_url` | `str` | No |  |
+| `url` | `str` | Yes |  |
 
 ### Operations
 
-#### `list(reqmatch, ctrl=None) -> list`
+#### `list(reqmatch=None, ctrl=None) -> list`
 
-List entities matching the given criteria. Returns a list and raises on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
 
 ```python
-results = client.GetRandomByCategory().list({})
+results = client.GetRandomByCategory().list()
 for get_random_by_category in results:
     print(get_random_by_category)
 ```
@@ -152,19 +152,19 @@ image = client.Image()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `category` | ``$INTEGER`` | No |  |
-| `endpoint` | ``$ARRAY`` | No |  |
-| `total_gif` | ``$INTEGER`` | No |  |
-| `total_image` | ``$INTEGER`` | No |  |
+| `category` | `int` | No |  |
+| `endpoint` | `list` | No |  |
+| `total_gif` | `int` | No |  |
+| `total_image` | `int` | No |  |
 
 ### Operations
 
-#### `list(reqmatch, ctrl=None) -> list`
+#### `list(reqmatch=None, ctrl=None) -> list`
 
-List entities matching the given criteria. Returns a list and raises on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
 
 ```python
-results = client.Image().list({})
+results = client.Image().list()
 for image in results:
     print(image)
 ```
@@ -174,7 +174,7 @@ for image in results:
 Load a single entity matching the given criteria. Returns the entity data and raises on error.
 
 ```python
-result = client.Image().load({"id": "image_id"})
+result = client.Image().load()
 ```
 
 ### Common Methods
@@ -216,20 +216,20 @@ search = client.Search()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `anime_name` | ``$STRING`` | No |  |
-| `artist_href` | ``$STRING`` | No |  |
-| `artist_name` | ``$STRING`` | No |  |
-| `source_url` | ``$STRING`` | No |  |
-| `url` | ``$STRING`` | Yes |  |
+| `anime_name` | `str` | No |  |
+| `artist_href` | `str` | No |  |
+| `artist_name` | `str` | No |  |
+| `source_url` | `str` | No |  |
+| `url` | `str` | Yes |  |
 
 ### Operations
 
-#### `list(reqmatch, ctrl=None) -> list`
+#### `list(reqmatch=None, ctrl=None) -> list`
 
-List entities matching the given criteria. Returns a list and raises on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
 
 ```python
-results = client.Search().list({})
+results = client.Search().list()
 for search in results:
     print(search)
 ```

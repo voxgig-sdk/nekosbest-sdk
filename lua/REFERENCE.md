@@ -98,11 +98,11 @@ local get_random_by_category = client:GetRandomByCategory(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `anime_name` | ``$STRING`` | No |  |
-| `artist_href` | ``$STRING`` | No |  |
-| `artist_name` | ``$STRING`` | No |  |
-| `source_url` | ``$STRING`` | No |  |
-| `url` | ``$STRING`` | Yes |  |
+| `anime_name` | `string` | No |  |
+| `artist_href` | `string` | No |  |
+| `artist_name` | `string` | No |  |
+| `source_url` | `string` | No |  |
+| `url` | `string` | Yes |  |
 
 ### Operations
 
@@ -154,10 +154,10 @@ local image = client:Image(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `category` | ``$INTEGER`` | No |  |
-| `endpoint` | ``$ARRAY`` | No |  |
-| `total_gif` | ``$INTEGER`` | No |  |
-| `total_image` | ``$INTEGER`` | No |  |
+| `category` | `number` | No |  |
+| `endpoint` | `table` | No |  |
+| `total_gif` | `number` | No |  |
+| `total_image` | `number` | No |  |
 
 ### Operations
 
@@ -174,7 +174,7 @@ local results, err = client:Image():list()
 Load a single entity matching the given criteria.
 
 ```lua
-local result, err = client:Image():load({ id = "image_id" })
+local result, err = client:Image():load()
 ```
 
 ### Common Methods
@@ -217,11 +217,11 @@ local search = client:Search(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `anime_name` | ``$STRING`` | No |  |
-| `artist_href` | ``$STRING`` | No |  |
-| `artist_name` | ``$STRING`` | No |  |
-| `source_url` | ``$STRING`` | No |  |
-| `url` | ``$STRING`` | Yes |  |
+| `anime_name` | `string` | No |  |
+| `artist_href` | `string` | No |  |
+| `artist_name` | `string` | No |  |
+| `source_url` | `string` | No |  |
+| `url` | `string` | Yes |  |
 
 ### Operations
 

@@ -37,7 +37,7 @@ class Image
     public ?int $total_image = null;
 }
 
-/** Match filter for Image#load (any subset of Image fields). */
+/** Request payload for Image#load. */
 class ImageLoadMatch
 {
     public ?int $category = null;
@@ -46,7 +46,7 @@ class ImageLoadMatch
     public ?int $total_image = null;
 }
 
-/** Match filter for Image#list (any subset of Image fields). */
+/** Request payload for Image#list. */
 class ImageListMatch
 {
     public ?int $category = null;
@@ -65,7 +65,7 @@ class Search
     public string $url;
 }
 
-/** Match filter for Search#list (any subset of Search fields). */
+/** Request payload for Search#list. */
 class SearchListMatch
 {
     public ?string $anime_name = null;

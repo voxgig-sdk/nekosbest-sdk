@@ -105,11 +105,11 @@ get_random_by_category := client.GetRandomByCategory(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `anime_name` | ``$STRING`` | No |  |
-| `artist_href` | ``$STRING`` | No |  |
-| `artist_name` | ``$STRING`` | No |  |
-| `source_url` | ``$STRING`` | No |  |
-| `url` | ``$STRING`` | Yes |  |
+| `anime_name` | `string` | No |  |
+| `artist_href` | `string` | No |  |
+| `artist_name` | `string` | No |  |
+| `source_url` | `string` | No |  |
+| `url` | `string` | Yes |  |
 
 ### Operations
 
@@ -155,10 +155,10 @@ image := client.Image(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `category` | ``$INTEGER`` | No |  |
-| `endpoint` | ``$ARRAY`` | No |  |
-| `total_gif` | ``$INTEGER`` | No |  |
-| `total_image` | ``$INTEGER`` | No |  |
+| `category` | `int` | No |  |
+| `endpoint` | `[]any` | No |  |
+| `total_gif` | `int` | No |  |
+| `total_image` | `int` | No |  |
 
 ### Operations
 
@@ -175,7 +175,7 @@ results, err := client.Image(nil).List(nil, nil)
 Load a single entity matching the given criteria.
 
 ```go
-result, err := client.Image(nil).Load(map[string]any{"id": "image_id"}, nil)
+result, err := client.Image(nil).Load(nil, nil)
 ```
 
 ### Common Methods
@@ -212,11 +212,11 @@ search := client.Search(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `anime_name` | ``$STRING`` | No |  |
-| `artist_href` | ``$STRING`` | No |  |
-| `artist_name` | ``$STRING`` | No |  |
-| `source_url` | ``$STRING`` | No |  |
-| `url` | ``$STRING`` | Yes |  |
+| `anime_name` | `string` | No |  |
+| `artist_href` | `string` | No |  |
+| `artist_name` | `string` | No |  |
+| `source_url` | `string` | No |  |
+| `url` | `string` | Yes |  |
 
 ### Operations
 

@@ -23,8 +23,16 @@
 ---@field total_image? number
 
 ---@class ImageLoadMatch
+---@field category? number
+---@field endpoint? table
+---@field total_gif? number
+---@field total_image? number
 
 ---@class ImageListMatch
+---@field category? number
+---@field endpoint? table
+---@field total_gif? number
+---@field total_image? number
 
 ---@class Search
 ---@field anime_name? string
@@ -34,6 +42,11 @@
 ---@field url string
 
 ---@class SearchListMatch
+---@field anime_name? string
+---@field artist_href? string
+---@field artist_name? string
+---@field source_url? string
+---@field url? string
 
 local M = {}
 
