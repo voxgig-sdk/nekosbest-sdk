@@ -20,10 +20,10 @@ main: {
           url: "https://nekos.best/api/v2"
         }
       ]
+      summary: "nekos.best is a RESTful API serving fully SFW and high quality anime images and GIFs."
       termsOfService: "https://nekos.best"
       title: "nekos.best API"
       version: "1.0.0"
+      website: "https://docs.nekos.best/"
     }
   }
-}
-

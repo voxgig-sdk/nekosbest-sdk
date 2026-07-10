@@ -50,12 +50,12 @@ import (
 func main() {
     client := sdk.New()
 
-    // List getrandombycategory records — the value is the array of records itself.
-    getrandombycategorys, err := client.GetRandomByCategory(nil).List(nil, nil)
+    // List getRandomByCategory records — the value is the array of records itself.
+    getRandomByCategorys, err := client.GetRandomByCategory(nil).List(nil, nil)
     if err != nil {
         panic(err)
     }
-    for _, item := range getrandombycategorys.([]any) {
+    for _, item := range getRandomByCategorys.([]any) {
         fmt.Println(item)
     }
 }
@@ -137,13 +137,13 @@ Create a mock client for unit testing — no server required:
 ```go
 client := sdk.Test()
 
-getrandombycategory, err := client.GetRandomByCategory(nil).List(
+getRandomByCategory, err := client.GetRandomByCategory(nil).List(
     nil, nil,
 )
 if err != nil {
     panic(err)
 }
-fmt.Println(getrandombycategory) // the returned mock data
+fmt.Println(getRandomByCategory) // the returned mock data
 ```
 
 ### Use a custom fetch function
@@ -251,9 +251,9 @@ Check `err` first, then use the value directly (or the typed
 `...Typed` variants, which return the entity's model struct and a typed
 slice):
 
-    getrandombycategory, err := client.GetRandomByCategory(nil).List(map[string]any{/* fields */}, nil)
+    getRandomByCategory, err := client.GetRandomByCategory(nil).List(map[string]any{/* fields */}, nil)
     if err != nil { /* handle */ }
-    // getrandombycategory is the returned record
+    // getRandomByCategory is the returned record
 
 Only `Direct()` returns a response envelope — a `map[string]any` with
 `"ok"`, `"status"`, `"headers"`, and `"data"` keys.
@@ -308,7 +308,7 @@ API path: `/search`
 
 ### GetRandomByCategory
 
-Create an instance: `get_random_by_category := client.GetRandomByCategory(nil)`
+Create an instance: `getRandomByCategory := client.GetRandomByCategory(nil)`
 
 #### Operations
 
@@ -329,11 +329,11 @@ Create an instance: `get_random_by_category := client.GetRandomByCategory(nil)`
 #### Example: List
 
 ```go
-get_random_by_categorys, err := client.GetRandomByCategory(nil).List(nil, nil)
+getRandomByCategorys, err := client.GetRandomByCategory(nil).List(nil, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(get_random_by_categorys) // the array of records
+fmt.Println(getRandomByCategorys) // the array of records
 ```
 
 
