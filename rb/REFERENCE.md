@@ -157,10 +157,10 @@ image = client.Image
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `category` | `Integer` | No |  |
-| `endpoint` | `Array` | No |  |
-| `total_gif` | `Integer` | No |  |
-| `total_image` | `Integer` | No |  |
+| `categories` | `Integer` | No |  |
+| `endpoints` | `Array` | No |  |
+| `total_gifs` | `Integer` | No |  |
+| `total_images` | `Integer` | No |  |
 
 ### Operations
 

@@ -44,64 +44,64 @@ GetRandomByCategoryListMatch = Struct.new(
 
 # Image entity data model.
 #
-# @!attribute [rw] category
+# @!attribute [rw] categories
 #   @return [Integer, nil]
 #
-# @!attribute [rw] endpoint
+# @!attribute [rw] endpoints
 #   @return [Array, nil]
 #
-# @!attribute [rw] total_gif
+# @!attribute [rw] total_gifs
 #   @return [Integer, nil]
 #
-# @!attribute [rw] total_image
+# @!attribute [rw] total_images
 #   @return [Integer, nil]
 Image = Struct.new(
-  :category,
-  :endpoint,
-  :total_gif,
-  :total_image,
+  :categories,
+  :endpoints,
+  :total_gifs,
+  :total_images,
   keyword_init: true
 )
 
 # Request payload for Image#load.
 #
-# @!attribute [rw] category
+# @!attribute [rw] categories
 #   @return [Integer, nil]
 #
-# @!attribute [rw] endpoint
+# @!attribute [rw] endpoints
 #   @return [Array, nil]
 #
-# @!attribute [rw] total_gif
+# @!attribute [rw] total_gifs
 #   @return [Integer, nil]
 #
-# @!attribute [rw] total_image
+# @!attribute [rw] total_images
 #   @return [Integer, nil]
 ImageLoadMatch = Struct.new(
-  :category,
-  :endpoint,
-  :total_gif,
-  :total_image,
+  :categories,
+  :endpoints,
+  :total_gifs,
+  :total_images,
   keyword_init: true
 )
 
 # Request payload for Image#list.
 #
-# @!attribute [rw] category
+# @!attribute [rw] categories
 #   @return [Integer, nil]
 #
-# @!attribute [rw] endpoint
+# @!attribute [rw] endpoints
 #   @return [Array, nil]
 #
-# @!attribute [rw] total_gif
+# @!attribute [rw] total_gifs
 #   @return [Integer, nil]
 #
-# @!attribute [rw] total_image
+# @!attribute [rw] total_images
 #   @return [Integer, nil]
 ImageListMatch = Struct.new(
-  :category,
-  :endpoint,
-  :total_gif,
-  :total_image,
+  :categories,
+  :endpoints,
+  :total_gifs,
+  :total_images,
   keyword_init: true
 )
 

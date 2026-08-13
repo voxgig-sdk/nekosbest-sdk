@@ -53,7 +53,7 @@ Entity operations throw a `\Throwable` on failure, so wrap them in
 
 ```php
 try {
-    $getrandombycategorys = $client->GetRandomByCategory()->list();
+    $searchs = $client->Search()->list();
 } catch (\Throwable $err) {
     echo "Error: " . $err->getMessage();
 }
@@ -125,9 +125,10 @@ Create a mock client for unit testing — no server required:
 ```php
 $client = NekosbestSDK::test();
 
-// Entity ops return the bare mock record (throws on error).
-$getrandombycategory = $client->GetRandomByCategory()->list();
-print_r($getrandombycategory);
+// Entity ops return the ENTITY (throws on error);
+// call data_get() for the mock record.
+$search = $client->Search()->list();
+print_r($search);
 ```
 
 ### Use a custom fetch function
@@ -227,7 +228,7 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return the bare result data (an `array` for single-entity
+Entity operations return the ENTITY (call data_get() for the record) (an `array` for single-entity
 ops, a `list` for `list`) and throw on error. Wrap calls in
 `try`/`catch` to handle failures.
 
@@ -263,10 +264,10 @@ API path: `/{category}`
 
 | Field | Description |
 | --- | --- |
-| `category` |  |
-| `endpoint` |  |
-| `total_gif` |  |
-| `total_image` |  |
+| `categories` |  |
+| `endpoints` |  |
+| `total_gifs` |  |
+| `total_images` |  |
 
 Operations: List, Load.
 
@@ -334,15 +335,15 @@ Create an instance: `$image = $client->Image();`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `category` | `int` |  |
-| `endpoint` | `array` |  |
-| `total_gif` | `int` |  |
-| `total_image` | `int` |  |
+| `categories` | `int` |  |
+| `endpoints` | `array` |  |
+| `total_gifs` | `int` |  |
+| `total_images` | `int` |  |
 
 #### Example: Load
 
 ```php
-// load() returns the bare Image record (throws on error).
+// load() returns the ENTITY — call data_get() for the Image record (throws on error).
 $image = $client->Image()->load();
 ```
 
@@ -458,11 +459,11 @@ Entity instances are stateful. After a successful `list`, the entity
 stores the returned data and match criteria internally.
 
 ```php
-$getrandombycategory = $client->GetRandomByCategory();
-$getrandombycategory->list();
+$search = $client->Search();
+$search->list();
 
-// $getrandombycategory->data_get() now returns the getrandombycategory data from the last list
-// $getrandombycategory->match_get() returns the last match criteria
+// $search->data_get() now returns the search data from the last list
+// $search->match_get() returns the last match criteria
 ```
 
 Call `make()` to create a fresh instance with the same configuration

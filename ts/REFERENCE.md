@@ -153,7 +153,7 @@ const get_random_by_category = client.GetRandomByCategory()
 List entities matching the given criteria. Returns an array.
 
 ```ts
-const results = await client.GetRandomByCategory().list()
+const results = await client.GetRandomByCategory().list({ id: "example" })
 ```
 
 ### Common Methods
@@ -194,10 +194,10 @@ const image = client.Image()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `category` | `number` | No |  |
-| `endpoint` | `any[]` | No |  |
-| `total_gif` | `number` | No |  |
-| `total_image` | `number` | No |  |
+| `categories` | `number` | No |  |
+| `endpoints` | `any[]` | No |  |
+| `total_gifs` | `number` | No |  |
+| `total_images` | `number` | No |  |
 
 ### Operations
 

@@ -35,10 +35,12 @@ const client = new NekosbestSDK()
 
 ### 2. List getrandombycategory records
 
-`list()` resolves to an array of GetRandomByCategory objects — iterate it directly:
+`list()` resolves to an array of GetRandomByCategory ENTITIES — every operation
+resolves to entities, not raw records. Iterate them directly, and call
+`.data()` on one for the record it holds:
 
 ```ts
-const getrandombycategorys = await client.GetRandomByCategory().list()
+const getrandombycategorys = await client.GetRandomByCategory().list({ id: "example" })
 
 for (const getrandombycategory of getrandombycategorys) {
   console.log(getrandombycategory)
@@ -52,8 +54,8 @@ Entity operations reject on failure, so wrap them in `try` / `catch`:
 
 ```ts
 try {
-  const getrandombycategorys = await client.GetRandomByCategory().list()
-  console.log(getrandombycategorys)
+  const searchs = await client.Search().list()
+  console.log(searchs)
 } catch (err) {
   console.error('list failed:', err)
 }
@@ -119,9 +121,10 @@ Create a mock client for unit testing — no server required:
 ```ts
 const client = NekosbestSDK.test()
 
-const getrandombycategory = await client.GetRandomByCategory().list()
-// getrandombycategory is a bare entity populated with mock response data
-console.log(getrandombycategory)
+const search = await client.Search().list()
+// search is the entity, populated with mock response data
+// — call search.data() for the record itself
+console.log(search)
 ```
 
 You can also use the instance method:
@@ -136,7 +139,7 @@ const testClient = client.tester()
 Entity instances remember their last match and data:
 
 ```ts
-const entity = client.GetRandomByCategory()
+const entity = client.Search()
 
 // First call runs the operation and stores its result
 await entity.list()
@@ -302,10 +305,10 @@ API path: `/{category}`
 
 | Field | Description |
 | --- | --- |
-| `category` |  |
-| `endpoint` |  |
-| `total_gif` |  |
-| `total_image` |  |
+| `categories` |  |
+| `endpoints` |  |
+| `total_gifs` |  |
+| `total_images` |  |
 
 Operations: list, load.
 
@@ -353,7 +356,7 @@ Create an instance: `const get_random_by_category = client.GetRandomByCategory()
 #### Example: List
 
 ```ts
-const get_random_by_categorys = await client.GetRandomByCategory().list()
+const get_random_by_categorys = await client.GetRandomByCategory().list({ id: "example" })
 ```
 
 
@@ -372,10 +375,10 @@ Create an instance: `const image = client.Image()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `category` | `number` |  |
-| `endpoint` | `any[]` |  |
-| `total_gif` | `number` |  |
-| `total_image` | `number` |  |
+| `categories` | `number` |  |
+| `endpoints` | `any[]` |  |
+| `total_gifs` | `number` |  |
+| `total_images` | `number` |  |
 
 #### Example: Load
 
@@ -486,11 +489,11 @@ stores the returned data and match criteria internally. Subsequent
 calls on the same instance can rely on this state.
 
 ```ts
-const getrandombycategory = client.GetRandomByCategory()
-await getrandombycategory.list()
+const search = client.Search()
+await search.list()
 
-// getrandombycategory.data() now returns the getrandombycategory data from the last `list`
-// getrandombycategory.match() returns the last match criteria
+// search.data() now returns the search data from the last `list`
+// search.match() returns the last match criteria
 ```
 
 Call `make()` to create a fresh instance with the same configuration

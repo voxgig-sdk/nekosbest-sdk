@@ -95,6 +95,7 @@ local function make_config()
                     },
                   },
                 },
+                ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/{category}",
                 ["parts"] = {
@@ -113,7 +114,7 @@ local function make_config()
                 },
                 ["transform"] = {
                   ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
+                  ["res"] = "`body.results`",
                 },
                 ["index$"] = 0,
               },
@@ -129,28 +130,28 @@ local function make_config()
         ["fields"] = {
           {
             ["active"] = true,
-            ["name"] = "category",
+            ["name"] = "categories",
             ["req"] = false,
             ["type"] = "`$INTEGER`",
             ["index$"] = 0,
           },
           {
             ["active"] = true,
-            ["name"] = "endpoint",
+            ["name"] = "endpoints",
             ["req"] = false,
             ["type"] = "`$ARRAY`",
             ["index$"] = 1,
           },
           {
             ["active"] = true,
-            ["name"] = "total_gif",
+            ["name"] = "total_gifs",
             ["req"] = false,
             ["type"] = "`$INTEGER`",
             ["index$"] = 2,
           },
           {
             ["active"] = true,
-            ["name"] = "total_image",
+            ["name"] = "total_images",
             ["req"] = false,
             ["type"] = "`$INTEGER`",
             ["index$"] = 3,
@@ -165,6 +166,7 @@ local function make_config()
               {
                 ["active"] = true,
                 ["args"] = {},
+                ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/endpoints",
                 ["parts"] = {
@@ -173,7 +175,7 @@ local function make_config()
                 ["select"] = {},
                 ["transform"] = {
                   ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
+                  ["res"] = "`body.endpoints`",
                 },
                 ["index$"] = 0,
               },
@@ -187,6 +189,7 @@ local function make_config()
               {
                 ["active"] = true,
                 ["args"] = {},
+                ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/stats",
                 ["parts"] = {
@@ -282,6 +285,7 @@ local function make_config()
                     },
                   },
                 },
+                ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/search",
                 ["parts"] = {
@@ -296,7 +300,7 @@ local function make_config()
                 },
                 ["transform"] = {
                   ["req"] = "`reqdata`",
-                  ["res"] = "`body`",
+                  ["res"] = "`body.results`",
                 },
                 ["index$"] = 0,
               },

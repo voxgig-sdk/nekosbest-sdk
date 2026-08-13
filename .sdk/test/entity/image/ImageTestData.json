@@ -2,24 +2,24 @@
   "existing": {
     "image": {
       "IMAGE00": {
-        "category": "s28",
-        "endpoint": [],
-        "total_gif": "s2a",
-        "total_image": "s2b",
+        "categories": "s28",
+        "endpoints": [],
+        "total_gifs": "s2a",
+        "total_images": "s2b",
         "id": "IMAGE00"
       },
       "IMAGE01": {
-        "category": "s50",
-        "endpoint": [],
-        "total_gif": "s52",
-        "total_image": "s53",
+        "categories": "s50",
+        "endpoints": [],
+        "total_gifs": "s52",
+        "total_images": "s53",
         "id": "IMAGE01"
       },
       "IMAGE02": {
-        "category": "s78",
-        "endpoint": [],
-        "total_gif": "s7a",
-        "total_image": "s7b",
+        "categories": "s78",
+        "endpoints": [],
+        "total_gifs": "s7a",
+        "total_images": "s7b",
         "id": "IMAGE02"
       }
     }
@@ -27,10 +27,10 @@
   "new": {
     "image": {
       "image_ref01": {
-        "category": "sa0",
-        "endpoint": [],
-        "total_gif": "sa2",
-        "total_image": "sa3"
+        "categories": "sa0",
+        "endpoints": [],
+        "total_gifs": "sa2",
+        "total_images": "sa3"
       }
     }
   }

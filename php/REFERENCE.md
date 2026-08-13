@@ -156,10 +156,10 @@ $image = $client->Image();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `category` | `int` | No |  |
-| `endpoint` | `array` | No |  |
-| `total_gif` | `int` | No |  |
-| `total_image` | `int` | No |  |
+| `categories` | `int` | No |  |
+| `endpoints` | `array` | No |  |
+| `total_gifs` | `int` | No |  |
+| `total_images` | `int` | No |  |
 
 ### Operations
 

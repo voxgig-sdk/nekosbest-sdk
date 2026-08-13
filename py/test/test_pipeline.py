@@ -16,11 +16,11 @@
 import pytest
 
 from nekosbest_sdk import NekosbestSDK
-from core.error import NekosbestError
-from core.result import NekosbestResult
-from core.response import NekosbestResponse
-from core.spec import NekosbestSpec
-from feature.base_feature import NekosbestBaseFeature
+from nekosbest_sdk.core.error import NekosbestError
+from nekosbest_sdk.core.result import NekosbestResult
+from nekosbest_sdk.core.response import NekosbestResponse
+from nekosbest_sdk.core.spec import NekosbestSpec
+from nekosbest_sdk.feature.base_feature import NekosbestBaseFeature
 
 
 def _client():

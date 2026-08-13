@@ -161,10 +161,10 @@ fmt.Println(image.GetName()) // "image"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `category` | `int` | No |  |
-| `endpoint` | `[]any` | No |  |
-| `total_gif` | `int` | No |  |
-| `total_image` | `int` | No |  |
+| `categories` | `int` | No |  |
+| `endpoints` | `[]any` | No |  |
+| `total_gifs` | `int` | No |  |
+| `total_images` | `int` | No |  |
 
 ### Operations
 

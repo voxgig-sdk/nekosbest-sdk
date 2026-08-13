@@ -37,7 +37,7 @@ class GetRandomByCategoryEntity extends NekosbestEntityBase<GetRandomByCategory>
 
 
 
-  async list(this: any, reqmatch?: GetRandomByCategoryListMatch, ctrl?: Control): Promise<GetRandomByCategory[]> {
+  async list(this: any, reqmatch?: GetRandomByCategoryListMatch, ctrl?: Control): Promise<GetRandomByCategoryEntity[]> {
 
     const utility = this._utility
 

@@ -51,7 +51,7 @@ Entity operations raise on failure, so rescue them:
 
 ```ruby
 begin
-  getrandombycategorys = client.GetRandomByCategory.list()
+  searchs = client.Search.list()
 rescue => err
   warn "list failed: #{err}"
 end
@@ -119,9 +119,10 @@ Create a mock client for unit testing — no server required:
 ```ruby
 client = NekosbestSDK.test
 
-# Entity ops return the bare mock record (raises on error).
-getrandombycategory = client.GetRandomByCategory.list()
-puts getrandombycategory
+# Entity ops return the ENTITY (raises on error);
+# call data_get for the mock record.
+search = client.Search.list()
+puts search
 ```
 
 ### Use a custom fetch function
@@ -253,10 +254,10 @@ API path: `/{category}`
 
 | Field | Description |
 | --- | --- |
-| `category` |  |
-| `endpoint` |  |
-| `total_gif` |  |
-| `total_image` |  |
+| `categories` |  |
+| `endpoints` |  |
+| `total_gifs` |  |
+| `total_images` |  |
 
 Operations: List, Load.
 
@@ -324,15 +325,15 @@ Create an instance: `image = client.Image`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `category` | `Integer` |  |
-| `endpoint` | `Array` |  |
-| `total_gif` | `Integer` |  |
-| `total_image` | `Integer` |  |
+| `categories` | `Integer` |  |
+| `endpoints` | `Array` |  |
+| `total_gifs` | `Integer` |  |
+| `total_images` | `Integer` |  |
 
 #### Example: Load
 
 ```ruby
-# load returns the bare Image record (raises on error).
+# load returns the ENTITY — call data_get for the Image record (raises on error).
 image = client.Image.load()
 ```
 
@@ -448,11 +449,11 @@ Entity instances are stateful. After a successful `list`, the entity
 stores the returned data and match criteria internally.
 
 ```ruby
-getrandombycategory = client.GetRandomByCategory
-getrandombycategory.list()
+search = client.Search
+search.list()
 
-# getrandombycategory.data_get now returns the getrandombycategory data from the last list
-# getrandombycategory.match_get returns the last match criteria
+# search.data_get now returns the search data from the last list
+# search.match_get returns the last match criteria
 ```
 
 Call `make` to create a fresh instance with the same configuration

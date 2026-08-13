@@ -18,24 +18,24 @@ export interface GetRandomByCategoryListMatch {
 }
 
 export interface Image {
-  category?: number
-  endpoint?: any[]
-  total_gif?: number
-  total_image?: number
+  categories?: number
+  endpoints?: any[]
+  total_gifs?: number
+  total_images?: number
 }
 
 export interface ImageLoadMatch {
-  category?: number
-  endpoint?: any[]
-  total_gif?: number
-  total_image?: number
+  categories?: number
+  endpoints?: any[]
+  total_gifs?: number
+  total_images?: number
 }
 
 export interface ImageListMatch {
-  category?: number
-  endpoint?: any[]
-  total_gif?: number
-  total_image?: number
+  categories?: number
+  endpoints?: any[]
+  total_gifs?: number
+  total_images?: number
 }
 
 export interface Search {

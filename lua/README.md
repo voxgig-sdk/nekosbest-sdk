@@ -54,7 +54,7 @@ Entity operations return `(value, err)`. Check `err` before using
 the value:
 
 ```lua
-local getrandombycategorys, err = client:GetRandomByCategory():list()
+local searchs, err = client:Search():list()
 if err then error(err) end
 ```
 
@@ -112,7 +112,7 @@ Create a mock client for unit testing — no server required:
 ```lua
 local client = sdk.test()
 
-local result, err = client:GetRandomByCategory():list()
+local result, err = client:Search():list()
 -- result is the returned data; err is set on failure
 ```
 
@@ -222,9 +222,9 @@ data **directly** — there is no wrapper:
 
 Check `err` first (it is non-`nil` on failure), then use `value`:
 
-    local get_random_by_category, err = client:GetRandomByCategory():load()
+    local image, err = client:Image():load()
     if err then error(err) end
-    -- get_random_by_category is the loaded record
+    -- image is the loaded record
 
 Only `direct()` returns a response envelope — a `table` with `ok`,
 `status`, `headers`, and `data` keys.
@@ -249,10 +249,10 @@ API path: `/{category}`
 
 | Field | Description |
 | --- | --- |
-| `category` |  |
-| `endpoint` |  |
-| `total_gif` |  |
-| `total_image` |  |
+| `categories` |  |
+| `endpoints` |  |
+| `total_gifs` |  |
+| `total_images` |  |
 
 Operations: List, Load.
 
@@ -319,10 +319,10 @@ Create an instance: `local image = client:Image(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `category` | `number` |  |
-| `endpoint` | `table` |  |
-| `total_gif` | `number` |  |
-| `total_image` | `number` |  |
+| `categories` | `number` |  |
+| `endpoints` | `table` |  |
+| `total_gifs` | `number` |  |
+| `total_images` | `number` |  |
 
 #### Example: Load
 
@@ -440,11 +440,11 @@ Entity instances are stateful. After a successful `list`, the entity
 stores the returned data and match criteria internally.
 
 ```lua
-local getrandombycategory = client:GetRandomByCategory()
-getrandombycategory:list()
+local search = client:Search()
+search:list()
 
--- getrandombycategory:data_get() now returns the getrandombycategory data from the last list
--- getrandombycategory:match_get() returns the last match criteria
+-- search:data_get() now returns the search data from the last list
+-- search:match_get() returns the last match criteria
 ```
 
 Call `make()` to create a fresh instance with the same configuration

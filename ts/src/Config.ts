@@ -21,7 +21,7 @@ class Config {
 
 
   main = {
-    name: 'ProjectName',
+    name: 'Nekosbest',
   }
 
 
@@ -129,6 +129,7 @@ class Config {
                   }
                 ]
               },
+              "kind": "http",
               "method": "GET",
               "orig": "/{category}",
               "parts": [
@@ -147,7 +148,7 @@ class Config {
               },
               "transform": {
                 "req": "`reqdata`",
-                "res": "`body`"
+                "res": "`body.results`"
               },
               "index$": 0
             }
@@ -163,28 +164,28 @@ class Config {
       "fields": [
         {
           "active": true,
-          "name": "category",
+          "name": "categories",
           "req": false,
           "type": "`$INTEGER`",
           "index$": 0
         },
         {
           "active": true,
-          "name": "endpoint",
+          "name": "endpoints",
           "req": false,
           "type": "`$ARRAY`",
           "index$": 1
         },
         {
           "active": true,
-          "name": "total_gif",
+          "name": "total_gifs",
           "req": false,
           "type": "`$INTEGER`",
           "index$": 2
         },
         {
           "active": true,
-          "name": "total_image",
+          "name": "total_images",
           "req": false,
           "type": "`$INTEGER`",
           "index$": 3
@@ -199,6 +200,7 @@ class Config {
             {
               "active": true,
               "args": {},
+              "kind": "http",
               "method": "GET",
               "orig": "/endpoints",
               "parts": [
@@ -207,7 +209,7 @@ class Config {
               "select": {},
               "transform": {
                 "req": "`reqdata`",
-                "res": "`body`"
+                "res": "`body.endpoints`"
               },
               "index$": 0
             }
@@ -221,6 +223,7 @@ class Config {
             {
               "active": true,
               "args": {},
+              "kind": "http",
               "method": "GET",
               "orig": "/stats",
               "parts": [
@@ -316,6 +319,7 @@ class Config {
                   }
                 ]
               },
+              "kind": "http",
               "method": "GET",
               "orig": "/search",
               "parts": [
@@ -330,7 +334,7 @@ class Config {
               },
               "transform": {
                 "req": "`reqdata`",
-                "res": "`body`"
+                "res": "`body.results`"
               },
               "index$": 0
             }

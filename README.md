@@ -23,7 +23,7 @@ support (`list`, `load`):
 
 ```ts
 const client = new NekosbestSDK()
-const items = await client.GetRandomByCategory().list()
+const items = await client.GetRandomByCategory().list({ id: "example" })
 ```
 
 Thinking in entities keeps the mental model small — for people and AI agents alike —
@@ -38,18 +38,27 @@ network, and no credentials:
 ### TypeScript
 
 ```ts
-const client = NekosbestSDK.test()
-const getrandombycategorys = await client.GetRandomByCategory().list()
-// getrandombycategorys is an array of bare GetRandomByCategory records populated with mock data
-console.log(getrandombycategorys)
+// The offline mock starts EMPTY — seed it with the records the test needs.
+// Shape: { entity: { <entity-name>: { <id>: <record> } } }
+const client = NekosbestSDK.test({
+  entity: {
+    search: {
+      test01: { id: 'test01' },
+    },
+  },
+})
+const searchs = await client.Search().list()
+// searchs is an array of Search entities, populated with mock data
+// — call searchs[0].data() for the record itself
+console.log(searchs)
 ```
 
 ### Python
 
 ```python
 client = NekosbestSDK.test()
-getrandombycategorys = client.GetRandomByCategory().list()
-print(getrandombycategorys)
+searchs = client.Search().list()
+print(searchs)
 ```
 
 ### PHP
@@ -57,16 +66,16 @@ print(getrandombycategorys)
 ```php
 // Seed fixture data so offline calls resolve without a live server.
 $client = NekosbestSDK::test([
-    "entity" => ["getrandombycategory" => ["test01" => []]],
+    "entity" => ["search" => ["test01" => []]],
 ]);
-$getrandombycategorys = $client->GetRandomByCategory()->list();
+$searchs = $client->Search()->list();
 ```
 
 ### Golang
 
 ```go
 client := sdk.Test()
-result, err := client.GetRandomByCategory(nil).List(
+result, err := client.Search(nil).List(
     nil, nil,
 )
 ```
@@ -76,16 +85,16 @@ result, err := client.GetRandomByCategory(nil).List(
 ```ruby
 # Seed fixture data so offline calls resolve without a live server.
 client = NekosbestSDK.test({
-  "entity" => { "getrandombycategory" => { "test01" => {} } },
+  "entity" => { "search" => { "test01" => {} } },
 })
-getrandombycategorys = client.GetRandomByCategory.list()
+searchs = client.Search.list()
 ```
 
 ### Lua
 
 ```lua
 local client = sdk.test()
-local results, err = client:GetRandomByCategory():list()
+local results, err = client:Search():list()
 ```
 
 ## Packages
@@ -110,8 +119,8 @@ import { NekosbestSDK } from '@voxgig-sdk/nekosbest'
 
 const client = new NekosbestSDK()
 
-// List all getrandombycategorys (returns GetRandomByCategory[])
-const getrandombycategorys = await client.GetRandomByCategory().list()
+// List all getrandombycategorys (returns GetRandomByCategoryEntity[] — .data() for the record)
+const getrandombycategorys = await client.GetRandomByCategory().list({ id: "example" })
 for (const getrandombycategory of getrandombycategorys) {
   console.log(getrandombycategory)
 }
@@ -172,7 +181,7 @@ from nekosbest_sdk import NekosbestSDK
 client = NekosbestSDK()
 
 # List all getrandombycategorys (returns a list, raises on error)
-getrandombycategorys = client.GetRandomByCategory().list()
+getrandombycategorys = client.GetRandomByCategory().list({"id": "example"})
 for getrandombycategory in getrandombycategorys:
     print(getrandombycategory)
 ```
@@ -345,6 +354,9 @@ Pass custom features via the `extend` option at construction time.
 
 This SDK is generated from the upstream OpenAPI specification. It is an
 unofficial client and is not affiliated with the API provider.
+
+The OpenAPI spec(s) this SDK was generated from are kept in the
+[`.sdk/def/`](.sdk/def/) folder.
 
 - Upstream API: [https://nekos.best](https://nekos.best)
 

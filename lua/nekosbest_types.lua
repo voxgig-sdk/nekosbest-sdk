@@ -17,22 +17,22 @@
 ---@field id string
 
 ---@class Image
----@field category? number
----@field endpoint? table
----@field total_gif? number
----@field total_image? number
+---@field categories? number
+---@field endpoints? table
+---@field total_gifs? number
+---@field total_images? number
 
 ---@class ImageLoadMatch
----@field category? number
----@field endpoint? table
----@field total_gif? number
----@field total_image? number
+---@field categories? number
+---@field endpoints? table
+---@field total_gifs? number
+---@field total_images? number
 
 ---@class ImageListMatch
----@field category? number
----@field endpoint? table
----@field total_gif? number
----@field total_image? number
+---@field categories? number
+---@field endpoints? table
+---@field total_gifs? number
+---@field total_images? number
 
 ---@class Search
 ---@field anime_name? string

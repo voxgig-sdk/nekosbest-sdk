@@ -68,12 +68,12 @@ Every entity operation returns `(value, error)`. Check `err` before
 using the value — there is no exception to catch:
 
 ```go
-getrandombycategorys, err := client.GetRandomByCategory(nil).List(nil, nil)
+searchs, err := client.Search(nil).List(nil, nil)
 if err != nil {
     // handle err
     return
 }
-_ = getrandombycategorys
+_ = searchs
 ```
 
 `Direct` follows the same `(value, error)` convention:
@@ -137,13 +137,13 @@ Create a mock client for unit testing — no server required:
 ```go
 client := sdk.Test()
 
-getRandomByCategory, err := client.GetRandomByCategory(nil).List(
+search, err := client.Search(nil).List(
     nil, nil,
 )
 if err != nil {
     panic(err)
 }
-fmt.Println(getRandomByCategory) // the returned mock data
+fmt.Println(search) // the returned mock data
 ```
 
 ### Use a custom fetch function
@@ -278,10 +278,10 @@ API path: `/{category}`
 
 | Field | Description |
 | --- | --- |
-| `"category"` |  |
-| `"endpoint"` |  |
-| `"total_gif"` |  |
-| `"total_image"` |  |
+| `"categories"` |  |
+| `"endpoints"` |  |
+| `"total_gifs"` |  |
+| `"total_images"` |  |
 
 Operations: List, Load.
 
@@ -352,10 +352,10 @@ Create an instance: `image := client.Image(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `category` | `int` |  |
-| `endpoint` | `[]any` |  |
-| `total_gif` | `int` |  |
-| `total_image` | `int` |  |
+| `categories` | `int` |  |
+| `endpoints` | `[]any` |  |
+| `total_gifs` | `int` |  |
+| `total_images` | `int` |  |
 
 #### Example: Load
 
@@ -482,11 +482,11 @@ Entity instances are stateful. After a successful `List`, the entity
 stores the returned data and match criteria internally.
 
 ```go
-getrandombycategory := client.GetRandomByCategory(nil)
-getrandombycategory.List(nil, nil)
+search := client.Search(nil)
+search.List(nil, nil)
 
-// getrandombycategory.Data() now returns the getrandombycategory data from the last list
-// getrandombycategory.Match() returns the last match criteria
+// search.Data() now returns the search data from the last list
+// search.Match() returns the last match criteria
 ```
 
 Call `Make()` to create a fresh instance with the same configuration

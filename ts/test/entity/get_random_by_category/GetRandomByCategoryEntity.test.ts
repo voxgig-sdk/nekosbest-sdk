@@ -64,7 +64,7 @@ describe('GetRandomByCategoryEntity', async () => {
     const get_random_by_category_ref01_match: any = {}
     get_random_by_category_ref01_match['category'] = setup.idmap['category01']
 
-    const get_random_by_category_ref01_list = await get_random_by_category_ref01_ent.list(get_random_by_category_ref01_match)
+    const get_random_by_category_ref01_list = (await get_random_by_category_ref01_ent.list(get_random_by_category_ref01_match)).map((e: any) => e.data())
 
 
   })

@@ -43,7 +43,7 @@ error — iterate it directly.
 
 ```python
 try:
-    getrandombycategorys = client.GetRandomByCategory().list()
+    getrandombycategorys = client.GetRandomByCategory().list({"id": "example"})
     for getrandombycategory in getrandombycategorys:
         print(getrandombycategory)
 except Exception as err:
@@ -57,8 +57,8 @@ Entity operations raise on failure, so wrap them in `try` / `except`:
 
 ```python
 try:
-    getrandombycategorys = client.GetRandomByCategory().list()
-    print(getrandombycategorys)
+    searchs = client.Search().list()
+    print(searchs)
 except Exception as err:
     print(f"list failed: {err}")
 ```
@@ -124,9 +124,10 @@ Create a mock client for unit testing — no server required:
 ```python
 client = NekosbestSDK.test()
 
-# Entity ops return the bare record and raise on error.
-getrandombycategory = client.GetRandomByCategory().list()
-# getrandombycategory contains the mock response record
+# Entity ops return the ENTITY and raises on error;
+# call data_get() for the record.
+search = client.Search().list()
+# search contains the mock response record
 ```
 
 ### Use a custom fetch function
@@ -223,7 +224,7 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return the bare result data (a `dict` for single-entity
+Entity operations return the ENTITY (call data_get() for the record) (a `dict` for single-entity
 ops, a `list` for `list`) and raise on error. Wrap calls in
 `try`/`except` to handle failures.
 
@@ -259,10 +260,10 @@ API path: `/{category}`
 
 | Field | Description |
 | --- | --- |
-| `category` |  |
-| `endpoint` |  |
-| `total_gif` |  |
-| `total_image` |  |
+| `categories` |  |
+| `endpoints` |  |
+| `total_gifs` |  |
+| `total_images` |  |
 
 Operations: List, Load.
 
@@ -310,7 +311,7 @@ Create an instance: `get_random_by_category = client.GetRandomByCategory()`
 #### Example: List
 
 ```python
-get_random_by_categorys = client.GetRandomByCategory().list()
+get_random_by_categorys = client.GetRandomByCategory().list({"id": "example"})
 ```
 
 
@@ -329,10 +330,10 @@ Create an instance: `image = client.Image()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `category` | `int` |  |
-| `endpoint` | `list` |  |
-| `total_gif` | `int` |  |
-| `total_image` | `int` |  |
+| `categories` | `int` |  |
+| `endpoints` | `list` |  |
+| `total_gifs` | `int` |  |
+| `total_images` | `int` |  |
 
 #### Example: Load
 
@@ -449,11 +450,11 @@ Entity instances are stateful. After a successful `list`, the entity
 stores the returned data and match criteria internally.
 
 ```python
-getrandombycategory = client.GetRandomByCategory()
-getrandombycategory.list()
+search = client.Search()
+search.list()
 
-# getrandombycategory.data_get() now returns the getrandombycategory data from the last list
-# getrandombycategory.match_get() returns the last match criteria
+# search.data_get() now returns the search data from the last list
+# search.match_get() returns the last match criteria
 ```
 
 Call `make()` to create a fresh instance with the same configuration

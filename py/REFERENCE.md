@@ -108,7 +108,7 @@ get_random_by_category = client.GetRandomByCategory()
 List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
 
 ```python
-results = client.GetRandomByCategory().list()
+results = client.GetRandomByCategory().list({"id": "example"})
 for get_random_by_category in results:
     print(get_random_by_category)
 ```
@@ -152,10 +152,10 @@ image = client.Image()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `category` | `int` | No |  |
-| `endpoint` | `list` | No |  |
-| `total_gif` | `int` | No |  |
-| `total_image` | `int` | No |  |
+| `categories` | `int` | No |  |
+| `endpoints` | `list` | No |  |
+| `total_gifs` | `int` | No |  |
+| `total_images` | `int` | No |  |
 
 ### Operations
 

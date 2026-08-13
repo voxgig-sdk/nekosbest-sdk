@@ -154,10 +154,10 @@ local image = client:Image(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `category` | `number` | No |  |
-| `endpoint` | `table` | No |  |
-| `total_gif` | `number` | No |  |
-| `total_image` | `number` | No |  |
+| `categories` | `number` | No |  |
+| `endpoints` | `table` | No |  |
+| `total_gifs` | `number` | No |  |
+| `total_images` | `number` | No |  |
 
 ### Operations
 

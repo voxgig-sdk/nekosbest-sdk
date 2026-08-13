@@ -78,7 +78,7 @@ main: kit: entity: get_random_by_category: {
           }
           transform: {
             req: "`reqdata`"
-            res: "`body`"
+            res: "`body.results`"
           }
         }
       ]

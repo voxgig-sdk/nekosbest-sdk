@@ -101,6 +101,7 @@ class NekosbestConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/{category}',
                   'parts' => [
@@ -119,7 +120,7 @@ class NekosbestConfig
                   ],
                   'transform' => [
                     'req' => '`reqdata`',
-                    'res' => '`body`',
+                    'res' => '`body.results`',
                   ],
                   'index$' => 0,
                 ],
@@ -135,28 +136,28 @@ class NekosbestConfig
           'fields' => [
             [
               'active' => true,
-              'name' => 'category',
+              'name' => 'categories',
               'req' => false,
               'type' => '`$INTEGER`',
               'index$' => 0,
             ],
             [
               'active' => true,
-              'name' => 'endpoint',
+              'name' => 'endpoints',
               'req' => false,
               'type' => '`$ARRAY`',
               'index$' => 1,
             ],
             [
               'active' => true,
-              'name' => 'total_gif',
+              'name' => 'total_gifs',
               'req' => false,
               'type' => '`$INTEGER`',
               'index$' => 2,
             ],
             [
               'active' => true,
-              'name' => 'total_image',
+              'name' => 'total_images',
               'req' => false,
               'type' => '`$INTEGER`',
               'index$' => 3,
@@ -171,6 +172,7 @@ class NekosbestConfig
                 [
                   'active' => true,
                   'args' => [],
+                  'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/endpoints',
                   'parts' => [
@@ -179,7 +181,7 @@ class NekosbestConfig
                   'select' => [],
                   'transform' => [
                     'req' => '`reqdata`',
-                    'res' => '`body`',
+                    'res' => '`body.endpoints`',
                   ],
                   'index$' => 0,
                 ],
@@ -193,6 +195,7 @@ class NekosbestConfig
                 [
                   'active' => true,
                   'args' => [],
+                  'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/stats',
                   'parts' => [
@@ -288,6 +291,7 @@ class NekosbestConfig
                       ],
                     ],
                   ],
+                  'kind' => 'http',
                   'method' => 'GET',
                   'orig' => '/search',
                   'parts' => [
@@ -302,7 +306,7 @@ class NekosbestConfig
                   ],
                   'transform' => [
                     'req' => '`reqdata`',
-                    'res' => '`body`',
+                    'res' => '`body.results`',
                   ],
                   'index$' => 0,
                 ],

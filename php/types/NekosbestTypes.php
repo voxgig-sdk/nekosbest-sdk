@@ -31,28 +31,28 @@ class GetRandomByCategoryListMatch
 /** Image entity data model. */
 class Image
 {
-    public ?int $category = null;
-    public ?array $endpoint = null;
-    public ?int $total_gif = null;
-    public ?int $total_image = null;
+    public ?int $categories = null;
+    public ?array $endpoints = null;
+    public ?int $total_gifs = null;
+    public ?int $total_images = null;
 }
 
 /** Request payload for Image#load. */
 class ImageLoadMatch
 {
-    public ?int $category = null;
-    public ?array $endpoint = null;
-    public ?int $total_gif = null;
-    public ?int $total_image = null;
+    public ?int $categories = null;
+    public ?array $endpoints = null;
+    public ?int $total_gifs = null;
+    public ?int $total_images = null;
 }
 
 /** Request payload for Image#list. */
 class ImageListMatch
 {
-    public ?int $category = null;
-    public ?array $endpoint = null;
-    public ?int $total_gif = null;
-    public ?int $total_image = null;
+    public ?int $categories = null;
+    public ?array $endpoints = null;
+    public ?int $total_gifs = null;
+    public ?int $total_images = null;
 }
 
 /** Search entity data model. */

@@ -1,4 +1,4 @@
-# ProjectName SDK exists test
+# Nekosbest SDK exists test
 
 import pytest
 from nekosbest_sdk import NekosbestSDK

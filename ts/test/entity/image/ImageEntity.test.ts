@@ -63,12 +63,12 @@ describe('ImageEntity', async () => {
     const image_ref01_ent = client.Image()
     const image_ref01_match: any = {}
 
-    const image_ref01_list = await image_ref01_ent.list(image_ref01_match)
+    const image_ref01_list = (await image_ref01_ent.list(image_ref01_match)).map((e: any) => e.data())
 
 
     // LOAD
     const image_ref01_match_dt0: any = {}
-    const image_ref01_data_dt0 = await image_ref01_ent.load(image_ref01_match_dt0)
+    const image_ref01_data_dt0 = (await image_ref01_ent.load(image_ref01_match_dt0)).data()
     assert(null != image_ref01_data_dt0)
 
 

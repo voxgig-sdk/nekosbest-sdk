@@ -9,12 +9,14 @@ guide: {
     path: "/{category}": {
       rename: param: "category": *"id"
       op: list: method: *GET
+      op: list: transform: res: *("`body.results`")|top
     }
   }
 
   entity: image: {
     path: "/endpoints": {
       op: list: method: *GET
+      op: list: transform: res: *("`body.endpoints`")|top
     }
     path: "/stats": {
       op: load: method: *GET
@@ -24,6 +26,7 @@ guide: {
   entity: search: {
     path: "/search": {
       op: list: method: *GET
+      op: list: transform: res: *("`body.results`")|top
     }
   }
 

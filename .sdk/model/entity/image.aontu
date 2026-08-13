@@ -6,22 +6,22 @@ main: kit: entity: image: {
 
   fields: [
     {
-      name: "category"
+      name: "categories"
       req: false
       type: "`$INTEGER`"
     }
     {
-      name: "endpoint"
+      name: "endpoints"
       req: false
       type: "`$ARRAY`"
     }
     {
-      name: "total_gif"
+      name: "total_gifs"
       req: false
       type: "`$INTEGER`"
     }
     {
-      name: "total_image"
+      name: "total_images"
       req: false
       type: "`$INTEGER`"
     }
@@ -40,7 +40,7 @@ main: kit: entity: image: {
           ]
           transform: {
             req: "`reqdata`"
-            res: "`body`"
+            res: "`body.endpoints`"
           }
         }
       ]
