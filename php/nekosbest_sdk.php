@@ -40,7 +40,7 @@ class NekosbestSDK
         $utility = new NekosbestUtility();
         $this->_utility = $utility;
 
-        $config = NekosbestConfig::make_config();
+        $config = NekosbestConfig::shared_config();
 
         $this->_rootctx = ($utility->make_context)([
             "client" => $this,

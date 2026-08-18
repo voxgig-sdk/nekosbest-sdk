@@ -28,7 +28,7 @@ class NekosbestSDK
     utility = NekosbestUtility.new
     @_utility = utility
 
-    config = NekosbestConfig.make_config
+    config = NekosbestConfig.shared_config
 
     @_rootctx = utility.make_context.call({
       "client" => self,

@@ -15,7 +15,7 @@ require_relative "../Nekosbest_sdk"
 module NekosbestFeatureHarness
   # True when this SDK was generated with the named feature.
   def self.has_feature?(name)
-    f = NekosbestConfig.make_config["feature"]
+    f = NekosbestConfig.shared_config["feature"]
     f.is_a?(Hash) && !f[name].nil?
   end
 
