@@ -19,6 +19,9 @@ module NekosbestConfig
     {
       "main" => {
         "name" => "Nekosbest",
+        "slug" => "nekosbest",
+        "version" => "0.0.1",
+        "target" => "rb",
       },
       "feature" => {
         "test" => {
@@ -43,23 +46,28 @@ module NekosbestConfig
           "fields" => [
             {
               "name" => "anime_name",
+              "short" => "Name of the anime the character is from (if applicable)",
               "type" => "`$STRING`",
             },
             {
               "name" => "artist_href",
+              "short" => "URL to the artist's profile or website",
               "type" => "`$STRING`",
             },
             {
               "name" => "artist_name",
+              "short" => "Name of the artist who created the image",
               "type" => "`$STRING`",
             },
             {
               "name" => "source_url",
+              "short" => "Original source URL of the image",
               "type" => "`$STRING`",
             },
             {
               "name" => "url",
               "req" => true,
+              "short" => "Direct URL to the image or GIF hosted on nekos.best",
               "type" => "`$STRING`",
             },
           ],
@@ -124,18 +132,22 @@ module NekosbestConfig
           "fields" => [
             {
               "name" => "categories",
+              "short" => "Total number of categories",
               "type" => "`$INTEGER`",
             },
             {
               "name" => "endpoints",
+              "short" => "Array of available category names",
               "type" => "`$ARRAY`",
             },
             {
               "name" => "total_gifs",
+              "short" => "Total number of GIFs available",
               "type" => "`$INTEGER`",
             },
             {
               "name" => "total_images",
+              "short" => "Total number of images available",
               "type" => "`$INTEGER`",
             },
           ],
@@ -190,23 +202,28 @@ module NekosbestConfig
           "fields" => [
             {
               "name" => "anime_name",
+              "short" => "Name of the anime the character is from (if applicable)",
               "type" => "`$STRING`",
             },
             {
               "name" => "artist_href",
+              "short" => "URL to the artist's profile or website",
               "type" => "`$STRING`",
             },
             {
               "name" => "artist_name",
+              "short" => "Name of the artist who created the image",
               "type" => "`$STRING`",
             },
             {
               "name" => "source_url",
+              "short" => "Original source URL of the image",
               "type" => "`$STRING`",
             },
             {
               "name" => "url",
               "req" => true,
+              "short" => "Direct URL to the image or GIF hosted on nekos.best",
               "type" => "`$STRING`",
             },
           ],

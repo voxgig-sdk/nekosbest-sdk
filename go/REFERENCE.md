@@ -106,11 +106,11 @@ fmt.Println(getRandomByCategory.GetName()) // "get_random_by_category"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `anime_name` | `string` | No |  |
-| `artist_href` | `string` | No |  |
-| `artist_name` | `string` | No |  |
-| `source_url` | `string` | No |  |
-| `url` | `string` | Yes |  |
+| `anime_name` | `string` | No | Name of the anime the character is from (if applicable) |
+| `artist_href` | `string` | No | URL to the artist's profile or website |
+| `artist_name` | `string` | No | Name of the artist who created the image |
+| `source_url` | `string` | No | Original source URL of the image |
+| `url` | `string` | Yes | Direct URL to the image or GIF hosted on nekos.best |
 
 ### Operations
 
@@ -161,10 +161,10 @@ fmt.Println(image.GetName()) // "image"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `categories` | `int` | No |  |
-| `endpoints` | `[]any` | No |  |
-| `total_gifs` | `int` | No |  |
-| `total_images` | `int` | No |  |
+| `categories` | `int` | No | Total number of categories |
+| `endpoints` | `[]any` | No | Array of available category names |
+| `total_gifs` | `int` | No | Total number of GIFs available |
+| `total_images` | `int` | No | Total number of images available |
 
 ### Operations
 
@@ -227,11 +227,11 @@ fmt.Println(search.GetName()) // "search"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `anime_name` | `string` | No |  |
-| `artist_href` | `string` | No |  |
-| `artist_name` | `string` | No |  |
-| `source_url` | `string` | No |  |
-| `url` | `string` | Yes |  |
+| `anime_name` | `string` | No | Name of the anime the character is from (if applicable) |
+| `artist_href` | `string` | No | URL to the artist's profile or website |
+| `artist_name` | `string` | No | Name of the artist who created the image |
+| `source_url` | `string` | No | Original source URL of the image |
+| `url` | `string` | Yes | Direct URL to the image or GIF hosted on nekos.best |
 
 ### Operations
 

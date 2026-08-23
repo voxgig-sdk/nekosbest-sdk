@@ -95,11 +95,11 @@ get_random_by_category = client.GetRandomByCategory()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `anime_name` | `str` | No |  |
-| `artist_href` | `str` | No |  |
-| `artist_name` | `str` | No |  |
-| `source_url` | `str` | No |  |
-| `url` | `str` | Yes |  |
+| `anime_name` | `str` | No | Name of the anime the character is from (if applicable) |
+| `artist_href` | `str` | No | URL to the artist's profile or website |
+| `artist_name` | `str` | No | Name of the artist who created the image |
+| `source_url` | `str` | No | Original source URL of the image |
+| `url` | `str` | Yes | Direct URL to the image or GIF hosted on nekos.best |
 
 ### Operations
 
@@ -152,10 +152,10 @@ image = client.Image()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `categories` | `int` | No |  |
-| `endpoints` | `list` | No |  |
-| `total_gifs` | `int` | No |  |
-| `total_images` | `int` | No |  |
+| `categories` | `int` | No | Total number of categories |
+| `endpoints` | `list` | No | Array of available category names |
+| `total_gifs` | `int` | No | Total number of GIFs available |
+| `total_images` | `int` | No | Total number of images available |
 
 ### Operations
 
@@ -216,11 +216,11 @@ search = client.Search()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `anime_name` | `str` | No |  |
-| `artist_href` | `str` | No |  |
-| `artist_name` | `str` | No |  |
-| `source_url` | `str` | No |  |
-| `url` | `str` | Yes |  |
+| `anime_name` | `str` | No | Name of the anime the character is from (if applicable) |
+| `artist_href` | `str` | No | URL to the artist's profile or website |
+| `artist_name` | `str` | No | Name of the artist who created the image |
+| `source_url` | `str` | No | Original source URL of the image |
+| `url` | `str` | Yes | Direct URL to the image or GIF hosted on nekos.best |
 
 ### Operations
 

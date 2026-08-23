@@ -11,6 +11,9 @@ func MakeConfig() map[string]any {
 	return map[string]any{
 		"main": map[string]any{
 			"name": "Nekosbest",
+			"slug": "nekosbest",
+			"version": "0.0.1",
+			"target": "go",
 		},
 		"feature": map[string]any{
 			"test": map[string]any{
@@ -35,23 +38,28 @@ func MakeConfig() map[string]any {
 				"fields": []any{
 					map[string]any{
 						"name": "anime_name",
+						"short": "Name of the anime the character is from (if applicable)",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "artist_href",
+						"short": "URL to the artist's profile or website",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "artist_name",
+						"short": "Name of the artist who created the image",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "source_url",
+						"short": "Original source URL of the image",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "url",
 						"req": true,
+						"short": "Direct URL to the image or GIF hosted on nekos.best",
 						"type": "`$STRING`",
 					},
 				},
@@ -116,18 +124,22 @@ func MakeConfig() map[string]any {
 				"fields": []any{
 					map[string]any{
 						"name": "categories",
+						"short": "Total number of categories",
 						"type": "`$INTEGER`",
 					},
 					map[string]any{
 						"name": "endpoints",
+						"short": "Array of available category names",
 						"type": "`$ARRAY`",
 					},
 					map[string]any{
 						"name": "total_gifs",
+						"short": "Total number of GIFs available",
 						"type": "`$INTEGER`",
 					},
 					map[string]any{
 						"name": "total_images",
+						"short": "Total number of images available",
 						"type": "`$INTEGER`",
 					},
 				},
@@ -182,23 +194,28 @@ func MakeConfig() map[string]any {
 				"fields": []any{
 					map[string]any{
 						"name": "anime_name",
+						"short": "Name of the anime the character is from (if applicable)",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "artist_href",
+						"short": "URL to the artist's profile or website",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "artist_name",
+						"short": "Name of the artist who created the image",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "source_url",
+						"short": "Original source URL of the image",
 						"type": "`$STRING`",
 					},
 					map[string]any{
 						"name": "url",
 						"req": true,
+						"short": "Direct URL to the image or GIF hosted on nekos.best",
 						"type": "`$STRING`",
 					},
 				},

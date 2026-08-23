@@ -1,6 +1,6 @@
-# Entity: search
+# Entity: get_random_by_category
 
-main: kit: entity: search: {
+main: kit: entity: get_random_by_category: {
 
   alias: field: {}
 
@@ -8,72 +8,77 @@ main: kit: entity: search: {
     {
       name: "anime_name"
       req: false
+      short: "Name of the anime the character is from (if applicable)"
       type: "`$STRING`"
     }
     {
       name: "artist_href"
       req: false
+      short: "URL to the artist's profile or website"
       type: "`$STRING`"
     }
     {
       name: "artist_name"
       req: false
+      short: "Name of the artist who created the image"
       type: "`$STRING`"
     }
     {
       name: "source_url"
       req: false
+      short: "Original source URL of the image"
       type: "`$STRING`"
     }
     {
       name: "url"
       req: true
+      short: "Direct URL to the image or GIF hosted on nekos.best"
       type: "`$STRING`"
     }
   ]
 
-  name: "search"
+  name: "get_random_by_category"
   op: {
     list: {
       name: "list"
       points: [
         {
           args: {
+            params: [
+              {
+                example: "neko"
+                kind: "param"
+                name: "id"
+                orig: "category"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
             query: [
               {
-                example: 10
+                example: 1
                 kind: "query"
                 name: "amount"
                 orig: "amount"
                 reqd: false
                 type: "`$INTEGER`"
               }
-              {
-                kind: "query"
-                name: "category"
-                orig: "category"
-                reqd: false
-                type: "`$STRING`"
-              }
-              {
-                kind: "query"
-                name: "query"
-                orig: "query"
-                reqd: true
-                type: "`$STRING`"
-              }
             ]
           }
           method: "GET"
-          orig: "/search"
+          orig: "/{category}"
           parts: [
-            "search"
+            "{id}"
           ]
+          rename: {
+            param: {
+              category: "id"
+            }
+          }
           select: {
             exist: [
               "amount"
-              "category"
-              "query"
+              "id"
             ]
           }
           transform: {

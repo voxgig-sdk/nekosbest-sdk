@@ -36,30 +36,35 @@
               "active": true,
               "name": "anime_name",
               "req": false,
+              "short": "Name of the anime the character is from (if applicable)",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "artist_href",
               "req": false,
+              "short": "URL to the artist's profile or website",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "artist_name",
               "req": false,
+              "short": "Name of the artist who created the image",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "source_url",
               "req": false,
+              "short": "Original source URL of the image",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "url",
               "req": true,
+              "short": "Direct URL to the image or GIF hosted on nekos.best",
               "type": "`$STRING`"
             }
           ],
@@ -134,24 +139,28 @@
               "active": true,
               "name": "categories",
               "req": false,
+              "short": "Total number of categories",
               "type": "`$INTEGER`"
             },
             {
               "active": true,
               "name": "endpoints",
               "req": false,
+              "short": "Array of available category names",
               "type": "`$ARRAY`"
             },
             {
               "active": true,
               "name": "total_gifs",
               "req": false,
+              "short": "Total number of GIFs available",
               "type": "`$INTEGER`"
             },
             {
               "active": true,
               "name": "total_images",
               "req": false,
+              "short": "Total number of images available",
               "type": "`$INTEGER`"
             }
           ],
@@ -214,30 +223,35 @@
               "active": true,
               "name": "anime_name",
               "req": false,
+              "short": "Name of the anime the character is from (if applicable)",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "artist_href",
               "req": false,
+              "short": "URL to the artist's profile or website",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "artist_name",
               "req": false,
+              "short": "Name of the artist who created the image",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "source_url",
               "req": false,
+              "short": "Original source URL of the image",
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "url",
               "req": true,
+              "short": "Direct URL to the image or GIF hosted on nekos.best",
               "type": "`$STRING`"
             }
           ],

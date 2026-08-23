@@ -19,9 +19,20 @@ class Config {
     return fi
   }
 
+  // False for a feature added at runtime via options.extend (station's
+  // adopt path) - the constructor uses this to skip makeFeature for names
+  // no generated class backs.
+  hasFeature(this: any, fn: string) {
+    return null != FEATURE_CLASS[fn]
+  }
+
 
   main = {
     name: 'Nekosbest',
+        slug: "nekosbest",
+    version: "0.0.1",
+    target: "ts",
+
   }
 
 
@@ -62,23 +73,28 @@ class Config {
       "fields": [
         {
           "name": "anime_name",
+          "short": "Name of the anime the character is from (if applicable)",
           "type": "`$STRING`"
         },
         {
           "name": "artist_href",
+          "short": "URL to the artist's profile or website",
           "type": "`$STRING`"
         },
         {
           "name": "artist_name",
+          "short": "Name of the artist who created the image",
           "type": "`$STRING`"
         },
         {
           "name": "source_url",
+          "short": "Original source URL of the image",
           "type": "`$STRING`"
         },
         {
           "name": "url",
           "req": true,
+          "short": "Direct URL to the image or GIF hosted on nekos.best",
           "type": "`$STRING`"
         }
       ],
@@ -143,18 +159,22 @@ class Config {
       "fields": [
         {
           "name": "categories",
+          "short": "Total number of categories",
           "type": "`$INTEGER`"
         },
         {
           "name": "endpoints",
+          "short": "Array of available category names",
           "type": "`$ARRAY`"
         },
         {
           "name": "total_gifs",
+          "short": "Total number of GIFs available",
           "type": "`$INTEGER`"
         },
         {
           "name": "total_images",
+          "short": "Total number of images available",
           "type": "`$INTEGER`"
         }
       ],
@@ -209,23 +229,28 @@ class Config {
       "fields": [
         {
           "name": "anime_name",
+          "short": "Name of the anime the character is from (if applicable)",
           "type": "`$STRING`"
         },
         {
           "name": "artist_href",
+          "short": "URL to the artist's profile or website",
           "type": "`$STRING`"
         },
         {
           "name": "artist_name",
+          "short": "Name of the artist who created the image",
           "type": "`$STRING`"
         },
         {
           "name": "source_url",
+          "short": "Original source URL of the image",
           "type": "`$STRING`"
         },
         {
           "name": "url",
           "req": true,
+          "short": "Direct URL to the image or GIF hosted on nekos.best",
           "type": "`$STRING`"
         }
       ],

@@ -246,11 +246,11 @@ On error, `ok` is `False` and `err` contains the error value.
 
 | Field | Description |
 | --- | --- |
-| `anime_name` |  |
-| `artist_href` |  |
-| `artist_name` |  |
-| `source_url` |  |
-| `url` |  |
+| `anime_name` | Name of the anime the character is from (if applicable) |
+| `artist_href` | URL to the artist's profile or website |
+| `artist_name` | Name of the artist who created the image |
+| `source_url` | Original source URL of the image |
+| `url` | Direct URL to the image or GIF hosted on nekos.best |
 
 Operations: List.
 
@@ -260,10 +260,10 @@ API path: `/{category}`
 
 | Field | Description |
 | --- | --- |
-| `categories` |  |
-| `endpoints` |  |
-| `total_gifs` |  |
-| `total_images` |  |
+| `categories` | Total number of categories |
+| `endpoints` | Array of available category names |
+| `total_gifs` | Total number of GIFs available |
+| `total_images` | Total number of images available |
 
 Operations: List, Load.
 
@@ -273,11 +273,11 @@ API path: `/endpoints`
 
 | Field | Description |
 | --- | --- |
-| `anime_name` |  |
-| `artist_href` |  |
-| `artist_name` |  |
-| `source_url` |  |
-| `url` |  |
+| `anime_name` | Name of the anime the character is from (if applicable) |
+| `artist_href` | URL to the artist's profile or website |
+| `artist_name` | Name of the artist who created the image |
+| `source_url` | Original source URL of the image |
+| `url` | Direct URL to the image or GIF hosted on nekos.best |
 
 Operations: List.
 
@@ -302,11 +302,11 @@ Create an instance: `get_random_by_category = client.GetRandomByCategory()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `anime_name` | `str` |  |
-| `artist_href` | `str` |  |
-| `artist_name` | `str` |  |
-| `source_url` | `str` |  |
-| `url` | `str` |  |
+| `anime_name` | `str` | Name of the anime the character is from (if applicable) |
+| `artist_href` | `str` | URL to the artist's profile or website |
+| `artist_name` | `str` | Name of the artist who created the image |
+| `source_url` | `str` | Original source URL of the image |
+| `url` | `str` | Direct URL to the image or GIF hosted on nekos.best |
 
 #### Example: List
 
@@ -330,10 +330,10 @@ Create an instance: `image = client.Image()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `categories` | `int` |  |
-| `endpoints` | `list` |  |
-| `total_gifs` | `int` |  |
-| `total_images` | `int` |  |
+| `categories` | `int` | Total number of categories |
+| `endpoints` | `list` | Array of available category names |
+| `total_gifs` | `int` | Total number of GIFs available |
+| `total_images` | `int` | Total number of images available |
 
 #### Example: Load
 
@@ -362,11 +362,11 @@ Create an instance: `search = client.Search()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `anime_name` | `str` |  |
-| `artist_href` | `str` |  |
-| `artist_name` | `str` |  |
-| `source_url` | `str` |  |
-| `url` | `str` |  |
+| `anime_name` | `str` | Name of the anime the character is from (if applicable) |
+| `artist_href` | `str` | URL to the artist's profile or website |
+| `artist_name` | `str` | Name of the artist who created the image |
+| `source_url` | `str` | Original source URL of the image |
+| `url` | `str` | Direct URL to the image or GIF hosted on nekos.best |
 
 #### Example: List
 

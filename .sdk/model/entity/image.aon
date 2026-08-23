@@ -8,21 +8,25 @@ main: kit: entity: image: {
     {
       name: "categories"
       req: false
+      short: "Total number of categories"
       type: "`$INTEGER`"
     }
     {
       name: "endpoints"
       req: false
+      short: "Array of available category names"
       type: "`$ARRAY`"
     }
     {
       name: "total_gifs"
       req: false
+      short: "Total number of GIFs available"
       type: "`$INTEGER`"
     }
     {
       name: "total_images"
       req: false
+      short: "Total number of images available"
       type: "`$INTEGER`"
     }
   ]

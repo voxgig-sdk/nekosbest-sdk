@@ -98,11 +98,11 @@ local get_random_by_category = client:GetRandomByCategory(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `anime_name` | `string` | No |  |
-| `artist_href` | `string` | No |  |
-| `artist_name` | `string` | No |  |
-| `source_url` | `string` | No |  |
-| `url` | `string` | Yes |  |
+| `anime_name` | `string` | No | Name of the anime the character is from (if applicable) |
+| `artist_href` | `string` | No | URL to the artist's profile or website |
+| `artist_name` | `string` | No | Name of the artist who created the image |
+| `source_url` | `string` | No | Original source URL of the image |
+| `url` | `string` | Yes | Direct URL to the image or GIF hosted on nekos.best |
 
 ### Operations
 
@@ -154,10 +154,10 @@ local image = client:Image(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `categories` | `number` | No |  |
-| `endpoints` | `table` | No |  |
-| `total_gifs` | `number` | No |  |
-| `total_images` | `number` | No |  |
+| `categories` | `number` | No | Total number of categories |
+| `endpoints` | `table` | No | Array of available category names |
+| `total_gifs` | `number` | No | Total number of GIFs available |
+| `total_images` | `number` | No | Total number of images available |
 
 ### Operations
 
@@ -217,11 +217,11 @@ local search = client:Search(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `anime_name` | `string` | No |  |
-| `artist_href` | `string` | No |  |
-| `artist_name` | `string` | No |  |
-| `source_url` | `string` | No |  |
-| `url` | `string` | Yes |  |
+| `anime_name` | `string` | No | Name of the anime the character is from (if applicable) |
+| `artist_href` | `string` | No | URL to the artist's profile or website |
+| `artist_name` | `string` | No | Name of the artist who created the image |
+| `source_url` | `string` | No | Original source URL of the image |
+| `url` | `string` | Yes | Direct URL to the image or GIF hosted on nekos.best |
 
 ### Operations
 
