@@ -18,6 +18,7 @@ class GetRandomByCategory
     public ?string $anime_name = null;
     public ?string $artist_href = null;
     public ?string $artist_name = null;
+    public ?string $id = null;
     public ?string $source_url = null;
     public string $url;
 }

@@ -43,7 +43,7 @@ local getrandombycategorys, err = client:GetRandomByCategory():list()
 if err then error(err) end
 
 for _, item in ipairs(getrandombycategorys) do
-  print(item["anime_name"])
+  print(item["id"], item["anime_name"])
 end
 ```
 
@@ -238,6 +238,7 @@ Only `direct()` returns a response envelope — a `table` with `ok`,
 | `anime_name` | Name of the anime the character is from (if applicable) |
 | `artist_href` | URL to the artist's profile or website |
 | `artist_name` | Name of the artist who created the image |
+| `id` |  |
 | `source_url` | Original source URL of the image |
 | `url` | Direct URL to the image or GIF hosted on nekos.best |
 
@@ -294,6 +295,7 @@ Create an instance: `local get_random_by_category = client:GetRandomByCategory(n
 | `anime_name` | `string` | Name of the anime the character is from (if applicable) |
 | `artist_href` | `string` | URL to the artist's profile or website |
 | `artist_name` | `string` | Name of the artist who created the image |
+| `id` | `string` |  |
 | `source_url` | `string` | Original source URL of the image |
 | `url` | `string` | Direct URL to the image or GIF hosted on nekos.best |
 

@@ -24,6 +24,7 @@ class GetRandomByCategory(GetRandomByCategoryRequired, total=False):
     anime_name: str
     artist_href: str
     artist_name: str
+    id: str
     source_url: str
 
 

@@ -109,6 +109,7 @@ fmt.Println(getRandomByCategory.GetName()) // "get_random_by_category"
 | `anime_name` | `string` | No | Name of the anime the character is from (if applicable) |
 | `artist_href` | `string` | No | URL to the artist's profile or website |
 | `artist_name` | `string` | No | Name of the artist who created the image |
+| `id` | `string` | No |  |
 | `source_url` | `string` | No | Original source URL of the image |
 | `url` | `string` | Yes | Direct URL to the image or GIF hosted on nekos.best |
 

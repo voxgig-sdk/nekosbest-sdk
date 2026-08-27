@@ -37,7 +37,7 @@ begin
   # list returns an Array of GetRandomByCategory records — iterate directly.
   getrandombycategorys = client.GetRandomByCategory.list
   getrandombycategorys.each do |item|
-    puts "#{item["anime_name"]}"
+    puts "#{item["id"]} #{item["anime_name"]}"
   end
 rescue => err
   warn "list failed: #{err}"
@@ -243,6 +243,7 @@ returns a result `Hash` with these keys:
 | `anime_name` | Name of the anime the character is from (if applicable) |
 | `artist_href` | URL to the artist's profile or website |
 | `artist_name` | Name of the artist who created the image |
+| `id` |  |
 | `source_url` | Original source URL of the image |
 | `url` | Direct URL to the image or GIF hosted on nekos.best |
 
@@ -299,6 +300,7 @@ Create an instance: `get_random_by_category = client.GetRandomByCategory`
 | `anime_name` | `String` | Name of the anime the character is from (if applicable) |
 | `artist_href` | `String` | URL to the artist's profile or website |
 | `artist_name` | `String` | Name of the artist who created the image |
+| `id` | `String` |  |
 | `source_url` | `String` | Original source URL of the image |
 | `url` | `String` | Direct URL to the image or GIF hosted on nekos.best |
 

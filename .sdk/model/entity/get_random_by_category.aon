@@ -24,6 +24,11 @@ main: kit: entity: get_random_by_category: {
       type: "`$STRING`"
     }
     {
+      name: "id"
+      req: false
+      type: "`$STRING`"
+    }
+    {
       name: "source_url"
       req: false
       short: "Original source URL of the image"
@@ -36,6 +41,11 @@ main: kit: entity: get_random_by_category: {
       type: "`$STRING`"
     }
   ]
+
+  id: {
+    field: "id"
+    name: "id"
+  }
 
   name: "get_random_by_category"
   op: {

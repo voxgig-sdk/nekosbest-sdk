@@ -9,6 +9,7 @@ export interface GetRandomByCategory {
   anime_name?: string
   artist_href?: string
   artist_name?: string
+  id?: string
   source_url?: string
   url: string
 }

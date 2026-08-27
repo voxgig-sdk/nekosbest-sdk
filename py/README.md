@@ -249,6 +249,7 @@ On error, `ok` is `False` and `err` contains the error value.
 | `anime_name` | Name of the anime the character is from (if applicable) |
 | `artist_href` | URL to the artist's profile or website |
 | `artist_name` | Name of the artist who created the image |
+| `id` |  |
 | `source_url` | Original source URL of the image |
 | `url` | Direct URL to the image or GIF hosted on nekos.best |
 
@@ -305,6 +306,7 @@ Create an instance: `get_random_by_category = client.GetRandomByCategory()`
 | `anime_name` | `str` | Name of the anime the character is from (if applicable) |
 | `artist_href` | `str` | URL to the artist's profile or website |
 | `artist_name` | `str` | Name of the artist who created the image |
+| `id` | `str` |  |
 | `source_url` | `str` | Original source URL of the image |
 | `url` | `str` | Direct URL to the image or GIF hosted on nekos.best |
 

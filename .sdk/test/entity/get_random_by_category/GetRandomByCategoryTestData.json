@@ -2,36 +2,39 @@
   "existing": {
     "get_random_by_category": {
       "GET_RANDOM_BY_CATEGORY00": {
-        "anime_name": "s32",
-        "artist_href": "s33",
-        "artist_name": "s34",
-        "source_url": "s35",
-        "url": "s36"
+        "anime_name": "s3c",
+        "artist_href": "s3d",
+        "artist_name": "s3e",
+        "id": "GET_RANDOM_BY_CATEGORY00",
+        "source_url": "s40",
+        "url": "s41"
       },
       "GET_RANDOM_BY_CATEGORY01": {
-        "anime_name": "s64",
-        "artist_href": "s65",
-        "artist_name": "s66",
-        "source_url": "s67",
-        "url": "s68"
+        "anime_name": "s78",
+        "artist_href": "s79",
+        "artist_name": "s7a",
+        "id": "GET_RANDOM_BY_CATEGORY01",
+        "source_url": "s7c",
+        "url": "s7d"
       },
       "GET_RANDOM_BY_CATEGORY02": {
-        "anime_name": "s96",
-        "artist_href": "s97",
-        "artist_name": "s98",
-        "source_url": "s99",
-        "url": "s9a"
+        "anime_name": "sb4",
+        "artist_href": "sb5",
+        "artist_name": "sb6",
+        "id": "GET_RANDOM_BY_CATEGORY02",
+        "source_url": "sb8",
+        "url": "sb9"
       }
     }
   },
   "new": {
     "get_random_by_category": {
       "get_random_by_category_ref01": {
-        "anime_name": "sc8",
-        "artist_href": "sc9",
-        "artist_name": "sca",
-        "source_url": "scb",
-        "url": "scc"
+        "anime_name": "sf0",
+        "artist_href": "sf1",
+        "artist_name": "sf2",
+        "source_url": "sf4",
+        "url": "sf5"
       }
     }
   }

@@ -42,6 +42,7 @@ class NekosbestConfig
           'options' => [
             'active' => false,
           ],
+          'transport' => 'base',
         ],
             ],
             "options" => [
@@ -71,6 +72,10 @@ class NekosbestConfig
             [
               'name' => 'artist_name',
               'short' => 'Name of the artist who created the image',
+              'type' => '`$STRING`',
+            ],
+            [
+              'name' => 'id',
               'type' => '`$STRING`',
             ],
             [

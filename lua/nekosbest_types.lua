@@ -10,6 +10,7 @@
 ---@field anime_name? string
 ---@field artist_href? string
 ---@field artist_name? string
+---@field id? string
 ---@field source_url? string
 ---@field url string
 

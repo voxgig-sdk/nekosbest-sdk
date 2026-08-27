@@ -38,7 +38,7 @@ try {
     // list() returns an array of GetRandomByCategory records — iterate directly.
     $getrandombycategorys = $client->GetRandomByCategory()->list();
     foreach ($getrandombycategorys as $item) {
-        echo $item["anime_name"] . "\n";
+        echo $item["id"] . " " . $item["anime_name"] . "\n";
     }
 } catch (\Throwable $err) {
     echo "Error: " . $err->getMessage();
@@ -253,6 +253,7 @@ On error, `ok` is `false` and `$err` contains the error value.
 | `anime_name` | Name of the anime the character is from (if applicable) |
 | `artist_href` | URL to the artist's profile or website |
 | `artist_name` | Name of the artist who created the image |
+| `id` |  |
 | `source_url` | Original source URL of the image |
 | `url` | Direct URL to the image or GIF hosted on nekos.best |
 
@@ -309,6 +310,7 @@ Create an instance: `$get_random_by_category = $client->GetRandomByCategory();`
 | `anime_name` | `string` | Name of the anime the character is from (if applicable) |
 | `artist_href` | `string` | URL to the artist's profile or website |
 | `artist_name` | `string` | Name of the artist who created the image |
+| `id` | `string` |  |
 | `source_url` | `string` | Original source URL of the image |
 | `url` | `string` | Direct URL to the image or GIF hosted on nekos.best |
 

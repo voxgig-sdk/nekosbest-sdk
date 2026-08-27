@@ -98,6 +98,7 @@ get_random_by_category = client.GetRandomByCategory()
 | `anime_name` | `str` | No | Name of the anime the character is from (if applicable) |
 | `artist_href` | `str` | No | URL to the artist's profile or website |
 | `artist_name` | `str` | No | Name of the artist who created the image |
+| `id` | `str` | No |  |
 | `source_url` | `str` | No | Original source URL of the image |
 | `url` | `str` | Yes | Direct URL to the image or GIF hosted on nekos.best |
 

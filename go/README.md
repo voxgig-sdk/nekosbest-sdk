@@ -267,6 +267,7 @@ Only `Direct()` returns a response envelope — a `map[string]any` with
 | `"anime_name"` | Name of the anime the character is from (if applicable) |
 | `"artist_href"` | URL to the artist's profile or website |
 | `"artist_name"` | Name of the artist who created the image |
+| `"id"` |  |
 | `"source_url"` | Original source URL of the image |
 | `"url"` | Direct URL to the image or GIF hosted on nekos.best |
 
@@ -323,6 +324,7 @@ Create an instance: `getRandomByCategory := client.GetRandomByCategory(nil)`
 | `anime_name` | `string` | Name of the anime the character is from (if applicable) |
 | `artist_href` | `string` | URL to the artist's profile or website |
 | `artist_name` | `string` | Name of the artist who created the image |
+| `id` | `string` |  |
 | `source_url` | `string` | Original source URL of the image |
 | `url` | `string` | Direct URL to the image or GIF hosted on nekos.best |
 

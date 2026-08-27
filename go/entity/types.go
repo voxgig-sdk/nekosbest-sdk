@@ -17,6 +17,7 @@ type GetRandomByCategory struct {
 	AnimeName *string `json:"anime_name,omitempty"`
 	ArtistHref *string `json:"artist_href,omitempty"`
 	ArtistName *string `json:"artist_name,omitempty"`
+	Id *string `json:"id,omitempty"`
 	SourceUrl *string `json:"source_url,omitempty"`
 	Url string `json:"url"`
 }

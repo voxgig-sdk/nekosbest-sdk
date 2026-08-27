@@ -28,6 +28,7 @@ module NekosbestConfig
           "options" => {
             "active" => false,
           },
+          "transport" => "base",
         },
       },
       "options" => {
@@ -57,6 +58,10 @@ module NekosbestConfig
             {
               "name" => "artist_name",
               "short" => "Name of the artist who created the image",
+              "type" => "`$STRING`",
+            },
+            {
+              "name" => "id",
               "type" => "`$STRING`",
             },
             {

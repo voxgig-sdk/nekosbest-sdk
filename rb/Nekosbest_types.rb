@@ -19,6 +19,9 @@
 # @!attribute [rw] artist_name
 #   @return [String, nil]
 #
+# @!attribute [rw] id
+#   @return [String, nil]
+#
 # @!attribute [rw] source_url
 #   @return [String, nil]
 #
@@ -28,6 +31,7 @@ GetRandomByCategory = Struct.new(
   :anime_name,
   :artist_href,
   :artist_name,
+  :id,
   :source_url,
   :url,
   keyword_init: true
