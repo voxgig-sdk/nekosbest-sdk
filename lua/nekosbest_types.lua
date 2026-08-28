@@ -16,6 +16,7 @@
 
 ---@class GetRandomByCategoryListMatch
 ---@field id string
+---@field amount? number
 
 ---@class Image
 ---@field categories? number
@@ -43,11 +44,9 @@
 ---@field url string
 
 ---@class SearchListMatch
----@field anime_name? string
----@field artist_href? string
----@field artist_name? string
----@field source_url? string
----@field url? string
+---@field amount? number
+---@field category? string
+---@field query string
 
 local M = {}
 

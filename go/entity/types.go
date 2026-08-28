@@ -25,6 +25,7 @@ type GetRandomByCategory struct {
 // GetRandomByCategoryListMatch is the typed request payload for GetRandomByCategory.ListTyped.
 type GetRandomByCategoryListMatch struct {
 	Id string `json:"id"`
+	Amount *int `json:"amount,omitempty"`
 }
 
 // Image is the typed data model for the image entity.
@@ -62,11 +63,9 @@ type Search struct {
 
 // SearchListMatch is the typed request payload for Search.ListTyped.
 type SearchListMatch struct {
-	AnimeName *string `json:"anime_name,omitempty"`
-	ArtistHref *string `json:"artist_href,omitempty"`
-	ArtistName *string `json:"artist_name,omitempty"`
-	SourceUrl *string `json:"source_url,omitempty"`
-	Url *string `json:"url,omitempty"`
+	Amount *int `json:"amount,omitempty"`
+	Category *string `json:"category,omitempty"`
+	Query string `json:"query"`
 }
 
 // asMap turns a typed request/data struct into the map[string]any the

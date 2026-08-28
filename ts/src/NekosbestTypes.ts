@@ -16,6 +16,7 @@ export interface GetRandomByCategory {
 
 export interface GetRandomByCategoryListMatch {
   id: string
+  amount?: number
 }
 
 export interface Image {
@@ -48,10 +49,8 @@ export interface Search {
 }
 
 export interface SearchListMatch {
-  anime_name?: string
-  artist_href?: string
-  artist_name?: string
-  source_url?: string
-  url?: string
+  amount?: number
+  category?: string
+  query: string
 }
 

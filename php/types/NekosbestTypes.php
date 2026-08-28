@@ -27,6 +27,7 @@ class GetRandomByCategory
 class GetRandomByCategoryListMatch
 {
     public string $id;
+    public ?int $amount = null;
 }
 
 /** Image entity data model. */
@@ -69,10 +70,8 @@ class Search
 /** Request payload for Search#list. */
 class SearchListMatch
 {
-    public ?string $anime_name = null;
-    public ?string $artist_href = null;
-    public ?string $artist_name = null;
-    public ?string $source_url = null;
-    public ?string $url = null;
+    public ?int $amount = null;
+    public ?string $category = null;
+    public string $query;
 }
 

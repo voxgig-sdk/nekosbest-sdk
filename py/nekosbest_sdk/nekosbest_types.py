@@ -28,8 +28,12 @@ class GetRandomByCategory(GetRandomByCategoryRequired, total=False):
     source_url: str
 
 
-class GetRandomByCategoryListMatch(TypedDict):
+class GetRandomByCategoryListMatchRequired(TypedDict):
     id: str
+
+
+class GetRandomByCategoryListMatch(GetRandomByCategoryListMatchRequired, total=False):
+    amount: int
 
 
 class Image(TypedDict, total=False):
@@ -64,9 +68,10 @@ class Search(SearchRequired, total=False):
     source_url: str
 
 
-class SearchListMatch(TypedDict, total=False):
-    anime_name: str
-    artist_href: str
-    artist_name: str
-    source_url: str
-    url: str
+class SearchListMatchRequired(TypedDict):
+    query: str
+
+
+class SearchListMatch(SearchListMatchRequired, total=False):
+    amount: int
+    category: str

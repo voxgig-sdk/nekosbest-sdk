@@ -41,8 +41,12 @@ GetRandomByCategory = Struct.new(
 #
 # @!attribute [rw] id
 #   @return [String]
+#
+# @!attribute [rw] amount
+#   @return [Integer, nil]
 GetRandomByCategoryListMatch = Struct.new(
   :id,
+  :amount,
   keyword_init: true
 )
 
@@ -136,26 +140,18 @@ Search = Struct.new(
 
 # Request payload for Search#list.
 #
-# @!attribute [rw] anime_name
+# @!attribute [rw] amount
+#   @return [Integer, nil]
+#
+# @!attribute [rw] category
 #   @return [String, nil]
 #
-# @!attribute [rw] artist_href
-#   @return [String, nil]
-#
-# @!attribute [rw] artist_name
-#   @return [String, nil]
-#
-# @!attribute [rw] source_url
-#   @return [String, nil]
-#
-# @!attribute [rw] url
-#   @return [String, nil]
+# @!attribute [rw] query
+#   @return [String]
 SearchListMatch = Struct.new(
-  :anime_name,
-  :artist_href,
-  :artist_name,
-  :source_url,
-  :url,
+  :amount,
+  :category,
+  :query,
   keyword_init: true
 )
 
