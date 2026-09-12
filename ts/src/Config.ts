@@ -10,6 +10,17 @@ const FEATURE_CLASS: Record<string, typeof BaseFeature> = {
 }
 
 
+// Per-feature plugin DEFINITIONS (voxgig/plugin `Definition` values), from
+// the model's active plugin groups. A feature that takes a `plugins` option
+// (secrets over sekreto) reads its own entry; a feature with no plugins has
+// none. Named imports above make each definition statically reachable, so
+// an SDK carries exactly the plugin modules its model selects — the same
+// leanness the old side-effect registry imports bought, without a registry.
+const FEATURE_PLUGINS: Record<string, any[]> = {
+  
+}
+
+
 class Config {
 
   makeFeature(this: any, fn: string) {
@@ -78,6 +89,7 @@ class Config {
           "type": "`$STRING`"
         },
         {
+          "format": "uri",
           "name": "artist_href",
           "short": "URL to the artist's profile or website",
           "type": "`$STRING`"
@@ -92,17 +104,23 @@ class Config {
           "type": "`$STRING`"
         },
         {
+          "format": "uri",
           "name": "source_url",
           "short": "Original source URL of the image",
           "type": "`$STRING`"
         },
         {
+          "format": "uri",
           "name": "url",
           "req": true,
           "short": "Direct URL to the image or GIF hosted on nekos.best",
           "type": "`$STRING`"
         }
       ],
+      "id": {
+        "field": "id",
+        "name": "id"
+      },
       "name": "get_random_by_category",
       "op": {
         "list": {
@@ -134,14 +152,16 @@ class Config {
               "kind": "http",
               "method": "GET",
               "orig": "/{category}",
-              "parts": [
-                "{id}"
-              ],
               "rename": {
                 "param": {
                   "category": "id"
                 }
               },
+              "segments": [
+                {
+                  "var": "id"
+                }
+              ],
               "select": {
                 "exist": [
                   "amount",
@@ -151,7 +171,10 @@ class Config {
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body.results`"
-              }
+              },
+              "parts": [
+                "{id}"
+              ]
             }
           ]
         }
@@ -194,14 +217,19 @@ class Config {
               "kind": "http",
               "method": "GET",
               "orig": "/endpoints",
-              "parts": [
-                "endpoints"
+              "segments": [
+                {
+                  "lit": "endpoints"
+                }
               ],
               "select": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body.endpoints`"
-              }
+              },
+              "parts": [
+                "endpoints"
+              ]
             }
           ]
         },
@@ -214,14 +242,19 @@ class Config {
               "kind": "http",
               "method": "GET",
               "orig": "/stats",
-              "parts": [
-                "stats"
+              "segments": [
+                {
+                  "lit": "stats"
+                }
               ],
               "select": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body`"
-              }
+              },
+              "parts": [
+                "stats"
+              ]
             }
           ]
         }
@@ -238,6 +271,7 @@ class Config {
           "type": "`$STRING`"
         },
         {
+          "format": "uri",
           "name": "artist_href",
           "short": "URL to the artist's profile or website",
           "type": "`$STRING`"
@@ -248,11 +282,13 @@ class Config {
           "type": "`$STRING`"
         },
         {
+          "format": "uri",
           "name": "source_url",
           "short": "Original source URL of the image",
           "type": "`$STRING`"
         },
         {
+          "format": "uri",
           "name": "url",
           "req": true,
           "short": "Direct URL to the image or GIF hosted on nekos.best",
@@ -293,8 +329,10 @@ class Config {
               "kind": "http",
               "method": "GET",
               "orig": "/search",
-              "parts": [
-                "search"
+              "segments": [
+                {
+                  "lit": "search"
+                }
               ],
               "select": {
                 "exist": [
@@ -306,7 +344,10 @@ class Config {
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body.results`"
-              }
+              },
+              "parts": [
+                "search"
+              ]
             }
           ]
         }
@@ -322,6 +363,7 @@ class Config {
 const config = new Config()
 
 export {
-  config
+  config,
+  FEATURE_PLUGINS,
 }
 

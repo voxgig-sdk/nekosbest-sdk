@@ -12,6 +12,7 @@ main: kit: entity: search: {
       type: "`$STRING`"
     }
     {
+      format: "uri"
       name: "artist_href"
       req: false
       short: "URL to the artist's profile or website"
@@ -24,12 +25,14 @@ main: kit: entity: search: {
       type: "`$STRING`"
     }
     {
+      format: "uri"
       name: "source_url"
       req: false
       short: "Original source URL of the image"
       type: "`$STRING`"
     }
     {
+      format: "uri"
       name: "url"
       req: true
       short: "Direct URL to the image or GIF hosted on nekos.best"
@@ -71,8 +74,10 @@ main: kit: entity: search: {
           }
           method: "GET"
           orig: "/search"
-          parts: [
-            "search"
+          segments: [
+            {
+              lit: "search"
+            }
           ]
           select: {
             exist: [

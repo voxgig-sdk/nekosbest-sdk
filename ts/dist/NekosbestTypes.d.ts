@@ -1,0 +1,42 @@
+export interface GetRandomByCategory {
+    anime_name?: string;
+    artist_href?: string;
+    artist_name?: string;
+    id?: string;
+    source_url?: string;
+    url: string;
+}
+export interface GetRandomByCategoryListMatch {
+    id: string;
+    amount?: number;
+}
+export interface Image {
+    categories?: number;
+    endpoints?: any[];
+    total_gifs?: number;
+    total_images?: number;
+}
+export interface ImageLoadMatch {
+    categories?: number;
+    endpoints?: any[];
+    total_gifs?: number;
+    total_images?: number;
+}
+export interface ImageListMatch {
+    categories?: number;
+    endpoints?: any[];
+    total_gifs?: number;
+    total_images?: number;
+}
+export interface Search {
+    anime_name?: string;
+    artist_href?: string;
+    artist_name?: string;
+    source_url?: string;
+    url: string;
+}
+export interface SearchListMatch {
+    amount?: number;
+    category?: string;
+    query: string;
+}

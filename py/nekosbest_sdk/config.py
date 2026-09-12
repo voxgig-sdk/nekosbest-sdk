@@ -1,6 +1,14 @@
 # Nekosbest SDK configuration
 
 
+# The sekreto plugin DEFINITIONS the model selected per feature, imported
+# above by name from the modules the catalogue's active `plugin.def`
+# entries declare. Handed to each feature (secrets builds its Sekreto
+# with them): a provider kind not listed here is unknown to that SDK.
+FEATURE_PLUGINS = {
+}
+
+
 _shared_config = None
 
 
@@ -60,6 +68,7 @@ def make_config():
             "type": "`$STRING`",
           },
           {
+            "format": "uri",
             "name": "artist_href",
             "short": "URL to the artist's profile or website",
             "type": "`$STRING`",
@@ -74,17 +83,23 @@ def make_config():
             "type": "`$STRING`",
           },
           {
+            "format": "uri",
             "name": "source_url",
             "short": "Original source URL of the image",
             "type": "`$STRING`",
           },
           {
+            "format": "uri",
             "name": "url",
             "req": True,
             "short": "Direct URL to the image or GIF hosted on nekos.best",
             "type": "`$STRING`",
           },
         ],
+        "id": {
+          "field": "id",
+          "name": "id",
+        },
         "name": "get_random_by_category",
         "op": {
           "list": {
@@ -116,14 +131,16 @@ def make_config():
                 "kind": "http",
                 "method": "GET",
                 "orig": "/{category}",
-                "parts": [
-                  "{id}",
-                ],
                 "rename": {
                   "param": {
                     "category": "id",
                   },
                 },
+                "segments": [
+                  {
+                    "var": "id",
+                  },
+                ],
                 "select": {
                   "exist": [
                     "amount",
@@ -134,6 +151,9 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body.results`",
                 },
+                "parts": [
+                  "{id}",
+                ],
               },
             ],
           },
@@ -176,14 +196,19 @@ def make_config():
                 "kind": "http",
                 "method": "GET",
                 "orig": "/endpoints",
-                "parts": [
-                  "endpoints",
+                "segments": [
+                  {
+                    "lit": "endpoints",
+                  },
                 ],
                 "select": {},
                 "transform": {
                   "req": "`reqdata`",
                   "res": "`body.endpoints`",
                 },
+                "parts": [
+                  "endpoints",
+                ],
               },
             ],
           },
@@ -196,14 +221,19 @@ def make_config():
                 "kind": "http",
                 "method": "GET",
                 "orig": "/stats",
-                "parts": [
-                  "stats",
+                "segments": [
+                  {
+                    "lit": "stats",
+                  },
                 ],
                 "select": {},
                 "transform": {
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
+                "parts": [
+                  "stats",
+                ],
               },
             ],
           },
@@ -220,6 +250,7 @@ def make_config():
             "type": "`$STRING`",
           },
           {
+            "format": "uri",
             "name": "artist_href",
             "short": "URL to the artist's profile or website",
             "type": "`$STRING`",
@@ -230,11 +261,13 @@ def make_config():
             "type": "`$STRING`",
           },
           {
+            "format": "uri",
             "name": "source_url",
             "short": "Original source URL of the image",
             "type": "`$STRING`",
           },
           {
+            "format": "uri",
             "name": "url",
             "req": True,
             "short": "Direct URL to the image or GIF hosted on nekos.best",
@@ -275,8 +308,10 @@ def make_config():
                 "kind": "http",
                 "method": "GET",
                 "orig": "/search",
-                "parts": [
-                  "search",
+                "segments": [
+                  {
+                    "lit": "search",
+                  },
                 ],
                 "select": {
                   "exist": [
@@ -289,6 +324,9 @@ def make_config():
                   "req": "`reqdata`",
                   "res": "`body.results`",
                 },
+                "parts": [
+                  "search",
+                ],
               },
             ],
           },

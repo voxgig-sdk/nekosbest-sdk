@@ -12,6 +12,7 @@ main: kit: entity: get_random_by_category: {
       type: "`$STRING`"
     }
     {
+      format: "uri"
       name: "artist_href"
       req: false
       short: "URL to the artist's profile or website"
@@ -29,12 +30,14 @@ main: kit: entity: get_random_by_category: {
       type: "`$STRING`"
     }
     {
+      format: "uri"
       name: "source_url"
       req: false
       short: "Original source URL of the image"
       type: "`$STRING`"
     }
     {
+      format: "uri"
       name: "url"
       req: true
       short: "Direct URL to the image or GIF hosted on nekos.best"
@@ -77,14 +80,16 @@ main: kit: entity: get_random_by_category: {
           }
           method: "GET"
           orig: "/{category}"
-          parts: [
-            "{id}"
-          ]
           rename: {
             param: {
               category: "id"
             }
           }
+          segments: [
+            {
+              var: "id"
+            }
+          ]
           select: {
             exist: [
               "amount"

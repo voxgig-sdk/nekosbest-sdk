@@ -98,7 +98,7 @@ func TestGetRandomByCategoryEntity(t *testing.T) {
 		client := setup.client
 
 		// Bootstrap entity data from existing test data (no create step in flow).
-		getRandomByCategoryRef01DataRaw := vs.Items(core.ToMapAny(vs.GetPath("existing.get_random_by_category", setup.data)))
+		getRandomByCategoryRef01DataRaw := vs.Items(core.ToMapAny(vs.GetPath(setup.data, "existing.get_random_by_category")))
 		var getRandomByCategoryRef01Data map[string]any
 		if len(getRandomByCategoryRef01DataRaw) > 0 {
 			getRandomByCategoryRef01Data = core.ToMapAny(getRandomByCategoryRef01DataRaw[0][1])
@@ -149,7 +149,7 @@ func get_random_by_categoryBasicSetup(extra map[string]any) *entityTestSetup {
 	client := sdk.TestSDK(options, extra)
 
 	// Generate idmap via transform, matching TS pattern.
-	idmap := vs.Transform(
+	idmap, _ := vs.Transform(
 		[]any{"get_random_by_category01", "get_random_by_category02", "get_random_by_category03", "category01"},
 		map[string]any{
 			"`$PACK`": []any{"", map[string]any{
@@ -177,10 +177,22 @@ func get_random_by_categoryBasicSetup(extra map[string]any) *entityTestSetup {
 	}
 
 	if env["NEKOSBEST_TEST_LIVE"] == "TRUE" {
+		// An empty map, not a nil one: Merge returns nil when its last entry
+		// is nil, and BasicSetup is normally called with no extras - so a
+		// bare nil silently discarded the apikey and server values below.
+		extraOpts := extra
+		if extraOpts == nil {
+			extraOpts = map[string]any{}
+		}
+
 		mergedOpts := vs.Merge([]any{
+			// liveClientOptions() FIRST, so the generated fields below win:
+			// sdk-test-control.json's test.client.options adds to the live
+			// client, it does not redirect it.
+			liveClientOptions(),
 			map[string]any{
 			},
-			extra,
+			extraOpts,
 		})
 		client = sdk.NewNekosbestSDK(core.ToMapAny(mergedOpts))
 	}

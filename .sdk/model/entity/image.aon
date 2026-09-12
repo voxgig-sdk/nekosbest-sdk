@@ -39,8 +39,10 @@ main: kit: entity: image: {
         {
           method: "GET"
           orig: "/endpoints"
-          parts: [
-            "endpoints"
+          segments: [
+            {
+              lit: "endpoints"
+            }
           ]
           transform: {
             req: "`reqdata`"
@@ -55,8 +57,10 @@ main: kit: entity: image: {
         {
           method: "GET"
           orig: "/stats"
-          parts: [
-            "stats"
+          segments: [
+            {
+              lit: "stats"
+            }
           ]
           transform: {
             req: "`reqdata`"

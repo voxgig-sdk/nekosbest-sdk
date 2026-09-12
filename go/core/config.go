@@ -43,6 +43,7 @@ func MakeConfig() map[string]any {
 						"type": "`$STRING`",
 					},
 					map[string]any{
+						"format": "uri",
 						"name": "artist_href",
 						"short": "URL to the artist's profile or website",
 						"type": "`$STRING`",
@@ -57,16 +58,22 @@ func MakeConfig() map[string]any {
 						"type": "`$STRING`",
 					},
 					map[string]any{
+						"format": "uri",
 						"name": "source_url",
 						"short": "Original source URL of the image",
 						"type": "`$STRING`",
 					},
 					map[string]any{
+						"format": "uri",
 						"name": "url",
 						"req": true,
 						"short": "Direct URL to the image or GIF hosted on nekos.best",
 						"type": "`$STRING`",
 					},
+				},
+				"id": map[string]any{
+					"field": "id",
+					"name": "id",
 				},
 				"name": "get_random_by_category",
 				"op": map[string]any{
@@ -99,12 +106,14 @@ func MakeConfig() map[string]any {
 								"kind": "http",
 								"method": "GET",
 								"orig": "/{category}",
-								"parts": []any{
-									"{id}",
-								},
 								"rename": map[string]any{
 									"param": map[string]any{
 										"category": "id",
+									},
+								},
+								"segments": []any{
+									map[string]any{
+										"var": "id",
 									},
 								},
 								"select": map[string]any{
@@ -116,6 +125,9 @@ func MakeConfig() map[string]any {
 								"transform": map[string]any{
 									"req": "`reqdata`",
 									"res": "`body.results`",
+								},
+								"parts": []any{
+									"{id}",
 								},
 							},
 						},
@@ -159,13 +171,18 @@ func MakeConfig() map[string]any {
 								"kind": "http",
 								"method": "GET",
 								"orig": "/endpoints",
-								"parts": []any{
-									"endpoints",
+								"segments": []any{
+									map[string]any{
+										"lit": "endpoints",
+									},
 								},
 								"select": map[string]any{},
 								"transform": map[string]any{
 									"req": "`reqdata`",
 									"res": "`body.endpoints`",
+								},
+								"parts": []any{
+									"endpoints",
 								},
 							},
 						},
@@ -179,13 +196,18 @@ func MakeConfig() map[string]any {
 								"kind": "http",
 								"method": "GET",
 								"orig": "/stats",
-								"parts": []any{
-									"stats",
+								"segments": []any{
+									map[string]any{
+										"lit": "stats",
+									},
 								},
 								"select": map[string]any{},
 								"transform": map[string]any{
 									"req": "`reqdata`",
 									"res": "`body`",
+								},
+								"parts": []any{
+									"stats",
 								},
 							},
 						},
@@ -203,6 +225,7 @@ func MakeConfig() map[string]any {
 						"type": "`$STRING`",
 					},
 					map[string]any{
+						"format": "uri",
 						"name": "artist_href",
 						"short": "URL to the artist's profile or website",
 						"type": "`$STRING`",
@@ -213,11 +236,13 @@ func MakeConfig() map[string]any {
 						"type": "`$STRING`",
 					},
 					map[string]any{
+						"format": "uri",
 						"name": "source_url",
 						"short": "Original source URL of the image",
 						"type": "`$STRING`",
 					},
 					map[string]any{
+						"format": "uri",
 						"name": "url",
 						"req": true,
 						"short": "Direct URL to the image or GIF hosted on nekos.best",
@@ -258,8 +283,10 @@ func MakeConfig() map[string]any {
 								"kind": "http",
 								"method": "GET",
 								"orig": "/search",
-								"parts": []any{
-									"search",
+								"segments": []any{
+									map[string]any{
+										"lit": "search",
+									},
 								},
 								"select": map[string]any{
 									"exist": []any{
@@ -272,6 +299,9 @@ func MakeConfig() map[string]any {
 									"req": "`reqdata`",
 									"res": "`body.results`",
 								},
+								"parts": []any{
+									"search",
+								},
 							},
 						},
 					},
@@ -282,6 +312,17 @@ func MakeConfig() map[string]any {
 			},
 		},
 	}
+}
+
+// The plugin definitions the model selected per feature, as []any so a
+// feature package can consume them without core naming its types. Empty
+// when no active feature declares active plugin groups for this target.
+var featurePlugins = map[string][]any{
+}
+
+// FeaturePlugins is the definitions list for one feature's chain.
+func FeaturePlugins(name string) []any {
+	return featurePlugins[name]
 }
 
 var (

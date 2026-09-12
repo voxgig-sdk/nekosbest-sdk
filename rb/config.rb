@@ -51,6 +51,7 @@ module NekosbestConfig
               "type" => "`$STRING`",
             },
             {
+              "format" => "uri",
               "name" => "artist_href",
               "short" => "URL to the artist's profile or website",
               "type" => "`$STRING`",
@@ -65,17 +66,23 @@ module NekosbestConfig
               "type" => "`$STRING`",
             },
             {
+              "format" => "uri",
               "name" => "source_url",
               "short" => "Original source URL of the image",
               "type" => "`$STRING`",
             },
             {
+              "format" => "uri",
               "name" => "url",
               "req" => true,
               "short" => "Direct URL to the image or GIF hosted on nekos.best",
               "type" => "`$STRING`",
             },
           ],
+          "id" => {
+            "field" => "id",
+            "name" => "id",
+          },
           "name" => "get_random_by_category",
           "op" => {
             "list" => {
@@ -107,14 +114,16 @@ module NekosbestConfig
                   "kind" => "http",
                   "method" => "GET",
                   "orig" => "/{category}",
-                  "parts" => [
-                    "{id}",
-                  ],
                   "rename" => {
                     "param" => {
                       "category" => "id",
                     },
                   },
+                  "segments" => [
+                    {
+                      "var" => "id",
+                    },
+                  ],
                   "select" => {
                     "exist" => [
                       "amount",
@@ -125,6 +134,9 @@ module NekosbestConfig
                     "req" => "`reqdata`",
                     "res" => "`body.results`",
                   },
+                  "parts" => [
+                    "{id}",
+                  ],
                 },
               ],
             },
@@ -167,14 +179,19 @@ module NekosbestConfig
                   "kind" => "http",
                   "method" => "GET",
                   "orig" => "/endpoints",
-                  "parts" => [
-                    "endpoints",
+                  "segments" => [
+                    {
+                      "lit" => "endpoints",
+                    },
                   ],
                   "select" => {},
                   "transform" => {
                     "req" => "`reqdata`",
                     "res" => "`body.endpoints`",
                   },
+                  "parts" => [
+                    "endpoints",
+                  ],
                 },
               ],
             },
@@ -187,14 +204,19 @@ module NekosbestConfig
                   "kind" => "http",
                   "method" => "GET",
                   "orig" => "/stats",
-                  "parts" => [
-                    "stats",
+                  "segments" => [
+                    {
+                      "lit" => "stats",
+                    },
                   ],
                   "select" => {},
                   "transform" => {
                     "req" => "`reqdata`",
                     "res" => "`body`",
                   },
+                  "parts" => [
+                    "stats",
+                  ],
                 },
               ],
             },
@@ -211,6 +233,7 @@ module NekosbestConfig
               "type" => "`$STRING`",
             },
             {
+              "format" => "uri",
               "name" => "artist_href",
               "short" => "URL to the artist's profile or website",
               "type" => "`$STRING`",
@@ -221,11 +244,13 @@ module NekosbestConfig
               "type" => "`$STRING`",
             },
             {
+              "format" => "uri",
               "name" => "source_url",
               "short" => "Original source URL of the image",
               "type" => "`$STRING`",
             },
             {
+              "format" => "uri",
               "name" => "url",
               "req" => true,
               "short" => "Direct URL to the image or GIF hosted on nekos.best",
@@ -266,8 +291,10 @@ module NekosbestConfig
                   "kind" => "http",
                   "method" => "GET",
                   "orig" => "/search",
-                  "parts" => [
-                    "search",
+                  "segments" => [
+                    {
+                      "lit" => "search",
+                    },
                   ],
                   "select" => {
                     "exist" => [
@@ -280,6 +307,9 @@ module NekosbestConfig
                     "req" => "`reqdata`",
                     "res" => "`body.results`",
                   },
+                  "parts" => [
+                    "search",
+                  ],
                 },
               ],
             },

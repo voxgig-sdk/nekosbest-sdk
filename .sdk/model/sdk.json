@@ -41,6 +41,7 @@
             },
             {
               "active": true,
+              "format": "uri",
               "name": "artist_href",
               "req": false,
               "short": "URL to the artist's profile or website",
@@ -61,6 +62,7 @@
             },
             {
               "active": true,
+              "format": "uri",
               "name": "source_url",
               "req": false,
               "short": "Original source URL of the image",
@@ -68,6 +70,7 @@
             },
             {
               "active": true,
+              "format": "uri",
               "name": "url",
               "req": true,
               "short": "Direct URL to the image or GIF hosted on nekos.best",
@@ -113,14 +116,16 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/{category}",
-                  "parts": [
-                    "{id}"
-                  ],
                   "rename": {
                     "param": {
                       "category": "id"
                     }
                   },
+                  "segments": [
+                    {
+                      "var": "id"
+                    }
+                  ],
                   "select": {
                     "exist": [
                       "amount",
@@ -186,8 +191,10 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/endpoints",
-                  "parts": [
-                    "endpoints"
+                  "segments": [
+                    {
+                      "lit": "endpoints"
+                    }
                   ],
                   "select": {},
                   "transform": {
@@ -207,8 +214,10 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/stats",
-                  "parts": [
-                    "stats"
+                  "segments": [
+                    {
+                      "lit": "stats"
+                    }
                   ],
                   "select": {},
                   "transform": {
@@ -238,6 +247,7 @@
             },
             {
               "active": true,
+              "format": "uri",
               "name": "artist_href",
               "req": false,
               "short": "URL to the artist's profile or website",
@@ -252,6 +262,7 @@
             },
             {
               "active": true,
+              "format": "uri",
               "name": "source_url",
               "req": false,
               "short": "Original source URL of the image",
@@ -259,6 +270,7 @@
             },
             {
               "active": true,
+              "format": "uri",
               "name": "url",
               "req": true,
               "short": "Direct URL to the image or GIF hosted on nekos.best",
@@ -305,8 +317,10 @@
                   "kind": "http",
                   "method": "GET",
                   "orig": "/search",
-                  "parts": [
-                    "search"
+                  "segments": [
+                    {
+                      "lit": "search"
+                    }
                   ],
                   "select": {
                     "exist": [
@@ -392,8 +406,11 @@
             }
           },
           "name": "test",
+          "needs": {},
           "origname": "",
           "package": "@voxgig/sdkgen",
+          "plugin": {},
+          "spec": {},
           "target": {
             "go": {
               "deps": {}
@@ -591,6 +608,9 @@
             "sdkrel": ""
           },
           "package": "@voxgig/sdkgen",
+          "provides": {
+            "sekreto": true
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -616,6 +636,10 @@
             "version": "0.0.1"
           },
           "srcfeature": false,
+          "superseded": [
+            "test/runner_test.go",
+            "test/struct_runner_test.go"
+          ],
           "title": "Golang"
         },
         "go-cli": {
@@ -667,6 +691,7 @@
               "active": false
             }
           },
+          "provides": {},
           "publish": {
             "registry": {
               "active": false,
@@ -691,6 +716,7 @@
             },
             "version": "0.0.1"
           },
+          "superseded": [],
           "title": "Go CLI"
         },
         "go-mcp": {
@@ -742,6 +768,7 @@
               "active": false
             }
           },
+          "provides": {},
           "publish": {
             "registry": {
               "active": false,
@@ -766,6 +793,7 @@
             },
             "version": "0.0.1"
           },
+          "superseded": [],
           "title": "Go MCP server"
         },
         "lua": {
@@ -806,6 +834,9 @@
             "sdkrel": ""
           },
           "package": "@voxgig/sdkgen",
+          "provides": {
+            "sekreto": true
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -831,6 +862,9 @@
             "version": "0.0.1"
           },
           "srcfeature": false,
+          "superseded": [
+            "test/struct_runner.lua"
+          ],
           "title": "Lua"
         },
         "php": {
@@ -865,6 +899,9 @@
             "sdkrel": ""
           },
           "package": "@voxgig/sdkgen",
+          "provides": {
+            "sekreto": true
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -890,6 +927,9 @@
             "version": "0.0.1"
           },
           "srcfeature": false,
+          "superseded": [
+            "test/StructRunner.php"
+          ],
           "title": "PHP"
         },
         "py": {
@@ -930,6 +970,9 @@
             "sdkrel": ""
           },
           "package": "@voxgig/sdkgen",
+          "provides": {
+            "sekreto": true
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -955,6 +998,9 @@
             "version": "0.0.1"
           },
           "srcfeature": false,
+          "superseded": [
+            "test/struct_runner.py"
+          ],
           "title": "Python"
         },
         "rb": {
@@ -1000,6 +1046,9 @@
             "sdkrel": ""
           },
           "package": "@voxgig/sdkgen",
+          "provides": {
+            "sekreto": true
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -1025,6 +1074,9 @@
             "version": "0.0.1"
           },
           "srcfeature": false,
+          "superseded": [
+            "test/struct_runner.rb"
+          ],
           "title": "Ruby"
         },
         "ts": {
@@ -1042,11 +1094,6 @@
               "active": true,
               "kind": "dev",
               "version": "^25.6.0"
-            },
-            "dotenv": {
-              "active": true,
-              "kind": "dev",
-              "version": "^17.4.2"
             },
             "typescript": {
               "active": true,
@@ -1075,6 +1122,9 @@
             "sdkrel": ""
           },
           "package": "@voxgig/sdkgen",
+          "provides": {
+            "sekreto": true
+          },
           "publish": {
             "registry": {
               "active": false,
@@ -1099,6 +1149,14 @@
             },
             "version": "0.0.1"
           },
+          "superseded": [
+            "test/runner.ts",
+            "test/vendor/omni/compat.ts",
+            "src/feature/secrets/sekreto/Providers.ts",
+            "src/feature/secrets/sekreto/Sigv4.ts",
+            "src/feature/secrets/sekreto/provider/Registry.ts",
+            "src/feature/secrets/sekreto/provider/http.ts"
+          ],
           "title": "TypeScript"
         }
       },
