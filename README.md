@@ -105,7 +105,7 @@ local results, err = client:Search():list()
 
 | Language | Package | Install |
 | --- | --- | --- |
-| TypeScript | `@voxgig-sdk/nekosbest` | publish pending — [install from git tag](https://github.com/voxgig-sdk/nekosbest-sdk/releases) |
+| TypeScript | `@voxgig-sdk/nekosbest-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/nekosbest-sdk/releases) |
 | Python | `voxgig-sdk-nekosbest` | publish pending — [install from git tag](https://github.com/voxgig-sdk/nekosbest-sdk/releases) |
 | PHP | `voxgig-sdk/nekosbest` | publish pending — [install from git tag](https://github.com/voxgig-sdk/nekosbest-sdk/releases) |
 | Golang | `github.com/voxgig-sdk/nekosbest-sdk/go` | `go get github.com/voxgig-sdk/nekosbest-sdk/go@latest` |
@@ -119,7 +119,7 @@ local results, err = client:Search():list()
 ### TypeScript
 
 ```ts
-import { NekosbestSDK } from '@voxgig-sdk/nekosbest'
+import { NekosbestSDK } from '@voxgig-sdk/nekosbest-sdk'
 
 const client = new NekosbestSDK()
 
