@@ -37,5 +37,152 @@
         "url": "sf5"
       }
     }
+  },
+  "requests": {
+    "GET /{category}": {
+      "provenance": "operation-contract",
+      "contract": {
+        "operationId": "getRandomByCategory",
+        "parameters": [
+          {
+            "description": "The category name (e.g., neko, husbando, kitsune, waifu, etc.)",
+            "in": "path",
+            "name": "category",
+            "required": true,
+            "schema": {
+              "example": "neko",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Number of images/GIFs to return (1-20)",
+            "in": "query",
+            "name": "amount",
+            "required": false,
+            "schema": {
+              "default": 1,
+              "maximum": 20,
+              "minimum": 1,
+              "type": "integer"
+            }
+          }
+        ],
+        "protocol": "http",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "single": {
+                    "summary": "Single image response",
+                    "value": {
+                      "results": [
+                        {
+                          "anime_name": "Anime Title",
+                          "artist_href": "https://www.pixiv.net/en/users/12345",
+                          "artist_name": "Artist Name",
+                          "source_url": "https://www.pixiv.net/en/artworks/67890",
+                          "url": "https://nekos.best/api/v2/neko/001.png"
+                        }
+                      ]
+                    }
+                  }
+                },
+                "schema": {
+                  "properties": {
+                    "results": {
+                      "description": "Array of image/GIF objects",
+                      "items": {
+                        "properties": {
+                          "anime_name": {
+                            "description": "Name of the anime the character is from (if applicable)",
+                            "example": "Anime Title",
+                            "type": "string"
+                          },
+                          "artist_href": {
+                            "description": "URL to the artist's profile or website",
+                            "example": "https://www.pixiv.net/en/users/12345",
+                            "format": "uri",
+                            "type": "string"
+                          },
+                          "artist_name": {
+                            "description": "Name of the artist who created the image",
+                            "example": "Artist Name",
+                            "type": "string"
+                          },
+                          "source_url": {
+                            "description": "Original source URL of the image",
+                            "example": "https://www.pixiv.net/en/artworks/67890",
+                            "format": "uri",
+                            "type": "string"
+                          },
+                          "url": {
+                            "description": "Direct URL to the image or GIF hosted on nekos.best",
+                            "example": "https://nekos.best/api/v2/neko/001.png",
+                            "format": "uri",
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "url"
+                        ],
+                        "type": "object"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "results"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful response with image/GIF data"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "description": "Error message",
+                      "type": "string"
+                    },
+                    "message": {
+                      "description": "Detailed error description",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Bad request - invalid parameters"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "description": "Error message",
+                      "type": "string"
+                    },
+                    "message": {
+                      "description": "Detailed error description",
+                      "type": "string"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Category not found"
+          }
+        },
+        "securitySource": "unspecified"
+      }
+    }
   }
 }

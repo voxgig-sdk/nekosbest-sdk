@@ -2,24 +2,24 @@
   "existing": {
     "image": {
       "IMAGE00": {
-        "categories": "s28",
+        "categories": 40,
         "endpoints": [],
-        "total_gifs": "s2a",
-        "total_images": "s2b",
+        "total_gifs": 42,
+        "total_images": 43,
         "id": "IMAGE00"
       },
       "IMAGE01": {
-        "categories": "s50",
+        "categories": 80,
         "endpoints": [],
-        "total_gifs": "s52",
-        "total_images": "s53",
+        "total_gifs": 82,
+        "total_images": 83,
         "id": "IMAGE01"
       },
       "IMAGE02": {
-        "categories": "s78",
+        "categories": 120,
         "endpoints": [],
-        "total_gifs": "s7a",
-        "total_images": "s7b",
+        "total_gifs": 122,
+        "total_images": 123,
         "id": "IMAGE02"
       }
     }
@@ -27,10 +27,106 @@
   "new": {
     "image": {
       "image_ref01": {
-        "categories": "sa0",
+        "categories": 160,
         "endpoints": [],
-        "total_gifs": "sa2",
-        "total_images": "sa3"
+        "total_gifs": 162,
+        "total_images": 163
+      }
+    }
+  },
+  "requests": {
+    "GET /endpoints": {
+      "provenance": "operation-contract",
+      "contract": {
+        "operationId": "getEndpoints",
+        "parameters": [],
+        "protocol": "http",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "endpoints": {
+                    "summary": "Available endpoints",
+                    "value": {
+                      "endpoints": [
+                        "neko",
+                        "husbando",
+                        "kitsune",
+                        "waifu",
+                        "pat",
+                        "hug",
+                        "kiss",
+                        "slap",
+                        "cuddle",
+                        "bite"
+                      ]
+                    }
+                  }
+                },
+                "schema": {
+                  "properties": {
+                    "endpoints": {
+                      "description": "Array of available category names",
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful response with list of available endpoints"
+          }
+        },
+        "securitySource": "unspecified"
+      }
+    },
+    "GET /stats": {
+      "provenance": "operation-contract",
+      "contract": {
+        "operationId": "getStats",
+        "parameters": [],
+        "protocol": "http",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "stats": {
+                    "summary": "API statistics",
+                    "value": {
+                      "categories": 48,
+                      "total_gifs": 3000,
+                      "total_images": 5000
+                    }
+                  }
+                },
+                "schema": {
+                  "properties": {
+                    "categories": {
+                      "description": "Total number of categories",
+                      "type": "integer"
+                    },
+                    "total_gifs": {
+                      "description": "Total number of GIFs available",
+                      "type": "integer"
+                    },
+                    "total_images": {
+                      "description": "Total number of images available",
+                      "type": "integer"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful response with API statistics"
+          }
+        },
+        "securitySource": "unspecified"
       }
     }
   }

@@ -1,12 +1,18 @@
 # Nekosbest SDK feature factory
 
 from nekosbest_sdk.feature.base_feature import NekosbestBaseFeature
+from nekosbest_sdk.feature.ratelimit_feature import NekosbestRatelimitFeature
+from nekosbest_sdk.feature.retry_feature import NekosbestRetryFeature
 from nekosbest_sdk.feature.test_feature import NekosbestTestFeature
+from nekosbest_sdk.feature.timeout_feature import NekosbestTimeoutFeature
 
 
 _FEATURES = {
     "base": lambda: NekosbestBaseFeature(),
+    "ratelimit": lambda: NekosbestRatelimitFeature(),
+    "retry": lambda: NekosbestRetryFeature(),
     "test": lambda: NekosbestTestFeature(),
+    "timeout": lambda: NekosbestTimeoutFeature(),
 }
 
 
