@@ -105,12 +105,12 @@ local results, err = client:Search():list()
 
 | Language | Package | Install |
 | --- | --- | --- |
-| TypeScript | `@voxgig-sdk/nekosbest-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/nekosbest-sdk/releases) |
-| Python | `voxgig-sdk-nekosbest` | publish pending — [install from git tag](https://github.com/voxgig-sdk/nekosbest-sdk/releases) |
-| PHP | `voxgig-sdk/nekosbest` | publish pending — [install from git tag](https://github.com/voxgig-sdk/nekosbest-sdk/releases) |
+| TypeScript | `@voxgig-sdk/nekosbest-sdk` | publish pending — [install from git tag](https://github.com/voxgig-sdk/nekosbest-sdk/tags) |
+| Python | `voxgig-sdk-nekosbest` | publish pending — [install from git tag](https://github.com/voxgig-sdk/nekosbest-sdk/tags) |
+| PHP | `voxgig-sdk/nekosbest` | publish pending — [install from git tag](https://github.com/voxgig-sdk/nekosbest-sdk/tags) |
 | Golang | `github.com/voxgig-sdk/nekosbest-sdk/go` | `go get github.com/voxgig-sdk/nekosbest-sdk/go@latest` |
-| Ruby | `voxgig-sdk-nekosbest` | publish pending — [install from git tag](https://github.com/voxgig-sdk/nekosbest-sdk/releases) |
-| Lua | `voxgig-sdk-nekosbest` | publish pending — [install from git tag](https://github.com/voxgig-sdk/nekosbest-sdk/releases) |
+| Ruby | `voxgig-sdk-nekosbest` | publish pending — [install from git tag](https://github.com/voxgig-sdk/nekosbest-sdk/tags) |
+| Lua | `voxgig-sdk-nekosbest` | publish pending — [install from git tag](https://github.com/voxgig-sdk/nekosbest-sdk/tags) |
 | Go CLI | `github.com/voxgig-sdk/nekosbest-sdk/go-cli` | `go install github.com/voxgig-sdk/nekosbest-sdk/go-cli/cmd/nekosbest@latest` |
 | Go MCP server | `github.com/voxgig-sdk/nekosbest-sdk/go-mcp` | `go get github.com/voxgig-sdk/nekosbest-sdk/go-mcp@latest` |
 

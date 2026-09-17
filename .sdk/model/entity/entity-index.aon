@@ -1,5 +1,5 @@
 # Entity Models
 
-@"get_random_by_category.aon"
-@"image.aon"
-@"search.aon"
+@"./get_random_by_category.aon"
+@"./image.aon"
+@"./search.aon"

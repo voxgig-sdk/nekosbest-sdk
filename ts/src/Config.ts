@@ -127,15 +127,15 @@ class Config {
 
     entity: {
       
-      get_random_by_category: {
-      },
-
-      image: {
-      },
-
-      search: {
-      },
-
+        get_random_by_category: {
+        },
+  
+        image: {
+        },
+  
+        search: {
+        },
+  
     }
   }
 

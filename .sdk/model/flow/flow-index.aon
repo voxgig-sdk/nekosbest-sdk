@@ -1,5 +1,5 @@
 # Flows
 
-@"BasicGetRandomByCategoryFlow.aon"
-@"BasicImageFlow.aon"
-@"BasicSearchFlow.aon"
+@"./BasicGetRandomByCategoryFlow.aon"
+@"./BasicImageFlow.aon"
+@"./BasicSearchFlow.aon"
