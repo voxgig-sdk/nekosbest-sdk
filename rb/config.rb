@@ -101,36 +101,42 @@ module NekosbestConfig
           "fields" => [
             {
               "name" => "anime_name",
-              "short" => "Name of the anime the character is from (if applicable)",
+              "title" => "Anime Name",
               "type" => "`$STRING`",
+              "short" => "Name of the anime the character is from (if applicable)",
             },
             {
-              "format" => "uri",
               "name" => "artist_href",
-              "short" => "URL to the artist's profile or website",
+              "title" => "Artist Href",
               "type" => "`$STRING`",
+              "short" => "URL to the artist's profile or website",
+              "format" => "uri",
             },
             {
               "name" => "artist_name",
-              "short" => "Name of the artist who created the image",
+              "title" => "Artist Name",
               "type" => "`$STRING`",
+              "short" => "Name of the artist who created the image",
             },
             {
               "name" => "id",
+              "title" => "Id",
               "type" => "`$STRING`",
             },
             {
-              "format" => "uri",
               "name" => "source_url",
-              "short" => "Original source URL of the image",
+              "title" => "Source Url",
               "type" => "`$STRING`",
+              "short" => "Original source URL of the image",
+              "format" => "uri",
             },
             {
-              "format" => "uri",
               "name" => "url",
+              "title" => "Url",
+              "type" => "`$STRING`",
               "req" => true,
               "short" => "Direct URL to the image or GIF hosted on nekos.best",
-              "type" => "`$STRING`",
+              "format" => "uri",
             },
           ],
           "id" => {
@@ -144,53 +150,53 @@ module NekosbestConfig
               "name" => "list",
               "points" => [
                 {
-                  "args" => {
-                    "params" => [
-                      {
-                        "example" => "neko",
-                        "kind" => "param",
-                        "name" => "id",
-                        "orig" => "category",
-                        "reqd" => true,
-                        "type" => "`$STRING`",
-                      },
-                    ],
-                    "query" => [
-                      {
-                        "example" => 1,
-                        "kind" => "query",
-                        "name" => "amount",
-                        "orig" => "amount",
-                        "type" => "`$INTEGER`",
-                      },
-                    ],
-                  },
                   "kind" => "http",
                   "method" => "GET",
                   "orig" => "/{category}",
-                  "rename" => {
-                    "param" => {
-                      "category" => "id",
-                    },
-                  },
                   "segments" => [
                     {
                       "var" => "id",
                     },
                   ],
+                  "parts" => [
+                    "{id}",
+                  ],
+                  "rename" => {
+                    "param" => {
+                      "category" => "id",
+                    },
+                  },
+                  "transform" => {
+                    "req" => "`reqdata`",
+                    "res" => "`body.results`",
+                  },
+                  "args" => {
+                    "params" => [
+                      {
+                        "name" => "id",
+                        "orig" => "category",
+                        "type" => "`$STRING`",
+                        "kind" => "param",
+                        "reqd" => true,
+                        "example" => "neko",
+                      },
+                    ],
+                    "query" => [
+                      {
+                        "name" => "amount",
+                        "orig" => "amount",
+                        "type" => "`$INTEGER`",
+                        "kind" => "query",
+                        "example" => 1,
+                      },
+                    ],
+                  },
                   "select" => {
                     "exist" => [
                       "amount",
                       "id",
                     ],
                   },
-                  "transform" => {
-                    "req" => "`reqdata`",
-                    "res" => "`body.results`",
-                  },
-                  "parts" => [
-                    "{id}",
-                  ],
                 },
               ],
             },
@@ -203,23 +209,27 @@ module NekosbestConfig
           "fields" => [
             {
               "name" => "categories",
-              "short" => "Total number of categories",
+              "title" => "Categories",
               "type" => "`$INTEGER`",
+              "short" => "Total number of categories",
             },
             {
               "name" => "endpoints",
-              "short" => "Array of available category names",
+              "title" => "Endpoints",
               "type" => "`$ARRAY`",
+              "short" => "Array of available category names",
             },
             {
               "name" => "total_gifs",
-              "short" => "Total number of GIFs available",
+              "title" => "Total Gifs",
               "type" => "`$INTEGER`",
+              "short" => "Total number of GIFs available",
             },
             {
               "name" => "total_images",
-              "short" => "Total number of images available",
+              "title" => "Total Images",
               "type" => "`$INTEGER`",
+              "short" => "Total number of images available",
             },
           ],
           "name" => "image",
@@ -229,7 +239,6 @@ module NekosbestConfig
               "name" => "list",
               "points" => [
                 {
-                  "args" => {},
                   "kind" => "http",
                   "method" => "GET",
                   "orig" => "/endpoints",
@@ -238,14 +247,16 @@ module NekosbestConfig
                       "lit" => "endpoints",
                     },
                   ],
-                  "select" => {},
+                  "parts" => [
+                    "endpoints",
+                  ],
+                  "rename" => {},
                   "transform" => {
                     "req" => "`reqdata`",
                     "res" => "`body.endpoints`",
                   },
-                  "parts" => [
-                    "endpoints",
-                  ],
+                  "args" => {},
+                  "select" => {},
                 },
               ],
             },
@@ -254,7 +265,6 @@ module NekosbestConfig
               "name" => "load",
               "points" => [
                 {
-                  "args" => {},
                   "kind" => "http",
                   "method" => "GET",
                   "orig" => "/stats",
@@ -263,14 +273,16 @@ module NekosbestConfig
                       "lit" => "stats",
                     },
                   ],
-                  "select" => {},
+                  "parts" => [
+                    "stats",
+                  ],
+                  "rename" => {},
                   "transform" => {
                     "req" => "`reqdata`",
                     "res" => "`body`",
                   },
-                  "parts" => [
-                    "stats",
-                  ],
+                  "args" => {},
+                  "select" => {},
                 },
               ],
             },
@@ -283,32 +295,37 @@ module NekosbestConfig
           "fields" => [
             {
               "name" => "anime_name",
-              "short" => "Name of the anime the character is from (if applicable)",
+              "title" => "Anime Name",
               "type" => "`$STRING`",
+              "short" => "Name of the anime the character is from (if applicable)",
             },
             {
-              "format" => "uri",
               "name" => "artist_href",
-              "short" => "URL to the artist's profile or website",
+              "title" => "Artist Href",
               "type" => "`$STRING`",
+              "short" => "URL to the artist's profile or website",
+              "format" => "uri",
             },
             {
               "name" => "artist_name",
+              "title" => "Artist Name",
+              "type" => "`$STRING`",
               "short" => "Name of the artist who created the image",
-              "type" => "`$STRING`",
             },
             {
-              "format" => "uri",
               "name" => "source_url",
-              "short" => "Original source URL of the image",
+              "title" => "Source Url",
               "type" => "`$STRING`",
+              "short" => "Original source URL of the image",
+              "format" => "uri",
             },
             {
-              "format" => "uri",
               "name" => "url",
+              "title" => "Url",
+              "type" => "`$STRING`",
               "req" => true,
               "short" => "Direct URL to the image or GIF hosted on nekos.best",
-              "type" => "`$STRING`",
+              "format" => "uri",
             },
           ],
           "name" => "search",
@@ -318,30 +335,6 @@ module NekosbestConfig
               "name" => "list",
               "points" => [
                 {
-                  "args" => {
-                    "query" => [
-                      {
-                        "example" => 10,
-                        "kind" => "query",
-                        "name" => "amount",
-                        "orig" => "amount",
-                        "type" => "`$INTEGER`",
-                      },
-                      {
-                        "kind" => "query",
-                        "name" => "category",
-                        "orig" => "category",
-                        "type" => "`$STRING`",
-                      },
-                      {
-                        "kind" => "query",
-                        "name" => "query",
-                        "orig" => "query",
-                        "reqd" => true,
-                        "type" => "`$STRING`",
-                      },
-                    ],
-                  },
                   "kind" => "http",
                   "method" => "GET",
                   "orig" => "/search",
@@ -350,6 +343,38 @@ module NekosbestConfig
                       "lit" => "search",
                     },
                   ],
+                  "parts" => [
+                    "search",
+                  ],
+                  "rename" => {},
+                  "transform" => {
+                    "req" => "`reqdata`",
+                    "res" => "`body.results`",
+                  },
+                  "args" => {
+                    "query" => [
+                      {
+                        "name" => "amount",
+                        "orig" => "amount",
+                        "type" => "`$INTEGER`",
+                        "kind" => "query",
+                        "example" => 10,
+                      },
+                      {
+                        "name" => "category",
+                        "orig" => "category",
+                        "type" => "`$STRING`",
+                        "kind" => "query",
+                      },
+                      {
+                        "name" => "query",
+                        "orig" => "query",
+                        "type" => "`$STRING`",
+                        "kind" => "query",
+                        "reqd" => true,
+                      },
+                    ],
+                  },
                   "select" => {
                     "exist" => [
                       "amount",
@@ -357,13 +382,6 @@ module NekosbestConfig
                       "query",
                     ],
                   },
-                  "transform" => {
-                    "req" => "`reqdata`",
-                    "res" => "`body.results`",
-                  },
-                  "parts" => [
-                    "search",
-                  ],
                 },
               ],
             },

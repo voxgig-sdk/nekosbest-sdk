@@ -37,97 +37,13 @@
   "requests": {
     "GET /endpoints": {
       "provenance": "operation-contract",
-      "contract": {
-        "operationId": "getEndpoints",
-        "parameters": [],
-        "protocol": "http",
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "examples": {
-                  "endpoints": {
-                    "summary": "Available endpoints",
-                    "value": {
-                      "endpoints": [
-                        "neko",
-                        "husbando",
-                        "kitsune",
-                        "waifu",
-                        "pat",
-                        "hug",
-                        "kiss",
-                        "slap",
-                        "cuddle",
-                        "bite"
-                      ]
-                    }
-                  }
-                },
-                "schema": {
-                  "properties": {
-                    "endpoints": {
-                      "description": "Array of available category names",
-                      "items": {
-                        "type": "string"
-                      },
-                      "type": "array"
-                    }
-                  },
-                  "type": "object"
-                }
-              }
-            },
-            "description": "Successful response with list of available endpoints"
-          }
-        },
-        "securitySource": "unspecified"
-      }
+      "version": 2,
+      "source": "openapi3"
     },
     "GET /stats": {
       "provenance": "operation-contract",
-      "contract": {
-        "operationId": "getStats",
-        "parameters": [],
-        "protocol": "http",
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "examples": {
-                  "stats": {
-                    "summary": "API statistics",
-                    "value": {
-                      "categories": 48,
-                      "total_gifs": 3000,
-                      "total_images": 5000
-                    }
-                  }
-                },
-                "schema": {
-                  "properties": {
-                    "categories": {
-                      "description": "Total number of categories",
-                      "type": "integer"
-                    },
-                    "total_gifs": {
-                      "description": "Total number of GIFs available",
-                      "type": "integer"
-                    },
-                    "total_images": {
-                      "description": "Total number of images available",
-                      "type": "integer"
-                    }
-                  },
-                  "type": "object"
-                }
-              }
-            },
-            "description": "Successful response with API statistics"
-          }
-        },
-        "securitySource": "unspecified"
-      }
+      "version": 2,
+      "source": "openapi3"
     }
   }
 }

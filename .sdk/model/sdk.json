@@ -24,58 +24,130 @@
         "repr": "auto"
       },
       "contributor": {},
+      "doc": {
+        "active": true,
+        "assets": {
+          "path": ".sdk/doc/assets"
+        },
+        "brand": {
+          "label": "",
+          "notice": "",
+          "shortNotice": "",
+          "url": ""
+        },
+        "ci": {
+          "active": true,
+          "branch": "main"
+        },
+        "content": {
+          "path": ".sdk/doc/content"
+        },
+        "edition": {
+          "summary": {
+            "active": true,
+            "base": "node_modules/@voxgig/docgen/project/.sdk",
+            "brand": {},
+            "filter": {
+              "entities": [],
+              "features": [],
+              "targets": []
+            },
+            "kind": "summary",
+            "name": "summary",
+            "origname": "",
+            "output": {
+              "path": "SUMMARY.md"
+            },
+            "package": "@voxgig/docgen",
+            "published": false,
+            "site": {
+              "active": true
+            },
+            "style": {},
+            "title": ""
+          }
+        },
+        "qa": {
+          "vocabulary": []
+        },
+        "style": {
+          "color": {
+            "accent": "#00c6d8",
+            "background": "#f5f5f9",
+            "darkBackground": "#0f1117",
+            "darkText": "#e6edf3",
+            "primary": "#e70042",
+            "text": "#0a0a0a"
+          },
+          "font": "Nunito, system-ui, sans-serif",
+          "fontFile": "",
+          "headingFont": "Nunito, system-ui, sans-serif",
+          "headingFontFile": "",
+          "logo": "",
+          "mode": "light",
+          "mono": "ui-monospace, monospace",
+          "monoFile": ""
+        },
+        "target": {}
+      },
       "entity": {
         "get_random_by_category": {
           "active": true,
           "alias": {
             "field": {}
           },
-          "fields": [
-            {
-              "active": true,
-              "name": "anime_name",
-              "req": false,
-              "short": "Name of the anime the character is from (if applicable)",
-              "type": "`$STRING`"
+          "fields": {
+            "anime_name": {
+              "a": true,
+              "h": "Anime Name",
+              "n": "anime_name",
+              "r": false,
+              "sh": "Name of the anime the character is from (if applicable)",
+              "t": "`$STRING`"
             },
-            {
-              "active": true,
-              "format": "uri",
-              "name": "artist_href",
-              "req": false,
-              "short": "URL to the artist's profile or website",
-              "type": "`$STRING`"
+            "artist_href": {
+              "a": true,
+              "fo": "uri",
+              "h": "Artist Href",
+              "n": "artist_href",
+              "r": false,
+              "sh": "URL to the artist's profile or website",
+              "t": "`$STRING`"
             },
-            {
-              "active": true,
-              "name": "artist_name",
-              "req": false,
-              "short": "Name of the artist who created the image",
-              "type": "`$STRING`"
+            "artist_name": {
+              "a": true,
+              "h": "Artist Name",
+              "n": "artist_name",
+              "r": false,
+              "sh": "Name of the artist who created the image",
+              "t": "`$STRING`"
             },
-            {
-              "active": true,
-              "name": "id",
-              "req": false,
-              "type": "`$STRING`"
+            "id": {
+              "a": true,
+              "h": "Id",
+              "n": "id",
+              "r": false,
+              "t": "`$STRING`"
             },
-            {
-              "active": true,
-              "format": "uri",
-              "name": "source_url",
-              "req": false,
-              "short": "Original source URL of the image",
-              "type": "`$STRING`"
+            "source_url": {
+              "a": true,
+              "fo": "uri",
+              "h": "Source Url",
+              "n": "source_url",
+              "r": false,
+              "sh": "Original source URL of the image",
+              "t": "`$STRING`"
             },
-            {
-              "active": true,
-              "format": "uri",
-              "name": "url",
-              "req": true,
-              "short": "Direct URL to the image or GIF hosted on nekos.best",
-              "type": "`$STRING`"
+            "url": {
+              "a": true,
+              "fo": "uri",
+              "h": "Url",
+              "n": "url",
+              "r": true,
+              "sh": "Direct URL to the image or GIF hosted on nekos.best",
+              "t": "`$STRING`"
             }
-          ],
+          },
           "id": {
             "field": "id",
             "name": "id"
@@ -87,57 +159,56 @@
               "name": "list",
               "points": [
                 {
-                  "active": true,
-                  "args": {
+                  "a": true,
+                  "co": {
+                    "id": "GET /{category}",
+                    "source": "openapi3",
+                    "version": 2
+                  },
+                  "g": {
                     "params": [
                       {
-                        "active": true,
-                        "example": "neko",
-                        "kind": "param",
-                        "name": "id",
-                        "orig": "category",
-                        "reqd": true,
-                        "type": "`$STRING`"
+                        "a": true,
+                        "ex": "neko",
+                        "k": "param",
+                        "n": "id",
+                        "or": "category",
+                        "r": true,
+                        "t": "`$STRING`"
                       }
                     ],
                     "query": [
                       {
-                        "active": true,
-                        "example": 1,
-                        "kind": "query",
-                        "name": "amount",
-                        "orig": "amount",
-                        "reqd": false,
-                        "type": "`$INTEGER`"
+                        "a": true,
+                        "ex": 1,
+                        "k": "query",
+                        "n": "amount",
+                        "or": "amount",
+                        "r": false,
+                        "t": "`$INTEGER`"
                       }
                     ]
                   },
-                  "contract": {
-                    "id": "GET /{category}",
-                    "json": "{\"operationId\":\"getRandomByCategory\",\"parameters\":[{\"description\":\"The category name (e.g., neko, husbando, kitsune, waifu, etc.)\",\"in\":\"path\",\"name\":\"category\",\"required\":true,\"schema\":{\"example\":\"neko\",\"type\":\"string\"}},{\"description\":\"Number of images/GIFs to return (1-20)\",\"in\":\"query\",\"name\":\"amount\",\"required\":false,\"schema\":{\"default\":1,\"maximum\":20,\"minimum\":1,\"type\":\"integer\"}}],\"protocol\":\"http\",\"responses\":{\"200\":{\"content\":{\"application/json\":{\"examples\":{\"single\":{\"summary\":\"Single image response\",\"value\":{\"results\":[{\"anime_name\":\"Anime Title\",\"artist_href\":\"https://www.pixiv.net/en/users/12345\",\"artist_name\":\"Artist Name\",\"source_url\":\"https://www.pixiv.net/en/artworks/67890\",\"url\":\"https://nekos.best/api/v2/neko/001.png\"}]}}},\"schema\":{\"properties\":{\"results\":{\"description\":\"Array of image/GIF objects\",\"items\":{\"properties\":{\"anime_name\":{\"description\":\"Name of the anime the character is from (if applicable)\",\"example\":\"Anime Title\",\"type\":\"string\"},\"artist_href\":{\"description\":\"URL to the artist's profile or website\",\"example\":\"https://www.pixiv.net/en/users/12345\",\"format\":\"uri\",\"type\":\"string\"},\"artist_name\":{\"description\":\"Name of the artist who created the image\",\"example\":\"Artist Name\",\"type\":\"string\"},\"source_url\":{\"description\":\"Original source URL of the image\",\"example\":\"https://www.pixiv.net/en/artworks/67890\",\"format\":\"uri\",\"type\":\"string\"},\"url\":{\"description\":\"Direct URL to the image or GIF hosted on nekos.best\",\"example\":\"https://nekos.best/api/v2/neko/001.png\",\"format\":\"uri\",\"type\":\"string\"}},\"required\":[\"url\"],\"type\":\"object\"},\"type\":\"array\"}},\"required\":[\"results\"],\"type\":\"object\"}}},\"description\":\"Successful response with image/GIF data\"},\"400\":{\"content\":{\"application/json\":{\"schema\":{\"properties\":{\"error\":{\"description\":\"Error message\",\"type\":\"string\"},\"message\":{\"description\":\"Detailed error description\",\"type\":\"string\"}},\"type\":\"object\"}}},\"description\":\"Bad request - invalid parameters\"},\"404\":{\"content\":{\"application/json\":{\"schema\":{\"properties\":{\"error\":{\"description\":\"Error message\",\"type\":\"string\"},\"message\":{\"description\":\"Detailed error description\",\"type\":\"string\"}},\"type\":\"object\"}}},\"description\":\"Category not found\"}},\"securitySource\":\"unspecified\"}",
-                    "source": "openapi3",
-                    "version": 1
-                  },
-                  "kind": "http",
-                  "method": "GET",
-                  "orig": "/{category}",
-                  "rename": {
-                    "param": {
-                      "category": "id"
-                    }
-                  },
-                  "segments": [
-                    {
-                      "var": "id"
-                    }
-                  ],
-                  "select": {
+                  "k": "http",
+                  "m": "GET",
+                  "o": "/{category}",
+                  "q": {
                     "exist": [
                       "amount",
                       "id"
                     ]
                   },
-                  "transform": {
+                  "r": {
+                    "param": {
+                      "category": "id"
+                    }
+                  },
+                  "s": [
+                    {
+                      "var": "id"
+                    }
+                  ],
+                  "t": {
                     "req": "`reqdata`",
                     "res": "`body.results`"
                   }
@@ -154,36 +225,40 @@
           "alias": {
             "field": {}
           },
-          "fields": [
-            {
-              "active": true,
-              "name": "categories",
-              "req": false,
-              "short": "Total number of categories",
-              "type": "`$INTEGER`"
+          "fields": {
+            "categories": {
+              "a": true,
+              "h": "Categories",
+              "n": "categories",
+              "r": false,
+              "sh": "Total number of categories",
+              "t": "`$INTEGER`"
             },
-            {
-              "active": true,
-              "name": "endpoints",
-              "req": false,
-              "short": "Array of available category names",
-              "type": "`$ARRAY`"
+            "endpoints": {
+              "a": true,
+              "h": "Endpoints",
+              "n": "endpoints",
+              "r": false,
+              "sh": "Array of available category names",
+              "t": "`$ARRAY`"
             },
-            {
-              "active": true,
-              "name": "total_gifs",
-              "req": false,
-              "short": "Total number of GIFs available",
-              "type": "`$INTEGER`"
+            "total_gifs": {
+              "a": true,
+              "h": "Total Gifs",
+              "n": "total_gifs",
+              "r": false,
+              "sh": "Total number of GIFs available",
+              "t": "`$INTEGER`"
             },
-            {
-              "active": true,
-              "name": "total_images",
-              "req": false,
-              "short": "Total number of images available",
-              "type": "`$INTEGER`"
+            "total_images": {
+              "a": true,
+              "h": "Total Images",
+              "n": "total_images",
+              "r": false,
+              "sh": "Total number of images available",
+              "t": "`$INTEGER`"
             }
-          ],
+          },
           "name": "image",
           "op": {
             "list": {
@@ -191,24 +266,24 @@
               "name": "list",
               "points": [
                 {
-                  "active": true,
-                  "args": {},
-                  "contract": {
+                  "a": true,
+                  "co": {
                     "id": "GET /endpoints",
-                    "json": "{\"operationId\":\"getEndpoints\",\"parameters\":[],\"protocol\":\"http\",\"responses\":{\"200\":{\"content\":{\"application/json\":{\"examples\":{\"endpoints\":{\"summary\":\"Available endpoints\",\"value\":{\"endpoints\":[\"neko\",\"husbando\",\"kitsune\",\"waifu\",\"pat\",\"hug\",\"kiss\",\"slap\",\"cuddle\",\"bite\"]}}},\"schema\":{\"properties\":{\"endpoints\":{\"description\":\"Array of available category names\",\"items\":{\"type\":\"string\"},\"type\":\"array\"}},\"type\":\"object\"}}},\"description\":\"Successful response with list of available endpoints\"}},\"securitySource\":\"unspecified\"}",
                     "source": "openapi3",
-                    "version": 1
+                    "version": 2
                   },
-                  "kind": "http",
-                  "method": "GET",
-                  "orig": "/endpoints",
-                  "segments": [
+                  "g": {},
+                  "k": "http",
+                  "m": "GET",
+                  "o": "/endpoints",
+                  "q": {},
+                  "r": {},
+                  "s": [
                     {
                       "lit": "endpoints"
                     }
                   ],
-                  "select": {},
-                  "transform": {
+                  "t": {
                     "req": "`reqdata`",
                     "res": "`body.endpoints`"
                   }
@@ -220,24 +295,24 @@
               "name": "load",
               "points": [
                 {
-                  "active": true,
-                  "args": {},
-                  "contract": {
+                  "a": true,
+                  "co": {
                     "id": "GET /stats",
-                    "json": "{\"operationId\":\"getStats\",\"parameters\":[],\"protocol\":\"http\",\"responses\":{\"200\":{\"content\":{\"application/json\":{\"examples\":{\"stats\":{\"summary\":\"API statistics\",\"value\":{\"categories\":48,\"total_gifs\":3000,\"total_images\":5000}}},\"schema\":{\"properties\":{\"categories\":{\"description\":\"Total number of categories\",\"type\":\"integer\"},\"total_gifs\":{\"description\":\"Total number of GIFs available\",\"type\":\"integer\"},\"total_images\":{\"description\":\"Total number of images available\",\"type\":\"integer\"}},\"type\":\"object\"}}},\"description\":\"Successful response with API statistics\"}},\"securitySource\":\"unspecified\"}",
                     "source": "openapi3",
-                    "version": 1
+                    "version": 2
                   },
-                  "kind": "http",
-                  "method": "GET",
-                  "orig": "/stats",
-                  "segments": [
+                  "g": {},
+                  "k": "http",
+                  "m": "GET",
+                  "o": "/stats",
+                  "q": {},
+                  "r": {},
+                  "s": [
                     {
                       "lit": "stats"
                     }
                   ],
-                  "select": {},
-                  "transform": {
+                  "t": {
                     "req": "`reqdata`",
                     "res": "`body`"
                   }
@@ -254,46 +329,51 @@
           "alias": {
             "field": {}
           },
-          "fields": [
-            {
-              "active": true,
-              "name": "anime_name",
-              "req": false,
-              "short": "Name of the anime the character is from (if applicable)",
-              "type": "`$STRING`"
+          "fields": {
+            "anime_name": {
+              "a": true,
+              "h": "Anime Name",
+              "n": "anime_name",
+              "r": false,
+              "sh": "Name of the anime the character is from (if applicable)",
+              "t": "`$STRING`"
             },
-            {
-              "active": true,
-              "format": "uri",
-              "name": "artist_href",
-              "req": false,
-              "short": "URL to the artist's profile or website",
-              "type": "`$STRING`"
+            "artist_href": {
+              "a": true,
+              "fo": "uri",
+              "h": "Artist Href",
+              "n": "artist_href",
+              "r": false,
+              "sh": "URL to the artist's profile or website",
+              "t": "`$STRING`"
             },
-            {
-              "active": true,
-              "name": "artist_name",
-              "req": false,
-              "short": "Name of the artist who created the image",
-              "type": "`$STRING`"
+            "artist_name": {
+              "a": true,
+              "h": "Artist Name",
+              "n": "artist_name",
+              "r": false,
+              "sh": "Name of the artist who created the image",
+              "t": "`$STRING`"
             },
-            {
-              "active": true,
-              "format": "uri",
-              "name": "source_url",
-              "req": false,
-              "short": "Original source URL of the image",
-              "type": "`$STRING`"
+            "source_url": {
+              "a": true,
+              "fo": "uri",
+              "h": "Source Url",
+              "n": "source_url",
+              "r": false,
+              "sh": "Original source URL of the image",
+              "t": "`$STRING`"
             },
-            {
-              "active": true,
-              "format": "uri",
-              "name": "url",
-              "req": true,
-              "short": "Direct URL to the image or GIF hosted on nekos.best",
-              "type": "`$STRING`"
+            "url": {
+              "a": true,
+              "fo": "uri",
+              "h": "Url",
+              "n": "url",
+              "r": true,
+              "sh": "Direct URL to the image or GIF hosted on nekos.best",
+              "t": "`$STRING`"
             }
-          ],
+          },
           "name": "search",
           "op": {
             "list": {
@@ -301,58 +381,58 @@
               "name": "list",
               "points": [
                 {
-                  "active": true,
-                  "args": {
+                  "a": true,
+                  "co": {
+                    "id": "GET /search",
+                    "source": "openapi3",
+                    "version": 2
+                  },
+                  "g": {
                     "query": [
                       {
-                        "active": true,
-                        "example": 10,
-                        "kind": "query",
-                        "name": "amount",
-                        "orig": "amount",
-                        "reqd": false,
-                        "type": "`$INTEGER`"
+                        "a": true,
+                        "ex": 10,
+                        "k": "query",
+                        "n": "amount",
+                        "or": "amount",
+                        "r": false,
+                        "t": "`$INTEGER`"
                       },
                       {
-                        "active": true,
-                        "kind": "query",
-                        "name": "category",
-                        "orig": "category",
-                        "reqd": false,
-                        "type": "`$STRING`"
+                        "a": true,
+                        "k": "query",
+                        "n": "category",
+                        "or": "category",
+                        "r": false,
+                        "t": "`$STRING`"
                       },
                       {
-                        "active": true,
-                        "kind": "query",
-                        "name": "query",
-                        "orig": "query",
-                        "reqd": true,
-                        "type": "`$STRING`"
+                        "a": true,
+                        "k": "query",
+                        "n": "query",
+                        "or": "query",
+                        "r": true,
+                        "t": "`$STRING`"
                       }
                     ]
                   },
-                  "contract": {
-                    "id": "GET /search",
-                    "json": "{\"operationId\":\"searchImages\",\"parameters\":[{\"description\":\"Search query string\",\"in\":\"query\",\"name\":\"query\",\"required\":true,\"schema\":{\"type\":\"string\"}},{\"description\":\"Filter by specific category\",\"in\":\"query\",\"name\":\"category\",\"required\":false,\"schema\":{\"type\":\"string\"}},{\"description\":\"Number of results to return\",\"in\":\"query\",\"name\":\"amount\",\"required\":false,\"schema\":{\"default\":10,\"maximum\":20,\"minimum\":1,\"type\":\"integer\"}}],\"protocol\":\"http\",\"responses\":{\"200\":{\"content\":{\"application/json\":{\"schema\":{\"properties\":{\"results\":{\"description\":\"Array of image/GIF objects\",\"items\":{\"properties\":{\"anime_name\":{\"description\":\"Name of the anime the character is from (if applicable)\",\"example\":\"Anime Title\",\"type\":\"string\"},\"artist_href\":{\"description\":\"URL to the artist's profile or website\",\"example\":\"https://www.pixiv.net/en/users/12345\",\"format\":\"uri\",\"type\":\"string\"},\"artist_name\":{\"description\":\"Name of the artist who created the image\",\"example\":\"Artist Name\",\"type\":\"string\"},\"source_url\":{\"description\":\"Original source URL of the image\",\"example\":\"https://www.pixiv.net/en/artworks/67890\",\"format\":\"uri\",\"type\":\"string\"},\"url\":{\"description\":\"Direct URL to the image or GIF hosted on nekos.best\",\"example\":\"https://nekos.best/api/v2/neko/001.png\",\"format\":\"uri\",\"type\":\"string\"}},\"required\":[\"url\"],\"type\":\"object\"},\"type\":\"array\"}},\"required\":[\"results\"],\"type\":\"object\"}}},\"description\":\"Successful search results\"},\"400\":{\"content\":{\"application/json\":{\"schema\":{\"properties\":{\"error\":{\"description\":\"Error message\",\"type\":\"string\"},\"message\":{\"description\":\"Detailed error description\",\"type\":\"string\"}},\"type\":\"object\"}}},\"description\":\"Bad request - missing or invalid query parameter\"}},\"securitySource\":\"unspecified\"}",
-                    "source": "openapi3",
-                    "version": 1
-                  },
-                  "kind": "http",
-                  "method": "GET",
-                  "orig": "/search",
-                  "segments": [
-                    {
-                      "lit": "search"
-                    }
-                  ],
-                  "select": {
+                  "k": "http",
+                  "m": "GET",
+                  "o": "/search",
+                  "q": {
                     "exist": [
                       "amount",
                       "category",
                       "query"
                     ]
                   },
-                  "transform": {
+                  "r": {},
+                  "s": [
+                    {
+                      "lit": "search"
+                    }
+                  ],
+                  "t": {
                     "req": "`reqdata`",
                     "res": "`body.results`"
                   }
@@ -781,15 +861,15 @@
           "param": {},
           "step": [
             {
-              "active": true,
-              "data": {},
-              "input": {},
-              "match": {
+              "a": true,
+              "d": {},
+              "i": {},
+              "m": {
                 "category": "category01"
               },
-              "op": "list",
-              "spec": [],
-              "valid": [
+              "o": "list",
+              "s": [],
+              "v": [
                 {
                   "apply": "ItemExists",
                   "def": {
@@ -809,13 +889,13 @@
           "param": {},
           "step": [
             {
-              "active": true,
-              "data": {},
-              "input": {},
-              "match": {},
-              "op": "list",
-              "spec": [],
-              "valid": [
+              "a": true,
+              "d": {},
+              "i": {},
+              "m": {},
+              "o": "list",
+              "s": [],
+              "v": [
                 {
                   "apply": "ItemExists",
                   "def": {
@@ -825,17 +905,17 @@
               ]
             },
             {
-              "active": true,
-              "data": {},
-              "input": {
+              "a": true,
+              "d": {},
+              "i": {
                 "ref": "image_ref01",
                 "srcdatavar": "image_ref01_data",
                 "suffix": "_dt0"
               },
-              "match": {},
-              "op": "load",
-              "spec": [],
-              "valid": [
+              "m": {},
+              "o": "load",
+              "s": [],
+              "v": [
                 {
                   "apply": "TextFieldMark",
                   "def": {
@@ -855,13 +935,13 @@
           "param": {},
           "step": [
             {
-              "active": true,
-              "data": {},
-              "input": {},
-              "match": {},
-              "op": "list",
-              "spec": [],
-              "valid": [
+              "a": true,
+              "d": {},
+              "i": {},
+              "m": {},
+              "o": "list",
+              "s": [],
+              "v": [
                 {
                   "apply": "ItemExists",
                   "def": {

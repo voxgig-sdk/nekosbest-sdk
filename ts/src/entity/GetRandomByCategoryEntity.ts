@@ -19,7 +19,6 @@ import type {
   GetRandomByCategoryListMatch,
 } from '../NekosbestTypes'
 
-// TODO: needs Entity superclass
 class GetRandomByCategoryEntity extends NekosbestEntityBase<GetRandomByCategory> {
 
   constructor(client: NekosbestSDK, entopts: any) {

@@ -1,0 +1,121 @@
+# Entity: get_random_by_category
+
+main: kit: entity: get_random_by_category: {
+
+  alias: field: {}
+
+  fields: {
+    anime_name: {
+      h: "Anime Name"
+      n: "anime_name"
+      r: false
+      sh: "Name of the anime the character is from (if applicable)"
+      t: "`$STRING`"
+    }
+    artist_href: {
+      fo: "uri"
+      h: "Artist Href"
+      n: "artist_href"
+      r: false
+      sh: "URL to the artist's profile or website"
+      t: "`$STRING`"
+    }
+    artist_name: {
+      h: "Artist Name"
+      n: "artist_name"
+      r: false
+      sh: "Name of the artist who created the image"
+      t: "`$STRING`"
+    }
+    id: {
+      h: "Id"
+      n: "id"
+      r: false
+      t: "`$STRING`"
+    }
+    source_url: {
+      fo: "uri"
+      h: "Source Url"
+      n: "source_url"
+      r: false
+      sh: "Original source URL of the image"
+      t: "`$STRING`"
+    }
+    url: {
+      fo: "uri"
+      h: "Url"
+      n: "url"
+      r: true
+      sh: "Direct URL to the image or GIF hosted on nekos.best"
+      t: "`$STRING`"
+    }
+  }
+
+  id: {
+    field: "id"
+    name: "id"
+  }
+
+  name: "get_random_by_category"
+  op: {
+    list: {
+      name: "list"
+      points: [
+        {
+          co: {
+            id: "GET /{category}"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                ex: "neko"
+                k: "param"
+                n: "id"
+                or: "category"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+            query: [
+              {
+                ex: 1
+                k: "query"
+                n: "amount"
+                or: "amount"
+                r: false
+                t: "`$INTEGER`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/{category}"
+          q: {
+            exist: [
+              "amount"
+              "id"
+            ]
+          }
+          r: {
+            param: {
+              category: "id"
+            }
+          }
+          s: [
+            {
+              var: "id"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body.results`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

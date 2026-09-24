@@ -11,19 +11,12 @@ const FEATURE_CLASS = {
     test: TestFeature_1.TestFeature,
     timeout: TimeoutFeature_1.TimeoutFeature,
 };
-// Per-feature plugin DEFINITIONS (voxgig/plugin `Definition` values), from
-// the model's active plugin groups. A feature that takes a `plugins` option
-// (secrets over sekreto) reads its own entry; a feature with no plugins has
-// none. Named imports above make each definition statically reachable, so
-// an SDK carries exactly the plugin modules its model selects — the same
-// leanness the old side-effect registry imports bought, without a registry.
 const FEATURE_PLUGINS = {};
 exports.FEATURE_PLUGINS = FEATURE_PLUGINS;
 class Config {
     makeFeature(fn) {
         const fc = FEATURE_CLASS[fn];
         const fi = new fc();
-        // TODO: errors etc
         return fi;
     }
     // False for a feature added at runtime via options.extend (station's
@@ -116,36 +109,42 @@ class Config {
             "fields": [
                 {
                     "name": "anime_name",
-                    "short": "Name of the anime the character is from (if applicable)",
-                    "type": "`$STRING`"
+                    "title": "Anime Name",
+                    "type": "`$STRING`",
+                    "short": "Name of the anime the character is from (if applicable)"
                 },
                 {
-                    "format": "uri",
                     "name": "artist_href",
+                    "title": "Artist Href",
+                    "type": "`$STRING`",
                     "short": "URL to the artist's profile or website",
-                    "type": "`$STRING`"
+                    "format": "uri"
                 },
                 {
                     "name": "artist_name",
-                    "short": "Name of the artist who created the image",
-                    "type": "`$STRING`"
+                    "title": "Artist Name",
+                    "type": "`$STRING`",
+                    "short": "Name of the artist who created the image"
                 },
                 {
                     "name": "id",
+                    "title": "Id",
                     "type": "`$STRING`"
                 },
                 {
-                    "format": "uri",
                     "name": "source_url",
+                    "title": "Source Url",
+                    "type": "`$STRING`",
                     "short": "Original source URL of the image",
-                    "type": "`$STRING`"
+                    "format": "uri"
                 },
                 {
-                    "format": "uri",
                     "name": "url",
+                    "title": "Url",
+                    "type": "`$STRING`",
                     "req": true,
                     "short": "Direct URL to the image or GIF hosted on nekos.best",
-                    "type": "`$STRING`"
+                    "format": "uri"
                 }
             ],
             "id": {
@@ -159,53 +158,53 @@ class Config {
                     "name": "list",
                     "points": [
                         {
-                            "args": {
-                                "params": [
-                                    {
-                                        "example": "neko",
-                                        "kind": "param",
-                                        "name": "id",
-                                        "orig": "category",
-                                        "reqd": true,
-                                        "type": "`$STRING`"
-                                    }
-                                ],
-                                "query": [
-                                    {
-                                        "example": 1,
-                                        "kind": "query",
-                                        "name": "amount",
-                                        "orig": "amount",
-                                        "type": "`$INTEGER`"
-                                    }
-                                ]
-                            },
                             "kind": "http",
                             "method": "GET",
                             "orig": "/{category}",
-                            "rename": {
-                                "param": {
-                                    "category": "id"
-                                }
-                            },
                             "segments": [
                                 {
                                     "var": "id"
                                 }
                             ],
-                            "select": {
-                                "exist": [
-                                    "amount",
-                                    "id"
-                                ]
+                            "parts": [
+                                "{id}"
+                            ],
+                            "rename": {
+                                "param": {
+                                    "category": "id"
+                                }
                             },
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body.results`"
                             },
-                            "parts": [
-                                "{id}"
-                            ]
+                            "args": {
+                                "params": [
+                                    {
+                                        "name": "id",
+                                        "orig": "category",
+                                        "type": "`$STRING`",
+                                        "kind": "param",
+                                        "reqd": true,
+                                        "example": "neko"
+                                    }
+                                ],
+                                "query": [
+                                    {
+                                        "name": "amount",
+                                        "orig": "amount",
+                                        "type": "`$INTEGER`",
+                                        "kind": "query",
+                                        "example": 1
+                                    }
+                                ]
+                            },
+                            "select": {
+                                "exist": [
+                                    "amount",
+                                    "id"
+                                ]
+                            }
                         }
                     ]
                 }
@@ -218,23 +217,27 @@ class Config {
             "fields": [
                 {
                     "name": "categories",
-                    "short": "Total number of categories",
-                    "type": "`$INTEGER`"
+                    "title": "Categories",
+                    "type": "`$INTEGER`",
+                    "short": "Total number of categories"
                 },
                 {
                     "name": "endpoints",
-                    "short": "Array of available category names",
-                    "type": "`$ARRAY`"
+                    "title": "Endpoints",
+                    "type": "`$ARRAY`",
+                    "short": "Array of available category names"
                 },
                 {
                     "name": "total_gifs",
-                    "short": "Total number of GIFs available",
-                    "type": "`$INTEGER`"
+                    "title": "Total Gifs",
+                    "type": "`$INTEGER`",
+                    "short": "Total number of GIFs available"
                 },
                 {
                     "name": "total_images",
-                    "short": "Total number of images available",
-                    "type": "`$INTEGER`"
+                    "title": "Total Images",
+                    "type": "`$INTEGER`",
+                    "short": "Total number of images available"
                 }
             ],
             "name": "image",
@@ -244,7 +247,6 @@ class Config {
                     "name": "list",
                     "points": [
                         {
-                            "args": {},
                             "kind": "http",
                             "method": "GET",
                             "orig": "/endpoints",
@@ -253,14 +255,16 @@ class Config {
                                     "lit": "endpoints"
                                 }
                             ],
-                            "select": {},
+                            "parts": [
+                                "endpoints"
+                            ],
+                            "rename": {},
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body.endpoints`"
                             },
-                            "parts": [
-                                "endpoints"
-                            ]
+                            "args": {},
+                            "select": {}
                         }
                     ]
                 },
@@ -269,7 +273,6 @@ class Config {
                     "name": "load",
                     "points": [
                         {
-                            "args": {},
                             "kind": "http",
                             "method": "GET",
                             "orig": "/stats",
@@ -278,14 +281,16 @@ class Config {
                                     "lit": "stats"
                                 }
                             ],
-                            "select": {},
+                            "parts": [
+                                "stats"
+                            ],
+                            "rename": {},
                             "transform": {
                                 "req": "`reqdata`",
                                 "res": "`body`"
                             },
-                            "parts": [
-                                "stats"
-                            ]
+                            "args": {},
+                            "select": {}
                         }
                     ]
                 }
@@ -298,32 +303,37 @@ class Config {
             "fields": [
                 {
                     "name": "anime_name",
-                    "short": "Name of the anime the character is from (if applicable)",
-                    "type": "`$STRING`"
+                    "title": "Anime Name",
+                    "type": "`$STRING`",
+                    "short": "Name of the anime the character is from (if applicable)"
                 },
                 {
-                    "format": "uri",
                     "name": "artist_href",
+                    "title": "Artist Href",
+                    "type": "`$STRING`",
                     "short": "URL to the artist's profile or website",
-                    "type": "`$STRING`"
+                    "format": "uri"
                 },
                 {
                     "name": "artist_name",
-                    "short": "Name of the artist who created the image",
-                    "type": "`$STRING`"
+                    "title": "Artist Name",
+                    "type": "`$STRING`",
+                    "short": "Name of the artist who created the image"
                 },
                 {
-                    "format": "uri",
                     "name": "source_url",
+                    "title": "Source Url",
+                    "type": "`$STRING`",
                     "short": "Original source URL of the image",
-                    "type": "`$STRING`"
+                    "format": "uri"
                 },
                 {
-                    "format": "uri",
                     "name": "url",
+                    "title": "Url",
+                    "type": "`$STRING`",
                     "req": true,
                     "short": "Direct URL to the image or GIF hosted on nekos.best",
-                    "type": "`$STRING`"
+                    "format": "uri"
                 }
             ],
             "name": "search",
@@ -333,30 +343,6 @@ class Config {
                     "name": "list",
                     "points": [
                         {
-                            "args": {
-                                "query": [
-                                    {
-                                        "example": 10,
-                                        "kind": "query",
-                                        "name": "amount",
-                                        "orig": "amount",
-                                        "type": "`$INTEGER`"
-                                    },
-                                    {
-                                        "kind": "query",
-                                        "name": "category",
-                                        "orig": "category",
-                                        "type": "`$STRING`"
-                                    },
-                                    {
-                                        "kind": "query",
-                                        "name": "query",
-                                        "orig": "query",
-                                        "reqd": true,
-                                        "type": "`$STRING`"
-                                    }
-                                ]
-                            },
                             "kind": "http",
                             "method": "GET",
                             "orig": "/search",
@@ -365,20 +351,45 @@ class Config {
                                     "lit": "search"
                                 }
                             ],
+                            "parts": [
+                                "search"
+                            ],
+                            "rename": {},
+                            "transform": {
+                                "req": "`reqdata`",
+                                "res": "`body.results`"
+                            },
+                            "args": {
+                                "query": [
+                                    {
+                                        "name": "amount",
+                                        "orig": "amount",
+                                        "type": "`$INTEGER`",
+                                        "kind": "query",
+                                        "example": 10
+                                    },
+                                    {
+                                        "name": "category",
+                                        "orig": "category",
+                                        "type": "`$STRING`",
+                                        "kind": "query"
+                                    },
+                                    {
+                                        "name": "query",
+                                        "orig": "query",
+                                        "type": "`$STRING`",
+                                        "kind": "query",
+                                        "reqd": true
+                                    }
+                                ]
+                            },
                             "select": {
                                 "exist": [
                                     "amount",
                                     "category",
                                     "query"
                                 ]
-                            },
-                            "transform": {
-                                "req": "`reqdata`",
-                                "res": "`body.results`"
-                            },
-                            "parts": [
-                                "search"
-                            ]
+                            }
                         }
                     ]
                 }

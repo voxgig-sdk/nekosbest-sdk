@@ -93,36 +93,42 @@ func MakeConfig() map[string]any {
 				"fields": []any{
 					map[string]any{
 						"name": "anime_name",
-						"short": "Name of the anime the character is from (if applicable)",
+						"title": "Anime Name",
 						"type": "`$STRING`",
+						"short": "Name of the anime the character is from (if applicable)",
 					},
 					map[string]any{
-						"format": "uri",
 						"name": "artist_href",
-						"short": "URL to the artist's profile or website",
+						"title": "Artist Href",
 						"type": "`$STRING`",
+						"short": "URL to the artist's profile or website",
+						"format": "uri",
 					},
 					map[string]any{
 						"name": "artist_name",
-						"short": "Name of the artist who created the image",
+						"title": "Artist Name",
 						"type": "`$STRING`",
+						"short": "Name of the artist who created the image",
 					},
 					map[string]any{
 						"name": "id",
+						"title": "Id",
 						"type": "`$STRING`",
 					},
 					map[string]any{
-						"format": "uri",
 						"name": "source_url",
-						"short": "Original source URL of the image",
+						"title": "Source Url",
 						"type": "`$STRING`",
+						"short": "Original source URL of the image",
+						"format": "uri",
 					},
 					map[string]any{
-						"format": "uri",
 						"name": "url",
+						"title": "Url",
+						"type": "`$STRING`",
 						"req": true,
 						"short": "Direct URL to the image or GIF hosted on nekos.best",
-						"type": "`$STRING`",
+						"format": "uri",
 					},
 				},
 				"id": map[string]any{
@@ -136,38 +142,45 @@ func MakeConfig() map[string]any {
 						"name": "list",
 						"points": []any{
 							map[string]any{
-								"args": map[string]any{
-									"params": []any{
-										map[string]any{
-											"example": "neko",
-											"kind": "param",
-											"name": "id",
-											"orig": "category",
-											"reqd": true,
-											"type": "`$STRING`",
-										},
-									},
-									"query": []any{
-										map[string]any{
-											"example": 1,
-											"kind": "query",
-											"name": "amount",
-											"orig": "amount",
-											"type": "`$INTEGER`",
-										},
-									},
-								},
 								"kind": "http",
 								"method": "GET",
 								"orig": "/{category}",
+								"segments": []any{
+									map[string]any{
+										"var": "id",
+									},
+								},
+								"parts": []any{
+									"{id}",
+								},
 								"rename": map[string]any{
 									"param": map[string]any{
 										"category": "id",
 									},
 								},
-								"segments": []any{
-									map[string]any{
-										"var": "id",
+								"transform": map[string]any{
+									"req": "`reqdata`",
+									"res": "`body.results`",
+								},
+								"args": map[string]any{
+									"params": []any{
+										map[string]any{
+											"name": "id",
+											"orig": "category",
+											"type": "`$STRING`",
+											"kind": "param",
+											"reqd": true,
+											"example": "neko",
+										},
+									},
+									"query": []any{
+										map[string]any{
+											"name": "amount",
+											"orig": "amount",
+											"type": "`$INTEGER`",
+											"kind": "query",
+											"example": 1,
+										},
 									},
 								},
 								"select": map[string]any{
@@ -175,13 +188,6 @@ func MakeConfig() map[string]any {
 										"amount",
 										"id",
 									},
-								},
-								"transform": map[string]any{
-									"req": "`reqdata`",
-									"res": "`body.results`",
-								},
-								"parts": []any{
-									"{id}",
 								},
 							},
 						},
@@ -195,23 +201,27 @@ func MakeConfig() map[string]any {
 				"fields": []any{
 					map[string]any{
 						"name": "categories",
-						"short": "Total number of categories",
+						"title": "Categories",
 						"type": "`$INTEGER`",
+						"short": "Total number of categories",
 					},
 					map[string]any{
 						"name": "endpoints",
-						"short": "Array of available category names",
+						"title": "Endpoints",
 						"type": "`$ARRAY`",
+						"short": "Array of available category names",
 					},
 					map[string]any{
 						"name": "total_gifs",
-						"short": "Total number of GIFs available",
+						"title": "Total Gifs",
 						"type": "`$INTEGER`",
+						"short": "Total number of GIFs available",
 					},
 					map[string]any{
 						"name": "total_images",
-						"short": "Total number of images available",
+						"title": "Total Images",
 						"type": "`$INTEGER`",
+						"short": "Total number of images available",
 					},
 				},
 				"name": "image",
@@ -221,7 +231,6 @@ func MakeConfig() map[string]any {
 						"name": "list",
 						"points": []any{
 							map[string]any{
-								"args": map[string]any{},
 								"kind": "http",
 								"method": "GET",
 								"orig": "/endpoints",
@@ -230,14 +239,16 @@ func MakeConfig() map[string]any {
 										"lit": "endpoints",
 									},
 								},
-								"select": map[string]any{},
+								"parts": []any{
+									"endpoints",
+								},
+								"rename": map[string]any{},
 								"transform": map[string]any{
 									"req": "`reqdata`",
 									"res": "`body.endpoints`",
 								},
-								"parts": []any{
-									"endpoints",
-								},
+								"args": map[string]any{},
+								"select": map[string]any{},
 							},
 						},
 					},
@@ -246,7 +257,6 @@ func MakeConfig() map[string]any {
 						"name": "load",
 						"points": []any{
 							map[string]any{
-								"args": map[string]any{},
 								"kind": "http",
 								"method": "GET",
 								"orig": "/stats",
@@ -255,14 +265,16 @@ func MakeConfig() map[string]any {
 										"lit": "stats",
 									},
 								},
-								"select": map[string]any{},
+								"parts": []any{
+									"stats",
+								},
+								"rename": map[string]any{},
 								"transform": map[string]any{
 									"req": "`reqdata`",
 									"res": "`body`",
 								},
-								"parts": []any{
-									"stats",
-								},
+								"args": map[string]any{},
+								"select": map[string]any{},
 							},
 						},
 					},
@@ -275,32 +287,37 @@ func MakeConfig() map[string]any {
 				"fields": []any{
 					map[string]any{
 						"name": "anime_name",
-						"short": "Name of the anime the character is from (if applicable)",
+						"title": "Anime Name",
 						"type": "`$STRING`",
+						"short": "Name of the anime the character is from (if applicable)",
 					},
 					map[string]any{
-						"format": "uri",
 						"name": "artist_href",
-						"short": "URL to the artist's profile or website",
+						"title": "Artist Href",
 						"type": "`$STRING`",
+						"short": "URL to the artist's profile or website",
+						"format": "uri",
 					},
 					map[string]any{
 						"name": "artist_name",
+						"title": "Artist Name",
+						"type": "`$STRING`",
 						"short": "Name of the artist who created the image",
-						"type": "`$STRING`",
 					},
 					map[string]any{
-						"format": "uri",
 						"name": "source_url",
-						"short": "Original source URL of the image",
+						"title": "Source Url",
 						"type": "`$STRING`",
+						"short": "Original source URL of the image",
+						"format": "uri",
 					},
 					map[string]any{
-						"format": "uri",
 						"name": "url",
+						"title": "Url",
+						"type": "`$STRING`",
 						"req": true,
 						"short": "Direct URL to the image or GIF hosted on nekos.best",
-						"type": "`$STRING`",
+						"format": "uri",
 					},
 				},
 				"name": "search",
@@ -310,30 +327,6 @@ func MakeConfig() map[string]any {
 						"name": "list",
 						"points": []any{
 							map[string]any{
-								"args": map[string]any{
-									"query": []any{
-										map[string]any{
-											"example": 10,
-											"kind": "query",
-											"name": "amount",
-											"orig": "amount",
-											"type": "`$INTEGER`",
-										},
-										map[string]any{
-											"kind": "query",
-											"name": "category",
-											"orig": "category",
-											"type": "`$STRING`",
-										},
-										map[string]any{
-											"kind": "query",
-											"name": "query",
-											"orig": "query",
-											"reqd": true,
-											"type": "`$STRING`",
-										},
-									},
-								},
 								"kind": "http",
 								"method": "GET",
 								"orig": "/search",
@@ -342,19 +335,44 @@ func MakeConfig() map[string]any {
 										"lit": "search",
 									},
 								},
+								"parts": []any{
+									"search",
+								},
+								"rename": map[string]any{},
+								"transform": map[string]any{
+									"req": "`reqdata`",
+									"res": "`body.results`",
+								},
+								"args": map[string]any{
+									"query": []any{
+										map[string]any{
+											"name": "amount",
+											"orig": "amount",
+											"type": "`$INTEGER`",
+											"kind": "query",
+											"example": 10,
+										},
+										map[string]any{
+											"name": "category",
+											"orig": "category",
+											"type": "`$STRING`",
+											"kind": "query",
+										},
+										map[string]any{
+											"name": "query",
+											"orig": "query",
+											"type": "`$STRING`",
+											"kind": "query",
+											"reqd": true,
+										},
+									},
+								},
 								"select": map[string]any{
 									"exist": []any{
 										"amount",
 										"category",
 										"query",
 									},
-								},
-								"transform": map[string]any{
-									"req": "`reqdata`",
-									"res": "`body.results`",
-								},
-								"parts": []any{
-									"search",
 								},
 							},
 						},

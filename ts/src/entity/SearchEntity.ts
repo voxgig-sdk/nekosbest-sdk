@@ -19,7 +19,6 @@ import type {
   SearchListMatch,
 } from '../NekosbestTypes'
 
-// TODO: needs Entity superclass
 class SearchEntity extends NekosbestEntityBase<Search> {
 
   constructor(client: NekosbestSDK, entopts: any) {

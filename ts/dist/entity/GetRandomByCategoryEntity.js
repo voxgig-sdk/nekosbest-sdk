@@ -2,7 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.GetRandomByCategoryEntity = void 0;
 const NekosbestEntityBase_1 = require("../NekosbestEntityBase");
-// TODO: needs Entity superclass
 class GetRandomByCategoryEntity extends NekosbestEntityBase_1.NekosbestEntityBase {
     constructor(client, entopts) {
         super(client, entopts);

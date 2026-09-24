@@ -1,0 +1,110 @@
+# Entity: search
+
+main: kit: entity: search: {
+
+  alias: field: {}
+
+  fields: {
+    anime_name: {
+      h: "Anime Name"
+      n: "anime_name"
+      r: false
+      sh: "Name of the anime the character is from (if applicable)"
+      t: "`$STRING`"
+    }
+    artist_href: {
+      fo: "uri"
+      h: "Artist Href"
+      n: "artist_href"
+      r: false
+      sh: "URL to the artist's profile or website"
+      t: "`$STRING`"
+    }
+    artist_name: {
+      h: "Artist Name"
+      n: "artist_name"
+      r: false
+      sh: "Name of the artist who created the image"
+      t: "`$STRING`"
+    }
+    source_url: {
+      fo: "uri"
+      h: "Source Url"
+      n: "source_url"
+      r: false
+      sh: "Original source URL of the image"
+      t: "`$STRING`"
+    }
+    url: {
+      fo: "uri"
+      h: "Url"
+      n: "url"
+      r: true
+      sh: "Direct URL to the image or GIF hosted on nekos.best"
+      t: "`$STRING`"
+    }
+  }
+
+  name: "search"
+  op: {
+    list: {
+      name: "list"
+      points: [
+        {
+          co: {
+            id: "GET /search"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            query: [
+              {
+                ex: 10
+                k: "query"
+                n: "amount"
+                or: "amount"
+                r: false
+                t: "`$INTEGER`"
+              }
+              {
+                k: "query"
+                n: "category"
+                or: "category"
+                r: false
+                t: "`$STRING`"
+              }
+              {
+                k: "query"
+                n: "query"
+                or: "query"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/search"
+          q: {
+            exist: [
+              "amount"
+              "category"
+              "query"
+            ]
+          }
+          s: [
+            {
+              lit: "search"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body.results`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

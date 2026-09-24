@@ -43,7 +43,7 @@ local getrandombycategorys, err = client:GetRandomByCategory():list()
 if err then error(err) end
 
 for _, item in ipairs(getrandombycategorys) do
-  print(item["id"], item["anime_name"])
+  print(item["id"])
 end
 ```
 
