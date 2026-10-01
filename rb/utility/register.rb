@@ -33,6 +33,8 @@ require_relative 'transform_response'
 
 NekosbestUtility.registrar = ->(u) {
   u.clean = NekosbestUtilities::Clean
+  u.clean_add = NekosbestUtilities::CleanAdd
+  u.clean_explain = NekosbestUtilities::CleanExplain
   u.done = NekosbestUtilities::Done
   u.make_error = NekosbestUtilities::MakeError
   u.feature_add = NekosbestUtilities::FeatureAdd

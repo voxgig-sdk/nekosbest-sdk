@@ -37,6 +37,8 @@ require_once __DIR__ . '/TransformResponse.php';
 
 NekosbestUtility::setRegistrar(function (NekosbestUtility $u): void {
     $u->clean = [NekosbestClean::class, 'call'];
+    $u->clean_add = [NekosbestClean::class, 'add'];
+    $u->clean_explain = [NekosbestDone::class, 'clean_explain'];
     $u->done = [NekosbestDone::class, 'call'];
     $u->make_error = [NekosbestMakeError::class, 'call'];
     $u->feature_add = [NekosbestFeatureAdd::class, 'call'];
