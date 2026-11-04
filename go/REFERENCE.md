@@ -47,15 +47,15 @@ client := sdk.TestSDK(testopts, sdkopts)
 
 ### Instance Methods
 
-#### `GetRandomByCategory(data map[string]any) NekosbestEntity`
-
-Create a new `GetRandomByCategory` entity instance. Pass `nil` for no initial data.
-
-#### `Image(data map[string]any) NekosbestEntity`
+#### `Image(data map[string]any) NekosbestEntityBase`
 
 Create a new `Image` entity instance. Pass `nil` for no initial data.
 
-#### `Search(data map[string]any) NekosbestEntity`
+#### `RandomByCategory(data map[string]any) NekosbestEntityBase`
+
+Create a new `RandomByCategory` entity instance. Pass `nil` for no initial data.
+
+#### `Search(data map[string]any) NekosbestEntityBase`
 
 Create a new `Search` entity instance. Pass `nil` for no initial data.
 
@@ -95,62 +95,6 @@ same parameters as `Direct()`.
 
 ---
 
-## GetRandomByCategoryEntity
-
-```go
-getRandomByCategory := client.GetRandomByCategory(nil)
-fmt.Println(getRandomByCategory.GetName()) // "get_random_by_category"
-```
-
-### Fields
-
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `anime_name` | `string` | No | Name of the anime the character is from (if applicable) |
-| `artist_href` | `string` | No | URL to the artist's profile or website |
-| `artist_name` | `string` | No | Name of the artist who created the image |
-| `id` | `string` | No |  |
-| `source_url` | `string` | No | Original source URL of the image |
-| `url` | `string` | Yes | Direct URL to the image or GIF hosted on nekos.best |
-
-### Operations
-
-#### `List(reqmatch, ctrl map[string]any) (any, error)`
-
-List entities matching the given criteria. Returns an array.
-
-```go
-results, err := client.GetRandomByCategory(nil).List(nil, nil)
-if err != nil {
-    panic(err)
-}
-fmt.Println(results)
-```
-
-### Common Methods
-
-#### `Data(args ...any) any`
-
-Get or set the entity data. When called with data, sets the entity's
-internal data and returns the current data. When called without
-arguments, returns a copy of the current data.
-
-#### `Match(args ...any) any`
-
-Get or set the entity match criteria. Works the same as `Data()`.
-
-#### `Make() Entity`
-
-Create a new `GetRandomByCategoryEntity` instance with the same client and
-options.
-
-#### `GetName() string`
-
-Return the entity name.
-
-
----
-
 ## ImageEntity
 
 ```go
@@ -162,35 +106,20 @@ fmt.Println(image.GetName()) // "image"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `categories` | `int` | No | Total number of categories |
-| `endpoints` | `[]any` | No | Array of available category names |
-| `total_gifs` | `int` | No | Total number of GIFs available |
-| `total_images` | `int` | No | Total number of images available |
+| `format` | `string` | No |  |
 
 ### Operations
 
-#### `List(reqmatch, ctrl map[string]any) (any, error)`
-
-List entities matching the given criteria. Returns an array.
-
-```go
-results, err := client.Image(nil).List(nil, nil)
-if err != nil {
-    panic(err)
-}
-fmt.Println(results)
-```
-
 #### `Load(reqmatch, ctrl map[string]any) (any, error)`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Returns the entity, whose record `Data()` reads; `err` is non-nil on failure.
 
 ```go
 result, err := client.Image(nil).Load(nil, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(result)
+fmt.Println(result.(sdk.Entity).Data())
 ```
 
 ### Common Methods
@@ -209,6 +138,79 @@ Get or set the entity match criteria. Works the same as `Data()`.
 
 Create a new `ImageEntity` instance with the same client and
 options.
+
+#### `Stream(action string, args map[string]any, callopts map[string]any) <-chan StreamItem`
+
+Run an operation through the pipeline and send its result items on the
+returned channel, which closes when the stream ends. A `StreamItem` holds
+one item in `Item`, or in `Err` the error that ended the stream: the
+error the operation itself would return, sent as the last value. Under
+`throw: false` in `callopts["ctrl"]`, no error is sent.
+
+#### `GetName() string`
+
+Return the entity name.
+
+
+---
+
+## RandomByCategoryEntity
+
+```go
+randomByCategory := client.RandomByCategory(nil)
+fmt.Println(randomByCategory.GetName()) // "random_by_category"
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `anime_name` | `string` | No | Name of the anime the character is from (if applicable) |
+| `artist_href` | `string` | No | URL to the artist's profile or website |
+| `artist_name` | `string` | No | Name of the artist who created the image |
+| `source_url` | `string` | No | Original source URL of the image |
+| `url` | `string` | Yes | Direct URL to the image or GIF hosted on nekos.best |
+
+### Operations
+
+#### `List(reqmatch, ctrl map[string]any) (any, error)`
+
+List entities matching the given criteria. Returns a `[]any` of entities, one per record; `err` is non-nil on failure.
+
+```go
+results, err := client.RandomByCategory(nil).List(map[string]any{"category": "example"}, nil)
+if err != nil {
+    panic(err)
+}
+for _, item := range results.([]any) {
+    fmt.Println(item.(sdk.Entity).Data())
+}
+```
+
+### Common Methods
+
+#### `Data(args ...any) any`
+
+Get or set the entity data. When called with data, sets the entity's
+internal data and returns the current data. When called without
+arguments, returns a copy of the current data.
+
+#### `Match(args ...any) any`
+
+Get or set the entity match criteria. Works the same as `Data()`.
+
+#### `Make() Entity`
+
+Create a new `RandomByCategoryEntity` instance with the same client and
+options.
+
+#### `Stream(action string, args map[string]any, callopts map[string]any) <-chan StreamItem`
+
+Run an operation through the pipeline and send its result items on the
+returned channel, which closes when the stream ends. A `StreamItem` holds
+one item in `Item`, or in `Err` the error that ended the stream: the
+error the operation itself would return, sent as the last value. Under
+`throw: false` in `callopts["ctrl"]`, no error is sent.
 
 #### `GetName() string`
 
@@ -238,14 +240,16 @@ fmt.Println(search.GetName()) // "search"
 
 #### `List(reqmatch, ctrl map[string]any) (any, error)`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Returns a `[]any` of entities, one per record; `err` is non-nil on failure.
 
 ```go
-results, err := client.Search(nil).List(nil, nil)
+results, err := client.Search(nil).List(map[string]any{"query": "example", "type": 1}, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(results)
+for _, item := range results.([]any) {
+    fmt.Println(item.(sdk.Entity).Data())
+}
 ```
 
 ### Common Methods
@@ -264,6 +268,14 @@ Get or set the entity match criteria. Works the same as `Data()`.
 
 Create a new `SearchEntity` instance with the same client and
 options.
+
+#### `Stream(action string, args map[string]any, callopts map[string]any) <-chan StreamItem`
+
+Run an operation through the pipeline and send its result items on the
+returned channel, which closes when the stream ends. A `StreamItem` holds
+one item in `Item`, or in `Err` the error that ended the stream: the
+error the operation itself would return, sent as the last value. Under
+`throw: false` in `callopts["ctrl"]`, no error is sent.
 
 #### `GetName() string`
 
@@ -429,6 +441,7 @@ Timeout.
 | Option | Type |
 |---|---|
 | `clearTimer` | function |
+| `now` | function |
 | `setTimer` | function |
 
 These take no default: the feature behaves one way when you supply them and

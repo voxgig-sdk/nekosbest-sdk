@@ -13,7 +13,12 @@ type Context = core.Context
 type Utility = core.Utility
 type Feature = core.Feature
 type Entity = core.Entity
-type NekosbestEntity = core.NekosbestEntity
+type NekosbestEntityBase = core.NekosbestEntityBase
+
+// Deprecated: use NekosbestEntityBase.
+type NekosbestEntity = core.NekosbestEntityBase
+
+type StreamItem = core.StreamItem
 type FetcherFunc = core.FetcherFunc
 type Spec = core.Spec
 type Result = core.Result
@@ -41,13 +46,13 @@ func init() {
 	core.NewTimeoutFeatureFunc = func() core.Feature {
 		return feature.NewTimeoutFeature()
 	}
-	core.NewGetRandomByCategoryEntityFunc = func(client *core.NekosbestSDK, entopts map[string]any) core.NekosbestEntity {
-		return entity.NewGetRandomByCategoryEntity(client, entopts)
-	}
-	core.NewImageEntityFunc = func(client *core.NekosbestSDK, entopts map[string]any) core.NekosbestEntity {
+	core.NewImageEntityFunc = func(client *core.NekosbestSDK, entopts map[string]any) core.NekosbestEntityBase {
 		return entity.NewImageEntity(client, entopts)
 	}
-	core.NewSearchEntityFunc = func(client *core.NekosbestSDK, entopts map[string]any) core.NekosbestEntity {
+	core.NewRandomByCategoryEntityFunc = func(client *core.NekosbestSDK, entopts map[string]any) core.NekosbestEntityBase {
+		return entity.NewRandomByCategoryEntity(client, entopts)
+	}
+	core.NewSearchEntityFunc = func(client *core.NekosbestSDK, entopts map[string]any) core.NekosbestEntityBase {
 		return entity.NewSearchEntity(client, entopts)
 	}
 }

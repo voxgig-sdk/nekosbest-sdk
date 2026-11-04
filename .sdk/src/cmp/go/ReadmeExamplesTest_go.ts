@@ -13,13 +13,14 @@ const ReadmeExamplesTest = cmp(function ReadmeExamplesTest(props: any) {
   // examples load by "example_id", so seed that record for each entity; the
   // offline mock then returns it instead of 404-ing.
   const entity = getModelPath(model, `main.${KIT}.entity`) || {}
-  const entnames = Object.values(entity)
+  const goSeedEntries = Object.values(entity)
     .filter((e: any) => e && e.active !== false)
-    .map((e: any) => e.name)
-
-  const goSeedEntries = entnames
-    .map((n: string) =>
-      `"${n}": map[string]any{"example_id": map[string]any{"id": "example_id"}}`)
+    .map((e: any) => {
+      const idField = e.id?.field
+      const extra = 'string' === typeof idField && '' !== idField && 'id' !== idField
+        ? `, ${JSON.stringify(idField)}: "example_id"` : ''
+      return `"${e.name}": map[string]any{"example_id": map[string]any{"id": "example_id"${extra}}}`
+    })
     .join(', ')
   const goSeed = `map[string]any{"entity": map[string]any{${goSeedEntries}}}`
 
@@ -31,6 +32,7 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"regexp"
 	"runtime"
 	"strconv"
 	"strings"
@@ -52,6 +54,10 @@ const testSeed = \`${goSeed}\`
 
 // seedRef is how a snippet names the shared fixture; seedFile declares it.
 const seedRef = "readmeTestSeed"
+
+// The client variable, not the word: an import path carries the word between
+// hyphens (github.com/voxgig-sdk/multifon-client-sdk/go).
+var clientVar = regexp.MustCompile(\`(^|[^\\w.\\-/"])client([^\\w\\-/"]|$)\`)
 
 func seedFile(pkg string) []byte {
 	return []byte("package " + pkg + "\\n\\nvar " + seedRef + " = " + testSeed + "\\n")
@@ -524,7 +530,7 @@ func wrapFragment(name, block, modulePath string) string {
 	}
 
 	declaresClient := strings.Contains(block, "client :=")
-	injectClient := !declaresClient && strings.Contains(block, "client")
+	injectClient := !declaresClient && clientVar.MatchString(block)
 
 	needSdk := injectClient || strings.Contains(block, "sdk.")
 	usesFmt := strings.Contains(block, "fmt.")

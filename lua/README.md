@@ -4,7 +4,7 @@
 
 The Lua SDK for the Nekosbest API — an entity-oriented client using Lua conventions.
 
-It exposes the API as capitalised, semantic **Entities** — e.g. `client:GetRandomByCategory()` — each with the same small set of operations (`list`, `load`) instead of raw URL paths and query strings. You call meaning, not endpoints, which keeps the cognitive load low.
+It exposes the API as capitalised, semantic **Entities** — e.g. `client:Image()` — each with the same small set of operations (`list`, `load`) instead of raw URL paths and query strings. You call meaning, not endpoints, which keeps the cognitive load low.
 
 > Other languages, the CLI, and MCP server live alongside this one — see
 > the [top-level README](../README.md).
@@ -12,7 +12,7 @@ It exposes the API as capitalised, semantic **Entities** — e.g. `client:GetRan
 
 ## Install
 This package is not yet published to LuaRocks. Install it from the
-GitHub release tag (`lua/vX.Y.Z`, see [Releases](https://github.com/voxgig-sdk/nekosbest-sdk/releases)),
+GitHub release tag (`lua/vX.Y.Z`, see [Tags](https://github.com/voxgig-sdk/nekosbest-sdk/tags)),
 or add the source directory to your `LUA_PATH`:
 
 ```bash
@@ -33,18 +33,14 @@ local sdk = require("nekosbest_sdk")
 local client = sdk.new()
 ```
 
-### 2. List getrandombycategory records
+### 3. Load an image
 
-Entity operations return `(value, err)`. For `list`, `value` is the
-array of records itself — iterate it directly (there is no wrapper).
+`load` returns the entity; `data_get()` reads its record.
 
 ```lua
-local getrandombycategorys, err = client:GetRandomByCategory():list()
+local image, err = client:Image():load()
 if err then error(err) end
-
-for _, item in ipairs(getrandombycategorys) do
-  print(item["id"])
-end
+for k, val in pairs(image:data_get()) do print(k, val) end
 ```
 
 
@@ -54,7 +50,7 @@ Entity operations return `(value, err)`. Check `err` before using
 the value:
 
 ```lua
-local searchs, err = client:Search():list()
+local searchs, err = client:Search():list({ query = "example", type = 1 })
 if err then error(err) end
 ```
 
@@ -112,9 +108,21 @@ Create a mock client for unit testing — no server required:
 ```lua
 local client = sdk.test()
 
-local result, err = client:Search():list()
--- result is the returned data; err is set on failure
+local result, err = client:Search():list({ query = "example", type = 1 })
+-- result is an array of entities, one per mock record; err is set on failure
 ```
+
+### Verify the server over HTTPS
+
+An `https://` request goes through LuaSocket and LuaSec, and the SDK checks
+the server itself before any of the request is sent: its certificate against
+the system's trust store, and its name against the host (an address against
+the certificate's addresses). Nothing turns that off. `SSL_CERT_FILE` or
+`SSL_CERT_DIR` names the trust store, as for OpenSSL; with neither set and no
+system store found, an `https://` request fails rather than going unverified.
+`NEKOSBEST_CA_BUNDLE` names a PEM file of roots added to the store,
+for a local service with its own certificate authority or a self-signed
+certificate. A different policy is a custom fetch function, described next.
 
 ### Use a custom fetch function
 
@@ -191,8 +199,8 @@ Creates a test-mode client with mock transport. Both arguments may be `nil`.
 | `get_utility` | `() -> Utility` | Copy of the SDK utility object. |
 | `prepare` | `(fetchargs) -> table, err` | Build an HTTP request definition without sending. |
 | `direct` | `(fetchargs) -> table, err` | Build and send an HTTP request. |
-| `GetRandomByCategory` | `(data) -> GetRandomByCategoryEntity` | Create a GetRandomByCategory entity instance. |
 | `Image` | `(data) -> ImageEntity` | Create an Image entity instance. |
+| `RandomByCategory` | `(data) -> RandomByCategoryEntity` | Create a RandomByCategory entity instance. |
 | `Search` | `(data) -> SearchEntity` | Create a Search entity instance. |
 
 ### Entity interface
@@ -201,8 +209,8 @@ All entities share the same interface.
 
 | Method | Signature | Description |
 | --- | --- | --- |
-| `load` | `(reqmatch, ctrl) -> any, err` | Load a single entity by match criteria. |
-| `list` | `(reqmatch, ctrl) -> any, err` | List entities matching the criteria. |
+| `load` | `(reqmatch, ctrl) -> any, err` | Load a single entity by match criteria, and return it. |
+| `list` | `(reqmatch, ctrl) -> any, err` | List entities matching the criteria, one per record. |
 | `data_get` | `() -> table` | Get entity data. |
 | `data_set` | `(data)` | Set entity data. |
 | `match_get` | `() -> table` | Get entity match criteria. |
@@ -212,52 +220,48 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return `(value, err)`. The `value` is the operation's
-data **directly** — there is no wrapper:
+Entity operations return `(value, err)`. The `value` is the entity
+itself — there is no wrapper:
 
 | Operation | `value` |
 | --- | --- |
-| `load` | the entity record (a `table`) |
-| `list` | an array (`table`) of entity records |
+| `load` | the entity, whose `data_get()` reads its record (a `table`) |
+| `list` | an array (`table`) of entities, one per record |
 
 Check `err` first (it is non-`nil` on failure), then use `value`:
 
     local image, err = client:Image():load()
     if err then error(err) end
-    -- image is the loaded record
+    -- image is the loaded entity
 
 Only `direct()` returns a response envelope — a `table` with `ok`,
 `status`, `headers`, and `data` keys.
 
 ### Entities
 
-#### GetRandomByCategory
+#### Image
+
+| Field | Description |
+| --- | --- |
+| `format` |  |
+
+Operations: Load.
+
+API path: `/endpoints`
+
+#### RandomByCategory
 
 | Field | Description |
 | --- | --- |
 | `anime_name` | Name of the anime the character is from (if applicable) |
 | `artist_href` | URL to the artist's profile or website |
 | `artist_name` | Name of the artist who created the image |
-| `id` |  |
 | `source_url` | Original source URL of the image |
 | `url` | Direct URL to the image or GIF hosted on nekos.best |
 
 Operations: List.
 
 API path: `/{category}`
-
-#### Image
-
-| Field | Description |
-| --- | --- |
-| `categories` | Total number of categories |
-| `endpoints` | Array of available category names |
-| `total_gifs` | Total number of GIFs available |
-| `total_images` | Total number of images available |
-
-Operations: List, Load.
-
-API path: `/endpoints`
 
 #### Search
 
@@ -278,9 +282,32 @@ API path: `/search`
 ## Entities
 
 
-### GetRandomByCategory
+### Image
 
-Create an instance: `local get_random_by_category = client:GetRandomByCategory(nil)`
+Create an instance: `local image = client:Image(nil)`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `load(match)` | Load a single entity by match criteria. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `format` | `string` |  |
+
+#### Example: Load
+
+```lua
+local image, err = client:Image():load()
+```
+
+
+### RandomByCategory
+
+Create an instance: `local random_by_category = client:RandomByCategory(nil)`
 
 #### Operations
 
@@ -295,47 +322,13 @@ Create an instance: `local get_random_by_category = client:GetRandomByCategory(n
 | `anime_name` | `string` | Name of the anime the character is from (if applicable) |
 | `artist_href` | `string` | URL to the artist's profile or website |
 | `artist_name` | `string` | Name of the artist who created the image |
-| `id` | `string` |  |
 | `source_url` | `string` | Original source URL of the image |
 | `url` | `string` | Direct URL to the image or GIF hosted on nekos.best |
 
 #### Example: List
 
 ```lua
-local get_random_by_categorys, err = client:GetRandomByCategory():list()
-```
-
-
-### Image
-
-Create an instance: `local image = client:Image(nil)`
-
-#### Operations
-
-| Method | Description |
-| --- | --- |
-| `list(match)` | List entities matching the criteria. |
-| `load(match)` | Load a single entity by match criteria. |
-
-#### Fields
-
-| Field | Type | Description |
-| --- | --- | --- |
-| `categories` | `number` | Total number of categories |
-| `endpoints` | `table` | Array of available category names |
-| `total_gifs` | `number` | Total number of GIFs available |
-| `total_images` | `number` | Total number of images available |
-
-#### Example: Load
-
-```lua
-local image, err = client:Image():load()
-```
-
-#### Example: List
-
-```lua
-local images, err = client:Image():list()
+local random_by_categorys, err = client:RandomByCategory():list({ category = "example" })
 ```
 
 
@@ -362,7 +355,7 @@ Create an instance: `local search = client:Search(nil)`
 #### Example: List
 
 ```lua
-local searchs, err = client:Search():list()
+local searchs, err = client:Search():list({ query = "example", type = 1 })
 ```
 
 ## Features
@@ -528,7 +521,7 @@ stores the returned data and match criteria internally.
 
 ```lua
 local search = client:Search()
-search:list()
+search:list({ query = "example", type = 1 })
 
 -- search:data_get() now returns the search data from the last list
 -- search:match_get() returns the last match criteria

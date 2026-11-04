@@ -74,11 +74,20 @@ main: kit: entity: search: {
                 t: "`$STRING`"
               }
               {
+                ex: "Senko"
                 k: "query"
                 n: "query"
                 or: "query"
                 r: true
                 t: "`$STRING`"
+              }
+              {
+                ex: 1
+                k: "query"
+                n: "type"
+                or: "type"
+                r: true
+                t: "`$INTEGER`"
               }
             ]
           }
@@ -86,10 +95,13 @@ main: kit: entity: search: {
           o: "/search"
           q: {
             exist: [
-              "amount"
-              "category"
               "query"
+              "type"
             ]
+          }
+          rs: {
+            kind: "json"
+            media: "application/json"
           }
           s: [
             {

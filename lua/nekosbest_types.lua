@@ -6,35 +6,22 @@
 -- @voxgig/apidef VALID_CANON). Annotations only — no runtime effect. Do not
 -- edit by hand.
 
----@class GetRandomByCategory
+---@class Image
+---@field format? string
+
+---@class ImageLoadMatch
+---@field format? string
+
+---@class RandomByCategory
 ---@field anime_name? string
 ---@field artist_href? string
 ---@field artist_name? string
----@field id? string
 ---@field source_url? string
 ---@field url string
 
----@class GetRandomByCategoryListMatch
----@field id string
+---@class RandomByCategoryListMatch
+---@field category string
 ---@field amount? number
-
----@class Image
----@field categories? number
----@field endpoints? table
----@field total_gifs? number
----@field total_images? number
-
----@class ImageLoadMatch
----@field categories? number
----@field endpoints? table
----@field total_gifs? number
----@field total_images? number
-
----@class ImageListMatch
----@field categories? number
----@field endpoints? table
----@field total_gifs? number
----@field total_images? number
 
 ---@class Search
 ---@field anime_name? string
@@ -47,6 +34,7 @@
 ---@field amount? number
 ---@field category? string
 ---@field query string
+---@field type number
 
 local M = {}
 

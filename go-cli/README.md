@@ -19,15 +19,16 @@ make build
 export NEKOSBEST_APIKEY=sk_live_xxx
 
 # 4. Each command line is ONE boru expression, run against the API:
-./nekosbest-cli list get_random_by_category
-./nekosbest-cli list image
+./nekosbest-cli load 1 image            # {id:1} shorthand
+./nekosbest-cli load '{id:1}' image       # explicit match map
+./nekosbest-cli list random_by_category
 
 # 5. Override the API base URL for a single call
-NEKOSBEST_BASE=https://api.example.com ./nekosbest-cli list get_random_by_category
+NEKOSBEST_BASE=https://api.example.com ./nekosbest-cli load 1 image
 
 # 6. No arguments -> interactive REPL
 ./nekosbest-cli
-nekosbest> list get_random_by_category
+nekosbest> load 1 image
 nekosbest> /quit
 ```
 
@@ -53,7 +54,7 @@ nekosbest> /quit
    arguments to open the REPL):
 
    ```sh
-   ./dist/*/nekosbest-cli list get_random_by_category
+   ./dist/*/nekosbest-cli load 1 image
    ```
 
 4. **Go interactive.** Run the binary with no arguments to open the REPL, then
@@ -63,14 +64,15 @@ That is the whole loop: *build → set key → evaluate boru expressions*.
 
 ## How-to guides
 
-### List the records of an entity
+### Load a single record
 
 ```sh
-./nekosbest-cli list get_random_by_category
+./nekosbest-cli load 1 image          # scalar shorthand for {id:1}
+./nekosbest-cli load '{id:1}' image     # explicit match map
 ```
 
-`list <entity>` returns the first page of records. `<entity>` is a bareword —
-it is auto-quoted as an boru atom, so no quotes are needed.
+The query is either a **scalar** (`1`, treated as `{id:1}`) or a **match map**
+(`{id:1}`, `{slug:"acme"}`). Quote the map so your shell passes it through intact.
 
 ### Authenticate and choose an environment
 
@@ -79,7 +81,7 @@ Configuration is read from the environment — nothing is written to disk:
 ```sh
 export NEKOSBEST_APIKEY=sk_live_xxx            # API key
 export NEKOSBEST_BASE=https://api.example.com  # optional: override the API base URL
-./nekosbest-cli list get_random_by_category
+./nekosbest-cli load 1 image
 ```
 
 Both are injectable by a secrets vault, so the key never has to be typed inline.
@@ -91,7 +93,7 @@ evaluated as its own boru expression:
 
 ```text
 $ ./nekosbest-cli
-nekosbest> list get_random_by_category
+nekosbest> load 1 image
 nekosbest> /help
 nekosbest> /quit
 ```
@@ -119,7 +121,7 @@ The CLI registers these boru words, each bound to the SDK:
 | `list`   | `list <entity>` · `list <query> <entity>`     | First page of records          |
 | `load`   | `load <entity>` · `load <query> <entity>`     | A single record                |
 
-- `<entity>` is a bareword, auto-quoted as an boru atom (e.g. `get_random_by_category`).
+- `<entity>` is a bareword, auto-quoted as an boru atom (e.g. `image`).
 - `<query>` is either a **Map** (`{id:1}`) or a **Scalar** (`1`, treated as
   `{id:1}`). A scalar is always wrapped as `{id:<value>}`.
 
@@ -162,7 +164,7 @@ Meta-commands use the `/` prefix (everything else on a line is evaluated as boru
 
 The 3 entities this SDK exposes (any is valid as `<entity>`):
 
-get_random_by_category image search
+image random_by_category search
 
 ## Explanation
 

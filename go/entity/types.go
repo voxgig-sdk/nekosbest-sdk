@@ -12,34 +12,23 @@ import (
 	"github.com/voxgig-sdk/nekosbest-sdk/go/core"
 )
 
-// GetRandomByCategory is the typed data model for the get_random_by_category entity.
-type GetRandomByCategory struct {
-}
-
-// GetRandomByCategoryListMatch is the typed request payload for GetRandomByCategory.ListTyped.
-type GetRandomByCategoryListMatch struct {
-	Id string `json:"id"`
-	Amount *int `json:"amount,omitempty"`
-}
-
 // Image is the typed data model for the image entity.
 type Image struct {
 }
 
 // ImageLoadMatch is the typed request payload for Image.LoadTyped.
 type ImageLoadMatch struct {
-	Categories *int `json:"categories,omitempty"`
-	Endpoints *[]any `json:"endpoints,omitempty"`
-	TotalGifs *int `json:"total_gifs,omitempty"`
-	TotalImages *int `json:"total_images,omitempty"`
+	Format *string `json:"format,omitempty"`
 }
 
-// ImageListMatch is the typed request payload for Image.ListTyped.
-type ImageListMatch struct {
-	Categories *int `json:"categories,omitempty"`
-	Endpoints *[]any `json:"endpoints,omitempty"`
-	TotalGifs *int `json:"total_gifs,omitempty"`
-	TotalImages *int `json:"total_images,omitempty"`
+// RandomByCategory is the typed data model for the random_by_category entity.
+type RandomByCategory struct {
+}
+
+// RandomByCategoryListMatch is the typed request payload for RandomByCategory.ListTyped.
+type RandomByCategoryListMatch struct {
+	Category string `json:"category"`
+	Amount *int `json:"amount,omitempty"`
 }
 
 // Search is the typed data model for the search entity.
@@ -51,6 +40,7 @@ type SearchListMatch struct {
 	Amount *int `json:"amount,omitempty"`
 	Category *string `json:"category,omitempty"`
 	Query string `json:"query"`
+	Type int `json:"type"`
 }
 
 // asMap turns a typed request/data struct into the map[string]any the

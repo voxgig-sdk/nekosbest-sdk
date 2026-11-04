@@ -1,5 +1,5 @@
 # Flows
 
-@"./BasicGetRandomByCategoryFlow.aontu"
 @"./BasicImageFlow.aontu"
+@"./BasicRandomByCategoryFlow.aontu"
 @"./BasicSearchFlow.aontu"

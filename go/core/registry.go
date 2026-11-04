@@ -12,9 +12,9 @@ var NewTestFeatureFunc func() Feature
 
 var NewTimeoutFeatureFunc func() Feature
 
-var NewGetRandomByCategoryEntityFunc func(client *NekosbestSDK, entopts map[string]any) NekosbestEntity
+var NewImageEntityFunc func(client *NekosbestSDK, entopts map[string]any) NekosbestEntityBase
 
-var NewImageEntityFunc func(client *NekosbestSDK, entopts map[string]any) NekosbestEntity
+var NewRandomByCategoryEntityFunc func(client *NekosbestSDK, entopts map[string]any) NekosbestEntityBase
 
-var NewSearchEntityFunc func(client *NekosbestSDK, entopts map[string]any) NekosbestEntity
+var NewSearchEntityFunc func(client *NekosbestSDK, entopts map[string]any) NekosbestEntityBase
 

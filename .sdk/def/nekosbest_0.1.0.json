@@ -132,13 +132,17 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": {
-                    "endpoints": {
-                      "type": "array",
-                      "items": {
-                        "type": "string"
-                      },
-                      "description": "Array of available category names"
+                  "description": "Category name to its format (probed 2026-11-04: {\"neko\": {\"format\": \"png\"}, \"wave\": {\"format\": \"gif\"}, ...})",
+                  "additionalProperties": {
+                    "type": "object",
+                    "properties": {
+                      "format": {
+                        "type": "string",
+                        "enum": [
+                          "png",
+                          "gif"
+                        ]
+                      }
                     }
                   }
                 },
@@ -183,7 +187,22 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "example": "Senko"
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "required": true,
+            "description": "Result type: 1 = images, 2 = GIFs (required; 400 without it)",
+            "schema": {
+              "type": "integer",
+              "enum": [
+                1,
+                2
+              ]
+            },
+            "example": 1
           },
           {
             "name": "category",
@@ -224,52 +243,6 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/stats": {
-      "get": {
-        "tags": [
-          "images"
-        ],
-        "summary": "Get API statistics",
-        "description": "Returns statistics about the API including total number of images, GIFs, and categories available.",
-        "operationId": "getStats",
-        "responses": {
-          "200": {
-            "description": "Successful response with API statistics",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "total_images": {
-                      "type": "integer",
-                      "description": "Total number of images available"
-                    },
-                    "total_gifs": {
-                      "type": "integer",
-                      "description": "Total number of GIFs available"
-                    },
-                    "categories": {
-                      "type": "integer",
-                      "description": "Total number of categories"
-                    }
-                  }
-                },
-                "examples": {
-                  "stats": {
-                    "summary": "API statistics",
-                    "value": {
-                      "total_images": 5000,
-                      "total_gifs": 3000,
-                      "categories": 48
-                    }
-                  }
                 }
               }
             }

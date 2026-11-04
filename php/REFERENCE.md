@@ -41,13 +41,13 @@ $client = NekosbestSDK::test();
 
 ### Instance Methods
 
-#### `GetRandomByCategory($data = null)`
-
-Create a new `GetRandomByCategoryEntity` instance. Pass `null` for no initial data.
-
 #### `Image($data = null)`
 
 Create a new `ImageEntity` instance. Pass `null` for no initial data.
+
+#### `RandomByCategory($data = null)`
+
+Create a new `RandomByCategoryEntity` instance. Pass `null` for no initial data.
 
 #### `Search($data = null)`
 
@@ -90,63 +90,6 @@ Prepare a fetch definition without sending the request. Returns the
 
 ---
 
-## GetRandomByCategoryEntity
-
-```php
-$get_random_by_category = $client->GetRandomByCategory();
-```
-
-### Fields
-
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `anime_name` | `string` | No | Name of the anime the character is from (if applicable) |
-| `artist_href` | `string` | No | URL to the artist's profile or website |
-| `artist_name` | `string` | No | Name of the artist who created the image |
-| `id` | `string` | No |  |
-| `source_url` | `string` | No | Original source URL of the image |
-| `url` | `string` | Yes | Direct URL to the image or GIF hosted on nekos.best |
-
-### Operations
-
-#### `list(?array $reqmatch = null, ?array $ctrl = null): mixed`
-
-List entities matching the given criteria (call with no argument to list all). Returns an array. Throws on error.
-
-```php
-$results = $client->GetRandomByCategory()->list();
-```
-
-### Common Methods
-
-#### `data_get(): array`
-
-Get the entity data. Returns a copy of the current data.
-
-#### `data_set($data): void`
-
-Set the entity data.
-
-#### `match_get(): array`
-
-Get the entity match criteria.
-
-#### `match_set($match): void`
-
-Set the entity match criteria.
-
-#### `make(): GetRandomByCategoryEntity`
-
-Create a new `GetRandomByCategoryEntity` instance with the same client and
-options.
-
-#### `get_name(): string`
-
-Return the entity name.
-
-
----
-
 ## ImageEntity
 
 ```php
@@ -157,24 +100,13 @@ $image = $client->Image();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `categories` | `int` | No | Total number of categories |
-| `endpoints` | `array` | No | Array of available category names |
-| `total_gifs` | `int` | No | Total number of GIFs available |
-| `total_images` | `int` | No | Total number of images available |
+| `format` | `string` | No |  |
 
 ### Operations
 
-#### `list(?array $reqmatch = null, ?array $ctrl = null): mixed`
-
-List entities matching the given criteria (call with no argument to list all). Returns an array. Throws on error.
-
-```php
-$results = $client->Image()->list();
-```
-
 #### `load(array $reqmatch, ?array $ctrl = null): mixed`
 
-Load a single entity matching the given criteria. Throws on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and throws on error.
 
 ```php
 $result = $client->Image()->load();
@@ -210,6 +142,62 @@ Return the entity name.
 
 ---
 
+## RandomByCategoryEntity
+
+```php
+$random_by_category = $client->RandomByCategory();
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `anime_name` | `string` | No | Name of the anime the character is from (if applicable) |
+| `artist_href` | `string` | No | URL to the artist's profile or website |
+| `artist_name` | `string` | No | Name of the artist who created the image |
+| `source_url` | `string` | No | Original source URL of the image |
+| `url` | `string` | Yes | Direct URL to the image or GIF hosted on nekos.best |
+
+### Operations
+
+#### `list(?array $reqmatch = null, ?array $ctrl = null): mixed`
+
+List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record, and throws on error.
+
+```php
+$results = $client->RandomByCategory()->list(["category" => "example"]);
+```
+
+### Common Methods
+
+#### `data_get(): array`
+
+Get the entity data. Returns a copy of the current data.
+
+#### `data_set($data): void`
+
+Set the entity data.
+
+#### `match_get(): array`
+
+Get the entity match criteria.
+
+#### `match_set($match): void`
+
+Set the entity match criteria.
+
+#### `make(): RandomByCategoryEntity`
+
+Create a new `RandomByCategoryEntity` instance with the same client and
+options.
+
+#### `get_name(): string`
+
+Return the entity name.
+
+
+---
+
 ## SearchEntity
 
 ```php
@@ -230,10 +218,10 @@ $search = $client->Search();
 
 #### `list(?array $reqmatch = null, ?array $ctrl = null): mixed`
 
-List entities matching the given criteria (call with no argument to list all). Returns an array. Throws on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record, and throws on error.
 
 ```php
-$results = $client->Search()->list();
+$results = $client->Search()->list(["query" => "example", "type" => 1]);
 ```
 
 ### Common Methods
@@ -423,6 +411,7 @@ Timeout.
 | Option | Type |
 |---|---|
 | `clearTimer` | function |
+| `now` | function |
 | `setTimer` | function |
 
 These take no default: the feature behaves one way when you supply them and

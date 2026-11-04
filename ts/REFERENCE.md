@@ -48,18 +48,6 @@ const client = NekosbestSDK.test()
 
 ### Instance Methods
 
-#### `GetRandomByCategory(data?: object)`
-
-Create a new `GetRandomByCategory` entity instance.
-
-**Parameters:**
-
-| Name | Type | Description |
-| --- | --- | --- |
-| `data` | `object` | Initial entity data. |
-
-**Returns:** `GetRandomByCategoryEntity` instance.
-
 #### `Image(data?: object)`
 
 Create a new `Image` entity instance.
@@ -71,6 +59,18 @@ Create a new `Image` entity instance.
 | `data` | `object` | Initial entity data. |
 
 **Returns:** `ImageEntity` instance.
+
+#### `RandomByCategory(data?: object)`
+
+Create a new `RandomByCategory` entity instance.
+
+**Parameters:**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| `data` | `object` | Initial entity data. |
+
+**Returns:** `RandomByCategoryEntity` instance.
 
 #### `Search(data?: object)`
 
@@ -111,8 +111,10 @@ Make a direct HTTP request to any API endpoint.
 | `fetchargs.headers` | `object` | Request headers (merged with defaults). |
 | `fetchargs.body` | `any` | Request body (objects are JSON-serialized). |
 | `fetchargs.ctrl` | `object` | Control options (e.g. `{ explain: true }`). |
+| `fetchargs.ctrl.signal` | `AbortSignal` | Aborts the request in flight: `ok` is then `false` and `err.code` is `request_aborted`. |
 
-**Returns:** `Promise<{ ok, status, headers, data } | Error>`
+**Returns:** `Promise<{ ok, status, headers, data }>`. On a failure
+`ok` is `false` and `err` holds the error.
 
 #### `prepare(fetchargs?: object)`
 
@@ -127,60 +129,14 @@ Alias for `NekosbestSDK.test()`.
 
 **Returns:** `NekosbestSDK` instance in test mode.
 
+#### Cancelling a call
 
----
-
-## GetRandomByCategoryEntity
-
-```ts
-const get_random_by_category = client.GetRandomByCategory()
-```
-
-### Fields
-
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `anime_name` | `string` | No | Name of the anime the character is from (if applicable) |
-| `artist_href` | `string` | No | URL to the artist's profile or website |
-| `artist_name` | `string` | No | Name of the artist who created the image |
-| `id` | `string` | No |  |
-| `source_url` | `string` | No | Original source URL of the image |
-| `url` | `string` | Yes | Direct URL to the image or GIF hosted on nekos.best |
-
-### Operations
-
-#### `list(match: object, ctrl?: object)`
-
-List entities matching the given criteria. Returns an array.
-
-```ts
-const results = await client.GetRandomByCategory().list({ id: "example" })
-```
-
-### Common Methods
-
-#### `data(data?: object)`
-
-Get or set the entity data. When called with data, sets the entity's
-internal data and returns the current data. When called without
-arguments, returns a copy of the current data.
-
-#### `match(match?: object)`
-
-Get or set the entity match criteria. Works the same as `data()`.
-
-#### `make()`
-
-Create a new `GetRandomByCategoryEntity` instance with the same client and
-options.
-
-#### `client()`
-
-Return the parent `NekosbestSDK` instance.
-
-#### `entopts()`
-
-Return a copy of the entity options.
+Every entity operation takes an optional `ctrl` object after its match or
+data, and an `AbortSignal` in `ctrl.signal` cancels the request in flight.
+The operation then rejects with an error whose `code` is
+`request_aborted` and whose `cause` is the signal's reason. A request
+whose signal has already aborted is not sent. `stream()` takes the signal
+as `callopts.signal`, and ends when it aborts.
 
 
 ---
@@ -195,24 +151,13 @@ const image = client.Image()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `categories` | `number` | No | Total number of categories |
-| `endpoints` | `any[]` | No | Array of available category names |
-| `total_gifs` | `number` | No | Total number of GIFs available |
-| `total_images` | `number` | No | Total number of images available |
+| `format` | `string` | No |  |
 
 ### Operations
 
-#### `list(match: object, ctrl?: object)`
-
-List entities matching the given criteria. Returns an array.
-
-```ts
-const results = await client.Image().list()
-```
-
 #### `load(match: object, ctrl?: object)`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Resolves to the entity, whose record `data()` reads.
 
 ```ts
 const result = await client.Image().load()
@@ -246,6 +191,60 @@ Return a copy of the entity options.
 
 ---
 
+## RandomByCategoryEntity
+
+```ts
+const random_by_category = client.RandomByCategory()
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `anime_name` | `string` | No | Name of the anime the character is from (if applicable) |
+| `artist_href` | `string` | No | URL to the artist's profile or website |
+| `artist_name` | `string` | No | Name of the artist who created the image |
+| `source_url` | `string` | No | Original source URL of the image |
+| `url` | `string` | Yes | Direct URL to the image or GIF hosted on nekos.best |
+
+### Operations
+
+#### `list(match: object, ctrl?: object)`
+
+List entities matching the given criteria. Resolves to an array of entities, one per record.
+
+```ts
+const results = await client.RandomByCategory().list({ category: "example" })
+```
+
+### Common Methods
+
+#### `data(data?: object)`
+
+Get or set the entity data. When called with data, sets the entity's
+internal data and returns the current data. When called without
+arguments, returns a copy of the current data.
+
+#### `match(match?: object)`
+
+Get or set the entity match criteria. Works the same as `data()`.
+
+#### `make()`
+
+Create a new `RandomByCategoryEntity` instance with the same client and
+options.
+
+#### `client()`
+
+Return the parent `NekosbestSDK` instance.
+
+#### `entopts()`
+
+Return a copy of the entity options.
+
+
+---
+
 ## SearchEntity
 
 ```ts
@@ -266,10 +265,10 @@ const search = client.Search()
 
 #### `list(match: object, ctrl?: object)`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Resolves to an array of entities, one per record.
 
 ```ts
-const results = await client.Search().list({ query: "example" })
+const results = await client.Search().list({ query: "example", type: 1 })
 ```
 
 ### Common Methods
@@ -457,6 +456,7 @@ Timeout.
 | Option | Type |
 |---|---|
 | `clearTimer` | function |
+| `now` | function |
 | `setTimer` | function |
 
 These take no default: the feature behaves one way when you supply them and

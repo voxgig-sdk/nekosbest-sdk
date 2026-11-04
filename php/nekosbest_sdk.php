@@ -156,7 +156,13 @@ class NekosbestSDK implements \JsonSerializable
         $path = Struct::getprop($fetchargs, "path") ?? "";
         $path = is_string($path) ? $path : "";
         $method_val = Struct::getprop($fetchargs, "method") ?? "GET";
-        $method_val = is_string($method_val) ? $method_val : "GET";
+        $method_val = strtoupper(is_string($method_val) && '' !== $method_val ? $method_val : "GET");
+        $allow_method = Struct::getpath($opts, "allow.method");
+        if (!NekosbestPrepareMethod::allowed($allow_method, $method_val)) {
+            return ($utility->make_error)($ctx, $ctx->make_error("spec_method_allow",
+                "Method \"" . $method_val . "\" not allowed by SDK option allow.method value: \"" .
+                (is_string($allow_method) ? $allow_method : "") . "\""));
+        }
         $params = NekosbestHelpers::to_map(Struct::getprop($fetchargs, "params")) ?? [];
         $query = NekosbestHelpers::to_map(Struct::getprop($fetchargs, "query")) ?? [];
         $headers = ($utility->prepare_headers)($ctx);
@@ -182,6 +188,20 @@ class NekosbestSDK implements \JsonSerializable
             foreach ($uh as $k => $v) {
                 $ctx->spec->headers[$k] = $v;
             }
+        }
+
+        // A raw request has no point to declare its response type, so it asks
+        // for the JSON it reads: an API that negotiates on Accept otherwise
+        // answers in its own default format. A caller's own accept wins.
+        $has_accept = false;
+        foreach (array_keys($ctx->spec->headers) as $k) {
+            if (strtolower((string)$k) === 'accept') {
+                $has_accept = true;
+                break;
+            }
+        }
+        if (!$has_accept) {
+            $ctx->spec->headers['accept'] = 'application/json';
         }
 
         [$_, $err] = ($utility->prepare_auth)($ctx);
@@ -211,8 +231,7 @@ class NekosbestSDK implements \JsonSerializable
     // Is this raw-access op permitted by the SDK's allow.op option?
     private function op_allowed(string $op): bool
     {
-        $allow_op = Struct::getpath($this->options, "allow.op");
-        return is_string($allow_op) && str_contains($allow_op, $op);
+        return NekosbestPrepareMethod::allowed(Struct::getpath($this->options, "allow.op"), $op);
     }
 
     private function op_denied(string $op): array
@@ -275,6 +294,7 @@ class NekosbestSDK implements \JsonSerializable
             $no_body = $status === 204 || $status === 304 || (string)$content_length === "0";
 
             $json_data = null;
+            $body_err = null;
             if (!$no_body) {
                 $jf = Struct::getprop($fetched, "json");
                 if (is_callable($jf)) {
@@ -285,14 +305,29 @@ class NekosbestSDK implements \JsonSerializable
                         $json_data = null;
                     }
                 }
+                if (true === Struct::getprop($fetched, "unreadable")) {
+                    $failed = ($status >= 200 && $status < 300) ? null : $ctx->make_error(
+                        "request_status",
+                        "request: {$status}: " . (string)Struct::getprop($fetched, "statusText"));
+                    $sent = $fetchdef["headers"] ?? [];
+                    if (NekosbestFetcher::usesDefault($ctx)) {
+                        $sent = NekosbestFetcher::sentHeaders($sent);
+                    }
+                    $body_err = NekosbestResultBody::unreadable($ctx, $status, $headers,
+                        Struct::getprop($fetched, "body"), $sent, $failed);
+                }
             }
 
-            return [
-                "ok" => $status >= 200 && $status < 300,
+            $out = [
+                "ok" => null === $body_err && $status >= 200 && $status < 300,
                 "status" => $status,
                 "headers" => Struct::getprop($fetched, "headers"),
                 "data" => $json_data,
             ];
+            if (null !== $body_err) {
+                $out["err"] = ($utility->clean)($ctx, $body_err);
+            }
+            return $out;
         }
 
         return [
@@ -354,24 +389,6 @@ class NekosbestSDK implements \JsonSerializable
     }
 
 
-    private $_get_random_by_category = null;
-
-    // Canonical facade: $client->GetRandomByCategory()->list() / ->load(["id" => ...]).
-    // PHP method names are case-insensitive, so lowercase $client->get_random_by_category()
-    // resolves here too.
-    public function GetRandomByCategory($data = null)
-    {
-        require_once __DIR__ . '/entity/get_random_by_category_entity.php';
-        if ($data === null) {
-            if ($this->_get_random_by_category === null) {
-                $this->_get_random_by_category = new GetRandomByCategoryEntity($this, null);
-            }
-            return $this->_get_random_by_category;
-        }
-        return new GetRandomByCategoryEntity($this, $data);
-    }
-
-
     private $_image = null;
 
     // Canonical facade: $client->Image()->list() / ->load(["id" => ...]).
@@ -387,6 +404,24 @@ class NekosbestSDK implements \JsonSerializable
             return $this->_image;
         }
         return new ImageEntity($this, $data);
+    }
+
+
+    private $_random_by_category = null;
+
+    // Canonical facade: $client->RandomByCategory()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->random_by_category()
+    // resolves here too.
+    public function RandomByCategory($data = null)
+    {
+        require_once __DIR__ . '/entity/random_by_category_entity.php';
+        if ($data === null) {
+            if ($this->_random_by_category === null) {
+                $this->_random_by_category = new RandomByCategoryEntity($this, null);
+            }
+            return $this->_random_by_category;
+        }
+        return new RandomByCategoryEntity($this, $data);
     }
 
 

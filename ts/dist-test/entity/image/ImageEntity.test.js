@@ -54,31 +54,41 @@ const utility_1 = require("../../utility");
         const ent = testsdk.Image();
         (0, node_assert_1.default)(null != ent);
     });
+    (0, node_test_1.test)('validate', async (t) => {
+        if (null == __1.config.feature?.validate) {
+            t.skip('feature not present in this SDK: validate');
+            return;
+        }
+        const client = __1.NekosbestSDK.test(undefined, { feature: { validate: { active: true } } });
+        await node_assert_1.default.rejects(client.Image().load({ "format": 1 }), (err) => 'validate_failed' === err.code);
+    });
     (0, node_test_1.test)('basic', async (t) => {
         const live = 'TRUE' === process.env.NEKOSBEST_TEST_LIVE;
-        for (const op of ['list', 'load']) {
+        for (const op of ['load']) {
             if (!live && (0, utility_1.maybeSkipControl)(t, 'entityOp', 'image.' + op, live))
                 return;
         }
         const setup = basicSetup();
         if (setup.live) {
-            return (0, live_entity_1.runLiveEntity)(setup, { "active": true, "alias": { "field": {} }, "fields": { "categories": { "a": true, "h": "Categories", "n": "categories", "r": false, "sh": "Total number of categories", "t": "`$INTEGER`", "key$": "categories", "index$": 0 }, "endpoints": { "a": true, "h": "Endpoints", "n": "endpoints", "r": false, "sh": "Array of available category names", "t": "`$ARRAY`", "key$": "endpoints", "index$": 1 }, "total_gifs": { "a": true, "h": "Total Gifs", "n": "total_gifs", "r": false, "sh": "Total number of GIFs available", "t": "`$INTEGER`", "key$": "total_gifs", "index$": 2 }, "total_images": { "a": true, "h": "Total Images", "n": "total_images", "r": false, "sh": "Total number of images available", "t": "`$INTEGER`", "key$": "total_images", "index$": 3 } }, "name": "image", "op": { "list": { "input": "data", "name": "list", "points": [{ "a": true, "co": { "id": "GET /endpoints", "source": "openapi3", "version": 2 }, "g": {}, "k": "http", "m": "GET", "o": "/endpoints", "q": {}, "r": {}, "s": [{ "lit": "endpoints" }], "t": { "req": "`reqdata`", "res": "`body.endpoints`" }, "index$": 0 }], "key$": "list" }, "load": { "input": "data", "name": "load", "points": [{ "a": true, "co": { "id": "GET /stats", "source": "openapi3", "version": 2 }, "g": {}, "k": "http", "m": "GET", "o": "/stats", "q": {}, "r": {}, "s": [{ "lit": "stats" }], "t": { "req": "`reqdata`", "res": "`body`" }, "index$": 0 }], "key$": "load" } }, "relations": { "ancestors": [] }, "key$": "image", "name__orig": "image", "Name": "Image", "name_": "image", "name-": "image", "NAME": "IMAGE", "index$": 1 }, { "active": true, "entity": "image", "key$": "BasicImageFlow", "kind": "basic", "name": "BasicImageFlow", "param": {}, "step": [{ "a": true, "d": {}, "i": {}, "m": {}, "o": "list", "s": [], "v": [{ "apply": "ItemExists", "def": { "ref": "image_ref01" } }], "index$": 0 }, { "a": true, "d": {}, "i": { "ref": "image_ref01", "srcdatavar": "image_ref01_data", "suffix": "_dt0" }, "m": {}, "o": "load", "s": [], "v": [{ "apply": "TextFieldMark", "def": { "mark": "Mark01-image_ref01" } }], "index$": 1 }] }, 'Image', { "GET /endpoints": { "protocol": "http", "parameters": [] }, "GET /stats": { "protocol": "http", "parameters": [] } });
+            return (0, live_entity_1.runLiveEntity)(setup, { "active": true, "alias": { "field": {} }, "fields": { "format": { "a": true, "h": "Format", "n": "format", "r": false, "t": "`$STRING`", "key$": "format", "index$": 0 } }, "name": "image", "op": { "load": { "input": "data", "name": "load", "points": [{ "a": true, "co": { "id": "GET /endpoints", "source": "openapi3", "version": 2 }, "g": {}, "k": "http", "m": "GET", "o": "/endpoints", "q": {}, "r": {}, "rs": { "kind": "json", "media": "application/json" }, "s": [{ "lit": "endpoints" }], "t": { "req": "`reqdata`", "res": "`body`" }, "index$": 0 }], "key$": "load" } }, "relations": { "ancestors": [] }, "key$": "image", "name__orig": "image", "Name": "Image", "name_": "image", "name-": "image", "NAME": "IMAGE", "index$": 0 }, { "active": true, "entity": "image", "key$": "BasicImageFlow", "kind": "basic", "name": "BasicImageFlow", "param": {}, "step": [{ "a": true, "d": {}, "i": { "ref": "image_ref01", "srcdatavar": "image_ref01_data", "suffix": "_dt0" }, "m": {}, "o": "load", "s": [], "v": [{ "apply": "TextFieldMark", "def": { "mark": "Mark01-image_ref01" } }], "index$": 0 }] }, 'Image', { "GET /endpoints": { "protocol": "http", "parameters": [] } }, { strict: LIVE_STRICT, t });
         }
         const client = setup.client;
         const struct = setup.struct;
         const isempty = struct.isempty;
         const select = struct.select;
         let image_ref01_data = Object.values(setup.data.existing.image)[0];
-        // LIST
-        const image_ref01_ent = client.Image();
-        const image_ref01_match = {};
-        const image_ref01_list = (await image_ref01_ent.list(image_ref01_match)).map((e) => e.data());
         // LOAD
+        const image_ref01_ent = client.Image();
         const image_ref01_match_dt0 = {};
         const image_ref01_data_dt0 = (await image_ref01_ent.load(image_ref01_match_dt0)).data();
         (0, node_assert_1.default)(null != image_ref01_data_dt0);
     });
 });
+// main.kit.test.live.strict is true (the default is true): a live
+// request that fails, or a live test missing an input it needs,
+// fails the test.
+// An account with no record for a test to read skips it either way.
+const LIVE_STRICT = true;
 function basicSetup(extra) {
     // TODO: fix test def options
     const options = {}; // null

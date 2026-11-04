@@ -102,6 +102,7 @@ class Config {
       },
       "optspec": {
         "clearTimer": "`$FUNCTION`",
+        "now": "`$FUNCTION`",
         "setTimer": "`$FUNCTION`"
       },
       "strict": false,
@@ -120,10 +121,10 @@ class Config {
 
     entity: {
       
-        get_random_by_category: {
+        image: {
         },
   
-        image: {
+        random_by_category: {
         },
   
         search: {
@@ -134,7 +135,52 @@ class Config {
 
 
   entity = {
-    "get_random_by_category": {
+    "image": {
+      "fields": [
+        {
+          "name": "format",
+          "title": "Format",
+          "type": "`$STRING`"
+        }
+      ],
+      "name": "image",
+      "op": {
+        "load": {
+          "input": "data",
+          "name": "load",
+          "points": [
+            {
+              "kind": "http",
+              "method": "GET",
+              "orig": "/endpoints",
+              "segments": [
+                {
+                  "lit": "endpoints"
+                }
+              ],
+              "parts": [
+                "endpoints"
+              ],
+              "rename": {},
+              "transform": {
+                "req": "`reqdata`",
+                "res": "`body`"
+              },
+              "args": {},
+              "select": {},
+              "response": {
+                "kind": "json",
+                "media": "application/json"
+              }
+            }
+          ]
+        }
+      },
+      "relations": {
+        "ancestors": []
+      }
+    },
+    "random_by_category": {
       "fields": [
         {
           "name": "anime_name",
@@ -156,11 +202,6 @@ class Config {
           "short": "Name of the artist who created the image"
         },
         {
-          "name": "id",
-          "title": "Id",
-          "type": "`$STRING`"
-        },
-        {
           "name": "source_url",
           "title": "Source Url",
           "type": "`$STRING`",
@@ -176,11 +217,7 @@ class Config {
           "format": "uri"
         }
       ],
-      "id": {
-        "field": "id",
-        "name": "id"
-      },
-      "name": "get_random_by_category",
+      "name": "random_by_category",
       "op": {
         "list": {
           "input": "data",
@@ -192,17 +229,13 @@ class Config {
               "orig": "/{category}",
               "segments": [
                 {
-                  "var": "id"
+                  "var": "category"
                 }
               ],
               "parts": [
-                "{id}"
+                "{category}"
               ],
-              "rename": {
-                "param": {
-                  "category": "id"
-                }
-              },
+              "rename": {},
               "transform": {
                 "req": "`reqdata`",
                 "res": "`body.results`"
@@ -210,7 +243,7 @@ class Config {
               "args": {
                 "params": [
                   {
-                    "name": "id",
+                    "name": "category",
                     "orig": "category",
                     "type": "`$STRING`",
                     "kind": "param",
@@ -230,96 +263,13 @@ class Config {
               },
               "select": {
                 "exist": [
-                  "amount",
-                  "id"
+                  "category"
                 ]
+              },
+              "response": {
+                "kind": "json",
+                "media": "application/json"
               }
-            }
-          ]
-        }
-      },
-      "relations": {
-        "ancestors": []
-      }
-    },
-    "image": {
-      "fields": [
-        {
-          "name": "categories",
-          "title": "Categories",
-          "type": "`$INTEGER`",
-          "short": "Total number of categories"
-        },
-        {
-          "name": "endpoints",
-          "title": "Endpoints",
-          "type": "`$ARRAY`",
-          "short": "Array of available category names"
-        },
-        {
-          "name": "total_gifs",
-          "title": "Total Gifs",
-          "type": "`$INTEGER`",
-          "short": "Total number of GIFs available"
-        },
-        {
-          "name": "total_images",
-          "title": "Total Images",
-          "type": "`$INTEGER`",
-          "short": "Total number of images available"
-        }
-      ],
-      "name": "image",
-      "op": {
-        "list": {
-          "input": "data",
-          "name": "list",
-          "points": [
-            {
-              "kind": "http",
-              "method": "GET",
-              "orig": "/endpoints",
-              "segments": [
-                {
-                  "lit": "endpoints"
-                }
-              ],
-              "parts": [
-                "endpoints"
-              ],
-              "rename": {},
-              "transform": {
-                "req": "`reqdata`",
-                "res": "`body.endpoints`"
-              },
-              "args": {},
-              "select": {}
-            }
-          ]
-        },
-        "load": {
-          "input": "data",
-          "name": "load",
-          "points": [
-            {
-              "kind": "http",
-              "method": "GET",
-              "orig": "/stats",
-              "segments": [
-                {
-                  "lit": "stats"
-                }
-              ],
-              "parts": [
-                "stats"
-              ],
-              "rename": {},
-              "transform": {
-                "req": "`reqdata`",
-                "res": "`body`"
-              },
-              "args": {},
-              "select": {}
             }
           ]
         }
@@ -408,16 +358,28 @@ class Config {
                     "orig": "query",
                     "type": "`$STRING`",
                     "kind": "query",
-                    "reqd": true
+                    "reqd": true,
+                    "example": "Senko"
+                  },
+                  {
+                    "name": "type",
+                    "orig": "type",
+                    "type": "`$INTEGER`",
+                    "kind": "query",
+                    "reqd": true,
+                    "example": 1
                   }
                 ]
               },
               "select": {
                 "exist": [
-                  "amount",
-                  "category",
-                  "query"
+                  "query",
+                  "type"
                 ]
+              },
+              "response": {
+                "kind": "json",
+                "media": "application/json"
               }
             }
           ]

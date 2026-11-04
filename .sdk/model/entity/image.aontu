@@ -5,40 +5,18 @@ main: kit: entity: image: {
   alias: field: {}
 
   fields: {
-    categories: {
-      h: "Categories"
-      n: "categories"
+    format: {
+      h: "Format"
+      n: "format"
       r: false
-      sh: "Total number of categories"
-      t: "`$INTEGER`"
-    }
-    endpoints: {
-      h: "Endpoints"
-      n: "endpoints"
-      r: false
-      sh: "Array of available category names"
-      t: "`$ARRAY`"
-    }
-    total_gifs: {
-      h: "Total Gifs"
-      n: "total_gifs"
-      r: false
-      sh: "Total number of GIFs available"
-      t: "`$INTEGER`"
-    }
-    total_images: {
-      h: "Total Images"
-      n: "total_images"
-      r: false
-      sh: "Total number of images available"
-      t: "`$INTEGER`"
+      t: "`$STRING`"
     }
   }
 
   name: "image"
   op: {
-    list: {
-      name: "list"
+    load: {
+      name: "load"
       points: [
         {
           co: {
@@ -48,32 +26,13 @@ main: kit: entity: image: {
           }
           m: "GET"
           o: "/endpoints"
+          rs: {
+            kind: "json"
+            media: "application/json"
+          }
           s: [
             {
               lit: "endpoints"
-            }
-          ]
-          t: {
-            req: "`reqdata`"
-            res: "`body.endpoints`"
-          }
-        }
-      ]
-    }
-    load: {
-      name: "load"
-      points: [
-        {
-          co: {
-            id: "GET /stats"
-            source: "openapi3"
-            version: 2
-          }
-          m: "GET"
-          o: "/stats"
-          s: [
-            {
-              lit: "stats"
             }
           ]
           t: {

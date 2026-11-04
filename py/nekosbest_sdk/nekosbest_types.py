@@ -16,45 +16,31 @@ from __future__ import annotations
 from typing import TypedDict, Any
 
 
-class GetRandomByCategoryRequired(TypedDict):
-    url: str
-
-
-class GetRandomByCategory(GetRandomByCategoryRequired, total=False):
-    anime_name: str
-    artist_href: str
-    artist_name: str
-    id: str
-    source_url: str
-
-
-class GetRandomByCategoryListMatchRequired(TypedDict):
-    id: str
-
-
-class GetRandomByCategoryListMatch(GetRandomByCategoryListMatchRequired, total=False):
-    amount: int
-
-
 class Image(TypedDict, total=False):
-    categories: int
-    endpoints: list
-    total_gifs: int
-    total_images: int
+    format: str
 
 
 class ImageLoadMatch(TypedDict, total=False):
-    categories: int
-    endpoints: list
-    total_gifs: int
-    total_images: int
+    format: str
 
 
-class ImageListMatch(TypedDict, total=False):
-    categories: int
-    endpoints: list
-    total_gifs: int
-    total_images: int
+class RandomByCategoryRequired(TypedDict):
+    url: str
+
+
+class RandomByCategory(RandomByCategoryRequired, total=False):
+    anime_name: str
+    artist_href: str
+    artist_name: str
+    source_url: str
+
+
+class RandomByCategoryListMatchRequired(TypedDict):
+    category: str
+
+
+class RandomByCategoryListMatch(RandomByCategoryListMatchRequired, total=False):
+    amount: int
 
 
 class SearchRequired(TypedDict):
@@ -70,6 +56,7 @@ class Search(SearchRequired, total=False):
 
 class SearchListMatchRequired(TypedDict):
     query: str
+    type: int
 
 
 class SearchListMatch(SearchListMatchRequired, total=False):

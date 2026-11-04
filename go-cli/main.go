@@ -20,7 +20,7 @@ import (
 const prompt = "nekosbest"
 
 // entitiesHelp is the space-separated entity list shown by /help.
-const entitiesHelp = "get_random_by_category image search"
+const entitiesHelp = "image random_by_category search"
 
 func main() {
 	os.Exit(run(os.Args[1:], os.Stdin, os.Stdout, os.Stderr))

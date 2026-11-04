@@ -12,49 +12,33 @@ declare(strict_types=1);
 // registered on the composer classmap autoload. The SDK boundary exchanges
 // assoc-arrays; these classes name the shapes for tooling and typed callers.
 
-/** GetRandomByCategory entity data model. */
-class GetRandomByCategory
-{
-    public ?string $anime_name = null;
-    public ?string $artist_href = null;
-    public ?string $artist_name = null;
-    public ?string $id = null;
-    public ?string $source_url = null;
-    public string $url;
-}
-
-/** Request payload for GetRandomByCategory#list. */
-class GetRandomByCategoryListMatch
-{
-    public string $id;
-    public ?int $amount = null;
-}
-
 /** Image entity data model. */
 class Image
 {
-    public ?int $categories = null;
-    public ?array $endpoints = null;
-    public ?int $total_gifs = null;
-    public ?int $total_images = null;
+    public ?string $format = null;
 }
 
 /** Request payload for Image#load. */
 class ImageLoadMatch
 {
-    public ?int $categories = null;
-    public ?array $endpoints = null;
-    public ?int $total_gifs = null;
-    public ?int $total_images = null;
+    public ?string $format = null;
 }
 
-/** Request payload for Image#list. */
-class ImageListMatch
+/** RandomByCategory entity data model. */
+class RandomByCategory
 {
-    public ?int $categories = null;
-    public ?array $endpoints = null;
-    public ?int $total_gifs = null;
-    public ?int $total_images = null;
+    public ?string $anime_name = null;
+    public ?string $artist_href = null;
+    public ?string $artist_name = null;
+    public ?string $source_url = null;
+    public string $url;
+}
+
+/** Request payload for RandomByCategory#list. */
+class RandomByCategoryListMatch
+{
+    public string $category;
+    public ?int $amount = null;
 }
 
 /** Search entity data model. */
@@ -73,5 +57,6 @@ class SearchListMatch
     public ?int $amount = null;
     public ?string $category = null;
     public string $query;
+    public int $type;
 }
 

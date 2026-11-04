@@ -12,6 +12,40 @@ class NekosbestTestFeature extends NekosbestBaseFeature
     private ?array $options;
     private int $_netcalls;
 
+    // The record the mock keeps: the request data without `$body`, which only the
+    // wire carries.
+    private static function record(mixed $reqdata): array
+    {
+        if (!is_array($reqdata)) {
+            return [];
+        }
+        unset($reqdata['$body']);
+        return $reqdata;
+    }
+
+    // The key a list's response transform
+    // ["`$EACH`", "body", ["`$MERGE`" => "`.<key>`"]] reads each item's record under.
+    private static function itemEnvelopeKey(mixed $restf): ?string
+    {
+        if (!is_array($restf) || !array_is_list($restf) || 3 !== count($restf) ||
+            '`$EACH`' !== $restf[0] || 'body' !== $restf[1] || !is_array($restf[2])) {
+            return null;
+        }
+        $merge = $restf[2]['`$MERGE`'] ?? null;
+        if (!is_string($merge) || !preg_match('/^`\.([^.`$]+)`$/', $merge, $m)) {
+            return null;
+        }
+        return $m[1];
+    }
+
+    // The entity's declared identity field (`entity.id.field`), where it names
+    // one other than the `id` every record already carries.
+    private static function declaredIdField(?array $config, mixed $entityName): ?string
+    {
+        $field = \Voxgig\Struct\Struct::getpath($config, ['entity', (string)$entityName, 'id', 'field']);
+        return is_string($field) && '' !== $field && 'id' !== $field ? $field : null;
+    }
+
     public function __construct()
     {
         parent::__construct();
@@ -36,9 +70,14 @@ class NekosbestTestFeature extends NekosbestBaseFeature
         $this->client->mode = 'test';
 
         // Ensure entity ids are correct (walk is by value: keep its result).
-        $entity_data = \Voxgig\Struct\Struct::walk($entity_data, function ($key, $val, $parent, $path) {
+        $config = $ctx->config;
+        $entity_data = \Voxgig\Struct\Struct::walk($entity_data, function ($key, $val, $parent, $path) use ($config) {
             if (count($path) === 2 && is_array($val) && $key !== null) {
                 $val['id'] = $key;
+                $idField = self::declaredIdField($config, $path[0]);
+                if (null !== $idField) {
+                    $val[$idField] = $key;
+                }
             }
             return $val;
         });
@@ -66,6 +105,10 @@ class NekosbestTestFeature extends NekosbestBaseFeature
                     return $data;
                 }
                 $restf = $transform['res'] ?? null;
+                $key = self::itemEnvelopeKey($restf);
+                if ($key !== null && is_array($data) && array_is_list($data)) {
+                    return array_map(fn($item) => [$key => $item], $data);
+                }
                 if (!is_string($restf)) {
                     return $data;
                 }
@@ -135,7 +178,7 @@ class NekosbestTestFeature extends NekosbestBaseFeature
 
             $find_all = function (array $entmap, $match, $alias) use ($find_first) {
                 if (!is_array($match) || empty($match)) {
-                    return array_values(array_filter($entmap, 'is_array'));
+                    return array_values($entmap);
                 }
                 $out = [];
                 foreach ($entmap as $e) {
@@ -210,7 +253,7 @@ class NekosbestTestFeature extends NekosbestBaseFeature
                 $out = \Voxgig\Struct\Struct::clone($cleaned);
                 return $respond(200, $out);
 
-            } elseif ($op->name === 'update') {
+            } elseif ($op->name === 'update' || $op->name === 'patch') {
                 // Match the existing entity by id only (or its alias). reqdata
                 // also contains the new field values, which would otherwise
                 // cause find_first to filter out the entity we want to update.
@@ -237,7 +280,7 @@ class NekosbestTestFeature extends NekosbestBaseFeature
                     return $respond(404, null, ['statusText' => 'Not found']);
                 }
                 if (is_array($fctx->reqdata)) {
-                    $ent = \Voxgig\Struct\Struct::merge([$ent, $fctx->reqdata]);
+                    $ent = \Voxgig\Struct\Struct::merge([$ent, self::record($fctx->reqdata)]);
                 }
                 $id = is_array($ent) ? ($ent['id'] ?? null) : null;
                 if ($id !== null) {
@@ -267,8 +310,12 @@ class NekosbestTestFeature extends NekosbestBaseFeature
                         random_int(0, 0xFFFF), random_int(0, 0xFFFF));
                 }
 
-                $ent = is_array($fctx->reqdata) ? $fctx->reqdata : [];
+                $ent = self::record($fctx->reqdata);
                 $ent['id'] = $id;
+                $idField = self::declaredIdField($fctx->config, $entname);
+                if (null !== $idField && null === ($ent[$idField] ?? null)) {
+                    $ent[$idField] = $id;
+                }
                 $entmap[$id] = $ent;
                 $entity->data[$entname] = $entmap;
                 if (is_array($ent)) unset($ent['$KEY']);
@@ -362,7 +409,7 @@ class NekosbestTestFeature extends NekosbestBaseFeature
 
     /**
      * Build a structured `$AND` query from the request match/data dict,
-     * matching the TS test feature's buildArgs. Mirrors ts/src/feature/test/TestFeature.ts:158-204.
+     * matching the TS test feature's buildArgs in ts/src/feature/test/TestFeature.ts.
      *
      * For each key in $args that is 'id' OR a required-param key on the
      * current operation point, emit a `$OR` clause matching the key (and
@@ -379,12 +426,12 @@ class NekosbestTestFeature extends NekosbestBaseFeature
         }
 
         $opname = is_object($op) ? ($op->name ?? null) : (\Voxgig\Struct\Struct::getprop($op, 'name'));
-        $entityName = null;
-        if (isset($ctx->entity)) {
-            $entityName = is_object($ctx->entity)
-                ? ($ctx->entity->name ?? null)
-                : (is_array($ctx->entity) ? ($ctx->entity['name'] ?? null) : null);
-        }
+
+        // An entity keeps its name private, behind get_name(); a context
+        // with no entity has the name its operation was resolved for.
+        $entityName = (is_object($ctx->entity) && method_exists($ctx->entity, 'get_name'))
+            ? $ctx->entity->get_name()
+            : (is_object($op) ? ($op->entity ?? null) : \Voxgig\Struct\Struct::getprop($op, 'entity'));
 
         // Resolve required-param names from the op's last point. Defensive:
         // any missing piece falls back to "no required params".
@@ -397,8 +444,8 @@ class NekosbestTestFeature extends NekosbestBaseFeature
             // `{id}` marks a record route, and failing that the shallower
             // path wins.
             $points = \Voxgig\Struct\Struct::getpath(
-                ['entity', $entityName, 'op', $opname, 'points'],
-                $ctx->config
+                $ctx->config,
+                ['entity', $entityName, 'op', $opname, 'points']
             );
             $point = \Voxgig\Struct\Struct::getelem($points, 0);
             if (is_array($points)) {

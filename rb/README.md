@@ -4,7 +4,7 @@
 
 The Ruby SDK for the Nekosbest API — an entity-oriented client using idiomatic Ruby conventions.
 
-The SDK exposes the API as capitalised, semantic **Entities** — for example `client.GetRandomByCategory` — with named operations (`list`/`load`) instead of raw URL paths and query strings. Working with resources and verbs keeps call sites self-describing and reduces cognitive load.
+The SDK exposes the API as capitalised, semantic **Entities** — for example `client.Image` — with named operations (`list`/`load`) instead of raw URL paths and query strings. Working with resources and verbs keeps call sites self-describing and reduces cognitive load.
 
 > Other languages, the CLI, and MCP server live alongside this one — see
 > the [top-level README](../README.md).
@@ -12,7 +12,7 @@ The SDK exposes the API as capitalised, semantic **Entities** — for example `c
 
 ## Install
 This package is not yet published to RubyGems. Install it from the
-GitHub release tag (`rb/vX.Y.Z`, see [Releases](https://github.com/voxgig-sdk/nekosbest-sdk/releases)), or
+GitHub release tag (`rb/vX.Y.Z`, see [Tags](https://github.com/voxgig-sdk/nekosbest-sdk/tags)), or
 from a clone:
 
 ```bash
@@ -39,17 +39,15 @@ require_relative "Nekosbest_sdk"
 client = NekosbestSDK.new
 ```
 
-### 2. List getrandombycategory records
+### 3. Load an image
 
 ```ruby
 begin
-  # list returns an Array of GetRandomByCategory records — iterate directly.
-  getrandombycategorys = client.GetRandomByCategory.list
-  getrandombycategorys.each do |item|
-    puts "#{item["id"]} #{item["anime_name"]}"
-  end
+  # load returns the ENTITY — call data_get for the Image record (raises on error).
+  image = client.Image.load()
+  puts image.data_get
 rescue => err
-  warn "list failed: #{err}"
+  warn "load failed: #{err}"
 end
 ```
 
@@ -60,7 +58,7 @@ Entity operations raise on failure, so rescue them:
 
 ```ruby
 begin
-  searchs = client.Search.list()
+  searchs = client.Search.list({ "query" => "example", "type" => 1 })
 rescue => err
   warn "list failed: #{err}"
 end
@@ -128,10 +126,10 @@ Create a mock client for unit testing — no server required:
 ```ruby
 client = NekosbestSDK.test
 
-# Entity ops return the ENTITY (raises on error);
-# call data_get for the mock record.
-search = client.Search.list()
-puts search
+# list returns an Array of Search entities, one per mock record (raises on
+# error); data_get reads each record.
+searchs = client.Search.list({ "query" => "example", "type" => 1 })
+searchs.each { |item| puts item.data_get }
 ```
 
 ### Use a custom fetch function
@@ -207,8 +205,8 @@ Creates a test-mode client with mock transport. Both arguments may be `nil`.
 | `get_utility` | `() -> Utility` | Copy of the SDK utility object. |
 | `prepare` | `(fetchargs) -> Hash` | Build an HTTP request definition without sending. Raises on error. |
 | `direct` | `(fetchargs) -> Hash` | Build and send an HTTP request. Returns a result hash (`result["ok"]`); does not raise. |
-| `GetRandomByCategory` | `(data) -> GetRandomByCategoryEntity` | Create a GetRandomByCategory entity instance. |
 | `Image` | `(data) -> ImageEntity` | Create an Image entity instance. |
+| `RandomByCategory` | `(data) -> RandomByCategoryEntity` | Create a RandomByCategory entity instance. |
 | `Search` | `(data) -> SearchEntity` | Create a Search entity instance. |
 
 ### Entity interface
@@ -217,8 +215,8 @@ All entities share the same interface.
 
 | Method | Signature | Description |
 | --- | --- | --- |
-| `load` | `(reqmatch, ctrl) -> any` | Load a single entity by match criteria. Raises on error. |
-| `list` | `(reqmatch = nil, ctrl) -> Array` | List entities matching the criteria (call with no argument to list all). Raises on error. |
+| `load` | `(reqmatch, ctrl) -> any` | Load a single entity by match criteria, and return it. Raises on error. |
+| `list` | `(reqmatch = nil, ctrl) -> Array` | List entities matching the criteria (call with no argument to list all), one per record. Raises on error. |
 | `data_get` | `() -> Hash` | Get entity data. |
 | `data_set` | `(data)` | Set entity data. |
 | `match_get` | `() -> Hash` | Get entity match criteria. |
@@ -228,9 +226,10 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return the result data directly. On failure they
-raise a `NekosbestError` (a `StandardError` subclass), so wrap
-calls in `begin`/`rescue` where you need to handle errors.
+Entity operations return the entity, and `list` an `Array` of entities, one
+per record; an entity's `data_get` reads its record. On failure they raise a
+`NekosbestError` (a `StandardError` subclass), so wrap calls in
+`begin`/`rescue` where you need to handle errors.
 
 The `direct` escape hatch is the exception: it never raises and instead
 returns a result `Hash` with these keys:
@@ -245,33 +244,29 @@ returns a result `Hash` with these keys:
 
 ### Entities
 
-#### GetRandomByCategory
+#### Image
+
+| Field | Description |
+| --- | --- |
+| `format` |  |
+
+Operations: Load.
+
+API path: `/endpoints`
+
+#### RandomByCategory
 
 | Field | Description |
 | --- | --- |
 | `anime_name` | Name of the anime the character is from (if applicable) |
 | `artist_href` | URL to the artist's profile or website |
 | `artist_name` | Name of the artist who created the image |
-| `id` |  |
 | `source_url` | Original source URL of the image |
 | `url` | Direct URL to the image or GIF hosted on nekos.best |
 
 Operations: List.
 
 API path: `/{category}`
-
-#### Image
-
-| Field | Description |
-| --- | --- |
-| `categories` | Total number of categories |
-| `endpoints` | Array of available category names |
-| `total_gifs` | Total number of GIFs available |
-| `total_images` | Total number of images available |
-
-Operations: List, Load.
-
-API path: `/endpoints`
 
 #### Search
 
@@ -292,9 +287,33 @@ API path: `/search`
 ## Entities
 
 
-### GetRandomByCategory
+### Image
 
-Create an instance: `get_random_by_category = client.GetRandomByCategory`
+Create an instance: `image = client.Image`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `load(match)` | Load a single entity by match criteria. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `format` | `String` |  |
+
+#### Example: Load
+
+```ruby
+# load returns the ENTITY — call data_get for the Image record (raises on error).
+image = client.Image.load()
+```
+
+
+### RandomByCategory
+
+Create an instance: `random_by_category = client.RandomByCategory`
 
 #### Operations
 
@@ -309,50 +328,15 @@ Create an instance: `get_random_by_category = client.GetRandomByCategory`
 | `anime_name` | `String` | Name of the anime the character is from (if applicable) |
 | `artist_href` | `String` | URL to the artist's profile or website |
 | `artist_name` | `String` | Name of the artist who created the image |
-| `id` | `String` |  |
 | `source_url` | `String` | Original source URL of the image |
 | `url` | `String` | Direct URL to the image or GIF hosted on nekos.best |
 
 #### Example: List
 
 ```ruby
-# list returns an Array of GetRandomByCategory records (raises on error).
-get_random_by_categorys = client.GetRandomByCategory.list
-```
-
-
-### Image
-
-Create an instance: `image = client.Image`
-
-#### Operations
-
-| Method | Description |
-| --- | --- |
-| `list(match)` | List entities matching the criteria. |
-| `load(match)` | Load a single entity by match criteria. |
-
-#### Fields
-
-| Field | Type | Description |
-| --- | --- | --- |
-| `categories` | `Integer` | Total number of categories |
-| `endpoints` | `Array` | Array of available category names |
-| `total_gifs` | `Integer` | Total number of GIFs available |
-| `total_images` | `Integer` | Total number of images available |
-
-#### Example: Load
-
-```ruby
-# load returns the ENTITY — call data_get for the Image record (raises on error).
-image = client.Image.load()
-```
-
-#### Example: List
-
-```ruby
-# list returns an Array of Image records (raises on error).
-images = client.Image.list
+# list returns an Array of RandomByCategory entities, one per record (raises on error).
+random_by_categorys = client.RandomByCategory.list({ "category" => "example" })
+random_by_categorys.each { |item| puts item.data_get }
 ```
 
 
@@ -379,8 +363,9 @@ Create an instance: `search = client.Search`
 #### Example: List
 
 ```ruby
-# list returns an Array of Search records (raises on error).
-searchs = client.Search.list
+# list returns an Array of Search entities, one per record (raises on error).
+searchs = client.Search.list({ "query" => "example", "type" => 1 })
+searchs.each { |item| puts item.data_get }
 ```
 
 ## Features
@@ -546,7 +531,7 @@ stores the returned data and match criteria internally.
 
 ```ruby
 search = client.Search
-search.list()
+search.list({ "query" => "example", "type" => 1 })
 
 # search.data_get now returns the search data from the last list
 # search.match_get returns the last match criteria

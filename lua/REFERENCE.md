@@ -40,13 +40,13 @@ local client = sdk.test()
 
 ### Instance Methods
 
-#### `GetRandomByCategory(data)`
-
-Create a new `GetRandomByCategory` entity instance. Pass `nil` for no initial data.
-
 #### `Image(data)`
 
 Create a new `Image` entity instance. Pass `nil` for no initial data.
+
+#### `RandomByCategory(data)`
+
+Create a new `RandomByCategory` entity instance. Pass `nil` for no initial data.
 
 #### `Search(data)`
 
@@ -88,63 +88,6 @@ same parameters as `direct()`.
 
 ---
 
-## GetRandomByCategoryEntity
-
-```lua
-local get_random_by_category = client:GetRandomByCategory(nil)
-```
-
-### Fields
-
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `anime_name` | `string` | No | Name of the anime the character is from (if applicable) |
-| `artist_href` | `string` | No | URL to the artist's profile or website |
-| `artist_name` | `string` | No | Name of the artist who created the image |
-| `id` | `string` | No |  |
-| `source_url` | `string` | No | Original source URL of the image |
-| `url` | `string` | Yes | Direct URL to the image or GIF hosted on nekos.best |
-
-### Operations
-
-#### `list(reqmatch, ctrl) -> any, err`
-
-List entities matching the given criteria. Returns an array.
-
-```lua
-local results, err = client:GetRandomByCategory():list()
-```
-
-### Common Methods
-
-#### `data_get() -> table`
-
-Get the entity data. Returns a copy of the current data.
-
-#### `data_set(data)`
-
-Set the entity data.
-
-#### `match_get() -> table`
-
-Get the entity match criteria.
-
-#### `match_set(match)`
-
-Set the entity match criteria.
-
-#### `make() -> Entity`
-
-Create a new `GetRandomByCategoryEntity` instance with the same client and
-options.
-
-#### `get_name() -> string`
-
-Return the entity name.
-
-
----
-
 ## ImageEntity
 
 ```lua
@@ -155,24 +98,13 @@ local image = client:Image(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `categories` | `number` | No | Total number of categories |
-| `endpoints` | `table` | No | Array of available category names |
-| `total_gifs` | `number` | No | Total number of GIFs available |
-| `total_images` | `number` | No | Total number of images available |
+| `format` | `string` | No |  |
 
 ### Operations
 
-#### `list(reqmatch, ctrl) -> any, err`
-
-List entities matching the given criteria. Returns an array.
-
-```lua
-local results, err = client:Image():list()
-```
-
 #### `load(reqmatch, ctrl) -> any, err`
 
-Load a single entity matching the given criteria.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, or `nil` and an error on failure.
 
 ```lua
 local result, err = client:Image():load()
@@ -208,6 +140,62 @@ Return the entity name.
 
 ---
 
+## RandomByCategoryEntity
+
+```lua
+local random_by_category = client:RandomByCategory(nil)
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `anime_name` | `string` | No | Name of the anime the character is from (if applicable) |
+| `artist_href` | `string` | No | URL to the artist's profile or website |
+| `artist_name` | `string` | No | Name of the artist who created the image |
+| `source_url` | `string` | No | Original source URL of the image |
+| `url` | `string` | Yes | Direct URL to the image or GIF hosted on nekos.best |
+
+### Operations
+
+#### `list(reqmatch, ctrl) -> any, err`
+
+List entities matching the given criteria. Returns an array of entities, one per record, or `nil` and an error on failure.
+
+```lua
+local results, err = client:RandomByCategory():list({ category = "example" })
+```
+
+### Common Methods
+
+#### `data_get() -> table`
+
+Get the entity data. Returns a copy of the current data.
+
+#### `data_set(data)`
+
+Set the entity data.
+
+#### `match_get() -> table`
+
+Get the entity match criteria.
+
+#### `match_set(match)`
+
+Set the entity match criteria.
+
+#### `make() -> Entity`
+
+Create a new `RandomByCategoryEntity` instance with the same client and
+options.
+
+#### `get_name() -> string`
+
+Return the entity name.
+
+
+---
+
 ## SearchEntity
 
 ```lua
@@ -228,10 +216,10 @@ local search = client:Search(nil)
 
 #### `list(reqmatch, ctrl) -> any, err`
 
-List entities matching the given criteria. Returns an array.
+List entities matching the given criteria. Returns an array of entities, one per record, or `nil` and an error on failure.
 
 ```lua
-local results, err = client:Search():list()
+local results, err = client:Search():list({ query = "example", type = 1 })
 ```
 
 ### Common Methods
@@ -421,6 +409,7 @@ Timeout.
 | Option | Type |
 |---|---|
 | `clearTimer` | function |
+| `now` | function |
 | `setTimer` | function |
 
 These take no default: the feature behaves one way when you supply them and

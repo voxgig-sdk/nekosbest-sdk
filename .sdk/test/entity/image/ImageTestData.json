@@ -2,24 +2,15 @@
   "existing": {
     "image": {
       "IMAGE00": {
-        "categories": 40,
-        "endpoints": [],
-        "total_gifs": 42,
-        "total_images": 43,
+        "format": "sa",
         "id": "IMAGE00"
       },
       "IMAGE01": {
-        "categories": 80,
-        "endpoints": [],
-        "total_gifs": 82,
-        "total_images": 83,
+        "format": "s14",
         "id": "IMAGE01"
       },
       "IMAGE02": {
-        "categories": 120,
-        "endpoints": [],
-        "total_gifs": 122,
-        "total_images": 123,
+        "format": "s1e",
         "id": "IMAGE02"
       }
     }
@@ -27,20 +18,12 @@
   "new": {
     "image": {
       "image_ref01": {
-        "categories": 160,
-        "endpoints": [],
-        "total_gifs": 162,
-        "total_images": 163
+        "format": "s28"
       }
     }
   },
   "requests": {
     "GET /endpoints": {
-      "provenance": "operation-contract",
-      "version": 2,
-      "source": "openapi3"
-    },
-    "GET /stats": {
       "provenance": "operation-contract",
       "version": 2,
       "source": "openapi3"

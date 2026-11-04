@@ -4,6 +4,8 @@ from nekosbest_sdk.utility.voxgig_struct import voxgig_struct as vs
 from nekosbest_sdk.core.utility_type import NekosbestUtility
 from nekosbest_sdk.core.spec import NekosbestSpec
 from nekosbest_sdk.core import helpers
+from nekosbest_sdk.utility.prepare_method import allowed
+from nekosbest_sdk.utility.result_body import unreadable_body
 
 # Load utility registration (populates Utility._registrar)
 from nekosbest_sdk.utility import register
@@ -138,6 +140,13 @@ class NekosbestSDK:
         method = vs.getprop(fetchargs, "method") or "GET"
         if not isinstance(method, str):
             method = "GET"
+        method = method.upper()
+
+        allow_method = vs.getpath(options, "allow.method")
+        if not allowed(allow_method, method):
+            raise ctx.make_error("spec_method_allow",
+                'Method "' + method +
+                '" not allowed by SDK option allow.method value: "' + str(allow_method) + '"')
 
         params = helpers.to_map(vs.getprop(fetchargs, "params"))
         if params is None:
@@ -177,6 +186,12 @@ class NekosbestSDK:
             for k, v in uh.items():
                 ctx.spec.headers[k] = v
 
+        # A raw request has no point to declare its response type, so it asks
+        # for the JSON it reads: an API that negotiates on Accept otherwise
+        # answers in its own default format. A caller's own accept wins.
+        if not any(str(k).lower() == "accept" for k in ctx.spec.headers):
+            ctx.spec.headers["accept"] = "application/json"
+
         _, err = utility.prepare_auth(ctx)
         if err is not None:
             raise err
@@ -198,8 +213,7 @@ class NekosbestSDK:
 
     # Is this raw-access op permitted by the SDK's allow.op option?
     def _op_allowed(self, op):
-        allow_op = vs.getpath(self.options, "allow.op")
-        return isinstance(allow_op, str) and op in allow_op
+        return allowed(vs.getpath(self.options, "allow.op"), op)
 
     def _op_denied(self, op):
         allow_op = vs.getpath(self.options, "allow.op")
@@ -260,6 +274,7 @@ class NekosbestSDK:
             no_body = status in (204, 304) or str(content_length) == "0"
 
             json_data = None
+            body_err = None
             if not no_body:
                 jf = vs.getprop(fetched, "json")
                 if callable(jf):
@@ -269,13 +284,22 @@ class NekosbestSDK:
                         # Non-JSON body (e.g. text/plain, text/html). Surface
                         # status + headers but leave data as None.
                         json_data = None
+                if vs.getprop(fetched, "unreadable") is True:
+                    failed = None if 200 <= status < 300 else ctx.make_error(
+                        "request_status",
+                        "request: " + str(status) + ": " + str(vs.getprop(fetched, "statusText")))
+                    body_err = unreadable_body(ctx, status, headers, vs.getprop(fetched, "body"),
+                                               fetchdef.get("headers"), failed)
 
-            return {
-                "ok": status >= 200 and status < 300,
+            out = {
+                "ok": body_err is None and status >= 200 and status < 300,
                 "status": status,
                 "headers": headers,
                 "data": json_data,
             }
+            if body_err is not None:
+                out["err"] = utility.clean(ctx, body_err)
+            return out
 
         return {
             "ok": False,
@@ -323,16 +347,16 @@ class NekosbestSDK:
         return res
 
 
-    def GetRandomByCategory(self, data=None) -> "GetRandomByCategoryEntity":
-        """Entity factory: client.GetRandomByCategory().list() / client.GetRandomByCategory().load({"id": ...})."""
-        from nekosbest_sdk.entity.get_random_by_category_entity import GetRandomByCategoryEntity
-        return GetRandomByCategoryEntity(self, data)
-
-
     def Image(self, data=None) -> "ImageEntity":
         """Entity factory: client.Image().list() / client.Image().load({"id": ...})."""
         from nekosbest_sdk.entity.image_entity import ImageEntity
         return ImageEntity(self, data)
+
+
+    def RandomByCategory(self, data=None) -> "RandomByCategoryEntity":
+        """Entity factory: client.RandomByCategory().list() / client.RandomByCategory().load({"id": ...})."""
+        from nekosbest_sdk.entity.random_by_category_entity import RandomByCategoryEntity
+        return RandomByCategoryEntity(self, data)
 
 
     def Search(self, data=None) -> "SearchEntity":
@@ -368,6 +392,6 @@ class NekosbestSDK:
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from nekosbest_sdk.entity.get_random_by_category_entity import GetRandomByCategoryEntity
     from nekosbest_sdk.entity.image_entity import ImageEntity
+    from nekosbest_sdk.entity.random_by_category_entity import RandomByCategoryEntity
     from nekosbest_sdk.entity.search_entity import SearchEntity

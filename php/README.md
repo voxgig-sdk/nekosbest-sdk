@@ -4,7 +4,7 @@
 
 The PHP SDK for the Nekosbest API — an entity-oriented client using PHP conventions.
 
-The SDK exposes the API as capitalised, semantic **Entities** — for example `$client->GetRandomByCategory()` — with named operations (`list`/`load`) instead of raw URL paths and query strings. Working with resources and verbs keeps call sites self-describing and reduces cognitive load.
+The SDK exposes the API as capitalised, semantic **Entities** — for example `$client->Image()` — with named operations (`list`/`load`) instead of raw URL paths and query strings. Working with resources and verbs keeps call sites self-describing and reduces cognitive load.
 
 > Other languages, the CLI, and MCP server live alongside this one — see
 > the [top-level README](../README.md).
@@ -12,7 +12,7 @@ The SDK exposes the API as capitalised, semantic **Entities** — for example `$
 
 ## Install
 This package is not yet published to Packagist. Install it from the
-GitHub release tag (`php/vX.Y.Z`, see [Releases](https://github.com/voxgig-sdk/nekosbest-sdk/releases)), or
+GitHub release tag (`php/vX.Y.Z`, see [Tags](https://github.com/voxgig-sdk/nekosbest-sdk/tags)), or
 from a clone as a Composer path repository:
 
 ```bash
@@ -36,16 +36,13 @@ require_once 'nekosbest_sdk.php';
 $client = new NekosbestSDK();
 ```
 
-### 2. List getrandombycategory records
+### 3. Load an image
 
 ```php
 try {
-    // list() returns entity instances; data_get() reads each record.
-    $getrandombycategorys = $client->GetRandomByCategory()->list();
-    foreach ($getrandombycategorys as $record) {
-        $item = $record->data_get();
-        echo $item["id"] . " " . $item["anime_name"] . "\n";
-    }
+    // load() returns the ENTITY — call data_get() for the Image record (throws on error).
+    $image = $client->Image()->load();
+    print_r($image->data_get());
 } catch (\Throwable $err) {
     echo "Error: " . $err->getMessage();
 }
@@ -59,7 +56,7 @@ Entity operations throw a `\Throwable` on failure, so wrap them in
 
 ```php
 try {
-    $searchs = $client->Search()->list();
+    $searchs = $client->Search()->list(["query" => "example", "type" => 1]);
 } catch (\Throwable $err) {
     echo "Error: " . $err->getMessage();
 }
@@ -133,7 +130,7 @@ $client = NekosbestSDK::test();
 
 // list() returns entity instances (throws on error);
 // call data_get() for the mock record.
-$search = $client->Search()->list();
+$search = $client->Search()->list(["query" => "example", "type" => 1]);
 print_r(array_map(fn($item) => $item->data_get(), $search));
 ```
 
@@ -213,8 +210,8 @@ Creates a test-mode client with mock transport. Both arguments may be `null`.
 | `get_utility` | `(): Utility` | Copy of the SDK utility object. |
 | `prepare` | `(array $fetchargs): array` | Build an HTTP request definition without sending. |
 | `direct` | `(array $fetchargs): array` | Build and send an HTTP request. |
-| `GetRandomByCategory` | `($data): GetRandomByCategoryEntity` | Create a GetRandomByCategory entity instance. |
 | `Image` | `($data): ImageEntity` | Create an Image entity instance. |
+| `RandomByCategory` | `($data): RandomByCategoryEntity` | Create a RandomByCategory entity instance. |
 | `Search` | `($data): SearchEntity` | Create a Search entity instance. |
 
 ### Entity interface
@@ -223,8 +220,8 @@ All entities share the same interface.
 
 | Method | Signature | Description |
 | --- | --- | --- |
-| `load` | `($reqmatch, $ctrl): array` | Load a single entity by match criteria. |
-| `list` | `(?array $reqmatch = null, $ctrl): array` | List entities matching the criteria (call with no argument to list all). |
+| `load` | `($reqmatch, $ctrl): mixed` | Load a single entity by match criteria, and return it. |
+| `list` | `(?array $reqmatch = null, $ctrl): mixed` | List entities matching the criteria (call with no argument to list all), one per record. |
 | `data_get` | `(): array` | Get entity data. |
 | `data_set` | `($data): void` | Set entity data. |
 | `match_get` | `(): array` | Get entity match criteria. |
@@ -234,9 +231,9 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return the ENTITY (call data_get() for the record) (an `array` for single-entity
-ops, a `list` for `list`) and throw on error. Wrap calls in
-`try`/`catch` to handle failures.
+Entity operations return the entity, and `list` an `array` of entities, one
+per record; an entity's `data_get()` reads its record (an `array`). They
+throw on error, so wrap calls in `try`/`catch` to handle failures.
 
 The `direct()` escape hatch never throws — it returns a result `array`
 you branch on via `$result["ok"]`:
@@ -252,33 +249,29 @@ On error, `ok` is `false` and `$err` contains the error value.
 
 ### Entities
 
-#### GetRandomByCategory
+#### Image
+
+| Field | Description |
+| --- | --- |
+| `format` |  |
+
+Operations: Load.
+
+API path: `/endpoints`
+
+#### RandomByCategory
 
 | Field | Description |
 | --- | --- |
 | `anime_name` | Name of the anime the character is from (if applicable) |
 | `artist_href` | URL to the artist's profile or website |
 | `artist_name` | Name of the artist who created the image |
-| `id` |  |
 | `source_url` | Original source URL of the image |
 | `url` | Direct URL to the image or GIF hosted on nekos.best |
 
 Operations: List.
 
 API path: `/{category}`
-
-#### Image
-
-| Field | Description |
-| --- | --- |
-| `categories` | Total number of categories |
-| `endpoints` | Array of available category names |
-| `total_gifs` | Total number of GIFs available |
-| `total_images` | Total number of images available |
-
-Operations: List, Load.
-
-API path: `/endpoints`
 
 #### Search
 
@@ -299,9 +292,33 @@ API path: `/search`
 ## Entities
 
 
-### GetRandomByCategory
+### Image
 
-Create an instance: `$get_random_by_category = $client->GetRandomByCategory();`
+Create an instance: `$image = $client->Image();`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `load(match)` | Load a single entity by match criteria. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `format` | `string` |  |
+
+#### Example: Load
+
+```php
+// load() returns the ENTITY — call data_get() for the Image record (throws on error).
+$image = $client->Image()->load();
+```
+
+
+### RandomByCategory
+
+Create an instance: `$random_by_category = $client->RandomByCategory();`
 
 #### Operations
 
@@ -316,50 +333,14 @@ Create an instance: `$get_random_by_category = $client->GetRandomByCategory();`
 | `anime_name` | `string` | Name of the anime the character is from (if applicable) |
 | `artist_href` | `string` | URL to the artist's profile or website |
 | `artist_name` | `string` | Name of the artist who created the image |
-| `id` | `string` |  |
 | `source_url` | `string` | Original source URL of the image |
 | `url` | `string` | Direct URL to the image or GIF hosted on nekos.best |
 
 #### Example: List
 
 ```php
-// list() returns an array of GetRandomByCategory records (throws on error).
-$get_random_by_categorys = $client->GetRandomByCategory()->list();
-```
-
-
-### Image
-
-Create an instance: `$image = $client->Image();`
-
-#### Operations
-
-| Method | Description |
-| --- | --- |
-| `list(match)` | List entities matching the criteria. |
-| `load(match)` | Load a single entity by match criteria. |
-
-#### Fields
-
-| Field | Type | Description |
-| --- | --- | --- |
-| `categories` | `int` | Total number of categories |
-| `endpoints` | `array` | Array of available category names |
-| `total_gifs` | `int` | Total number of GIFs available |
-| `total_images` | `int` | Total number of images available |
-
-#### Example: Load
-
-```php
-// load() returns the ENTITY — call data_get() for the Image record (throws on error).
-$image = $client->Image()->load();
-```
-
-#### Example: List
-
-```php
-// list() returns an array of Image records (throws on error).
-$images = $client->Image()->list();
+// list() returns an array of RandomByCategory entities, one per record (throws on error).
+$random_by_categorys = $client->RandomByCategory()->list(["category" => "example"]);
 ```
 
 
@@ -386,8 +367,8 @@ Create an instance: `$search = $client->Search();`
 #### Example: List
 
 ```php
-// list() returns an array of Search records (throws on error).
-$searchs = $client->Search()->list();
+// list() returns an array of Search entities, one per record (throws on error).
+$searchs = $client->Search()->list(["query" => "example", "type" => 1]);
 ```
 
 ## Features
@@ -553,7 +534,7 @@ stores the returned data and match criteria internally.
 
 ```php
 $search = $client->Search();
-$search->list();
+$search->list(["query" => "example", "type" => 1]);
 
 // $search->data_get() now returns the search data from the last list
 // $search->match_get() returns the last match criteria

@@ -5,7 +5,7 @@
 The TypeScript SDK for the Nekosbest API — a type-safe, entity-oriented client with full async/await support.
 
 The API is exposed as capitalised, semantic **Entities** — e.g.
-`client.GetRandomByCategory()` — each with a small set of operations (`list`, `load`)
+`client.Image()` — each with a small set of operations (`list`, `load`)
 instead of raw URL paths and query parameters. This keeps the surface
 predictable and low-friction for both humans and AI agents.
 
@@ -15,7 +15,7 @@ predictable and low-friction for both humans and AI agents.
 
 ## Install
 This package is not yet published to npm. Install it from the GitHub
-release tag (`ts/vX.Y.Z`, see [Releases](https://github.com/voxgig-sdk/nekosbest-sdk/releases)), or from a
+release tag (`ts/vX.Y.Z`, see [Tags](https://github.com/voxgig-sdk/nekosbest-sdk/tags)), or from a
 clone, which carries the compiled `dist/`:
 
 ```bash
@@ -37,17 +37,16 @@ import { NekosbestSDK } from '@voxgig-sdk/nekosbest-sdk'
 const client = new NekosbestSDK()
 ```
 
-### 2. List getrandombycategory records
+### 3. Load an image
 
-`list()` resolves to an array of GetRandomByCategory ENTITIES — every operation
-resolves to entities, not raw records. Iterate them directly, and call
-`.data()` on one for the record it holds:
+`load()` returns the entity and throws on failure; `.data()` reads its record:
 
 ```ts
-const getrandombycategorys = await client.GetRandomByCategory().list({ id: "example" })
-
-for (const getrandombycategory of getrandombycategorys) {
-  console.log(getrandombycategory)
+try {
+  const image = await client.Image().load()
+  console.log(image.data())
+} catch (err) {
+  console.error('load failed:', err)
 }
 ```
 
@@ -58,15 +57,16 @@ Entity operations reject on failure, so wrap them in `try` / `catch`:
 
 ```ts
 try {
-  const searchs = await client.Search().list()
-  console.log(searchs)
+  const searchs = await client.Search().list({ query: "example", type: 1 })
+  console.log(searchs.map((item) => item.data()))
 } catch (err) {
   console.error('list failed:', err)
 }
 ```
 
 The low-level `direct()` method does **not** throw — it returns the
-value or an `Error`, so check the result before using it:
+result envelope. Branch on `ok`; on failure `status` holds the HTTP status
+(for error responses) and `err` holds the error:
 
 ```ts
 const result = await client.direct({
@@ -75,8 +75,8 @@ const result = await client.direct({
   params: { id: 'example_id' },
 })
 
-if (result instanceof Error) {
-  throw result
+if (!result.ok) {
+  console.error('request failed:', result.status, result.err)
 }
 ```
 
@@ -94,9 +94,6 @@ const result = await client.direct({
   params: { id: 'example' },
 })
 
-if (result instanceof Error) {
-  throw result
-}
 if (result.ok) {
   console.log(result.status)  // 200
   console.log(result.data)    // response body
@@ -125,10 +122,9 @@ Create a mock client for unit testing — no server required:
 ```ts
 const client = NekosbestSDK.test()
 
-const search = await client.Search().list()
-// search is the entity, populated with mock response data
-// — call search.data() for the record itself
-console.log(search)
+const searchs = await client.Search().list({ query: 'example_query', type: 1 })
+// searchs is an array of Search entities, one per mock record
+console.log(searchs.map((search) => search.data()))
 ```
 
 You can also use the instance method:
@@ -146,7 +142,7 @@ Entity instances remember their last match and data:
 const entity = client.Search()
 
 // First call runs the operation and stores its result
-await entity.list()
+await entity.list({ query: 'example_query', type: 1 })
 
 // Subsequent calls reuse the stored state
 const data = entity.data()
@@ -226,8 +222,8 @@ new NekosbestSDK(options?: {
 | `utility()` | `Utility` | Deep copy of the SDK utility object. |
 | `prepare(fetchargs?)` | `Promise<FetchDef>` | Build an HTTP request definition without sending it. |
 | `direct(fetchargs?)` | `Promise<DirectResult>` | Build and send an HTTP request. |
-| `GetRandomByCategory(data?)` | `GetRandomByCategoryEntity` | Create a GetRandomByCategory entity instance. |
 | `Image(data?)` | `ImageEntity` | Create an Image entity instance. |
+| `RandomByCategory(data?)` | `RandomByCategoryEntity` | Create a RandomByCategory entity instance. |
 | `Search(data?)` | `SearchEntity` | Create a Search entity instance. |
 | `tester(testopts?, sdkopts?)` | `NekosbestSDK` | Create a test-mode client instance. |
 
@@ -245,8 +241,8 @@ All entities share the same interface.
 
 | Method | Signature | Description |
 | --- | --- | --- |
-| `load` | `load(reqmatch?, ctrl?): Promise<Entity>` | Load a single entity by match criteria. |
-| `list` | `list(reqmatch?, ctrl?): Promise<Entity[]>` | List entities matching the criteria. |
+| `load` | `load(reqmatch?, ctrl?): Promise<Entity>` | Load a single entity by match criteria, and return it. |
+| `list` | `list(reqmatch?, ctrl?): Promise<Entity[]>` | List entities matching the criteria, one per record. |
 | `data` | `data(data?: Partial<Entity>): Entity` | Get or set entity data. |
 | `match` | `match(match?: Partial<Entity>): Partial<Entity>` | Get or set entity match criteria. |
 | `make` | `make(): Entity` | Create a new instance with the same options. |
@@ -255,8 +251,8 @@ All entities share the same interface.
 
 #### Return values
 
-Entity operations resolve to the entity data directly — there is no
-result envelope:
+Entity operations resolve to the entity itself — there is no result
+envelope, and an entity's `data()` reads its record:
 
 - `load` resolves to a single entity object.
 - `list` resolves to an **array** of entity objects (iterate it directly;
@@ -296,33 +292,29 @@ The `prepare()` method returns:
 
 ### Entities
 
-#### GetRandomByCategory
+#### Image
+
+| Field | Description |
+| --- | --- |
+| `format` |  |
+
+Operations: load.
+
+API path: `/endpoints`
+
+#### RandomByCategory
 
 | Field | Description |
 | --- | --- |
 | `anime_name` | Name of the anime the character is from (if applicable) |
 | `artist_href` | URL to the artist's profile or website |
 | `artist_name` | Name of the artist who created the image |
-| `id` |  |
 | `source_url` | Original source URL of the image |
 | `url` | Direct URL to the image or GIF hosted on nekos.best |
 
 Operations: list.
 
 API path: `/{category}`
-
-#### Image
-
-| Field | Description |
-| --- | --- |
-| `categories` | Total number of categories |
-| `endpoints` | Array of available category names |
-| `total_gifs` | Total number of GIFs available |
-| `total_images` | Total number of images available |
-
-Operations: list, load.
-
-API path: `/endpoints`
 
 #### Search
 
@@ -343,9 +335,32 @@ API path: `/search`
 ## Entities
 
 
-### GetRandomByCategory
+### Image
 
-Create an instance: `const get_random_by_category = client.GetRandomByCategory()`
+Create an instance: `const image = client.Image()`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `load(match)` | Load a single entity by match criteria. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `format` | `string` |  |
+
+#### Example: Load
+
+```ts
+const image = await client.Image().load()
+```
+
+
+### RandomByCategory
+
+Create an instance: `const random_by_category = client.RandomByCategory()`
 
 #### Operations
 
@@ -360,47 +375,13 @@ Create an instance: `const get_random_by_category = client.GetRandomByCategory()
 | `anime_name` | `string` | Name of the anime the character is from (if applicable) |
 | `artist_href` | `string` | URL to the artist's profile or website |
 | `artist_name` | `string` | Name of the artist who created the image |
-| `id` | `string` |  |
 | `source_url` | `string` | Original source URL of the image |
 | `url` | `string` | Direct URL to the image or GIF hosted on nekos.best |
 
 #### Example: List
 
 ```ts
-const get_random_by_categorys = await client.GetRandomByCategory().list({ id: "example" })
-```
-
-
-### Image
-
-Create an instance: `const image = client.Image()`
-
-#### Operations
-
-| Method | Description |
-| --- | --- |
-| `list(match)` | List entities matching the criteria. |
-| `load(match)` | Load a single entity by match criteria. |
-
-#### Fields
-
-| Field | Type | Description |
-| --- | --- | --- |
-| `categories` | `number` | Total number of categories |
-| `endpoints` | `any[]` | Array of available category names |
-| `total_gifs` | `number` | Total number of GIFs available |
-| `total_images` | `number` | Total number of images available |
-
-#### Example: Load
-
-```ts
-const image = await client.Image().load()
-```
-
-#### Example: List
-
-```ts
-const images = await client.Image().list()
+const random_by_categorys = await client.RandomByCategory().list({ category: "example" })
 ```
 
 
@@ -427,7 +408,7 @@ Create an instance: `const search = client.Search()`
 #### Example: List
 
 ```ts
-const searchs = await client.Search().list({ query: "example" })
+const searchs = await client.Search().list({ query: "example", type: 1 })
 ```
 
 ## Features
@@ -585,7 +566,7 @@ calls on the same instance can rely on this state.
 
 ```ts
 const search = client.Search()
-await search.list()
+await search.list({ query: "example", type: 1 })
 
 // search.data() now returns the search data from the last `list`
 // search.match() returns the last match criteria

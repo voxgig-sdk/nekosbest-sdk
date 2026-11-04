@@ -41,13 +41,13 @@ client = NekosbestSDK.test
 
 ### Instance Methods
 
-#### `GetRandomByCategory(data = nil)`
-
-Create a new `GetRandomByCategory` entity instance. Pass `nil` for no initial data.
-
 #### `Image(data = nil)`
 
 Create a new `Image` entity instance. Pass `nil` for no initial data.
+
+#### `RandomByCategory(data = nil)`
+
+Create a new `RandomByCategory` entity instance. Pass `nil` for no initial data.
 
 #### `Search(data = nil)`
 
@@ -91,63 +91,6 @@ same parameters as `direct()`. Raises on error.
 
 ---
 
-## GetRandomByCategoryEntity
-
-```ruby
-get_random_by_category = client.GetRandomByCategory
-```
-
-### Fields
-
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `anime_name` | `String` | No | Name of the anime the character is from (if applicable) |
-| `artist_href` | `String` | No | URL to the artist's profile or website |
-| `artist_name` | `String` | No | Name of the artist who created the image |
-| `id` | `String` | No |  |
-| `source_url` | `String` | No | Original source URL of the image |
-| `url` | `String` | Yes | Direct URL to the image or GIF hosted on nekos.best |
-
-### Operations
-
-#### `list(reqmatch = nil, ctrl = nil) -> Array`
-
-List entities matching the given criteria (call with no argument to list all). Returns an array. Raises on error.
-
-```ruby
-results = client.GetRandomByCategory.list
-```
-
-### Common Methods
-
-#### `data_get -> Hash`
-
-Get the entity data. Returns a copy of the current data.
-
-#### `data_set(data)`
-
-Set the entity data.
-
-#### `match_get -> Hash`
-
-Get the entity match criteria.
-
-#### `match_set(match)`
-
-Set the entity match criteria.
-
-#### `make -> Entity`
-
-Create a new `GetRandomByCategoryEntity` instance with the same client and
-options.
-
-#### `get_name -> String`
-
-Return the entity name.
-
-
----
-
 ## ImageEntity
 
 ```ruby
@@ -158,24 +101,13 @@ image = client.Image
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `categories` | `Integer` | No | Total number of categories |
-| `endpoints` | `Array` | No | Array of available category names |
-| `total_gifs` | `Integer` | No | Total number of GIFs available |
-| `total_images` | `Integer` | No | Total number of images available |
+| `format` | `String` | No |  |
 
 ### Operations
 
-#### `list(reqmatch = nil, ctrl = nil) -> Array`
-
-List entities matching the given criteria (call with no argument to list all). Returns an array. Raises on error.
-
-```ruby
-results = client.Image.list
-```
-
 #### `load(reqmatch, ctrl = nil) -> result`
 
-Load a single entity matching the given criteria. Raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get` reads, and raises on error.
 
 ```ruby
 result = client.Image.load()
@@ -211,6 +143,63 @@ Return the entity name.
 
 ---
 
+## RandomByCategoryEntity
+
+```ruby
+random_by_category = client.RandomByCategory
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `anime_name` | `String` | No | Name of the anime the character is from (if applicable) |
+| `artist_href` | `String` | No | URL to the artist's profile or website |
+| `artist_name` | `String` | No | Name of the artist who created the image |
+| `source_url` | `String` | No | Original source URL of the image |
+| `url` | `String` | Yes | Direct URL to the image or GIF hosted on nekos.best |
+
+### Operations
+
+#### `list(reqmatch = nil, ctrl = nil) -> Array`
+
+List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record; `data_get` reads each record. Raises on error.
+
+```ruby
+results = client.RandomByCategory.list({ "category" => "example" })
+results.each { |item| puts item.data_get }
+```
+
+### Common Methods
+
+#### `data_get -> Hash`
+
+Get the entity data. Returns a copy of the current data.
+
+#### `data_set(data)`
+
+Set the entity data.
+
+#### `match_get -> Hash`
+
+Get the entity match criteria.
+
+#### `match_set(match)`
+
+Set the entity match criteria.
+
+#### `make -> Entity`
+
+Create a new `RandomByCategoryEntity` instance with the same client and
+options.
+
+#### `get_name -> String`
+
+Return the entity name.
+
+
+---
+
 ## SearchEntity
 
 ```ruby
@@ -231,10 +220,11 @@ search = client.Search
 
 #### `list(reqmatch = nil, ctrl = nil) -> Array`
 
-List entities matching the given criteria (call with no argument to list all). Returns an array. Raises on error.
+List entities matching the given criteria (call with no argument to list all). Returns an array of entities, one per record; `data_get` reads each record. Raises on error.
 
 ```ruby
-results = client.Search.list
+results = client.Search.list({ "query" => "example", "type" => 1 })
+results.each { |item| puts item.data_get }
 ```
 
 ### Common Methods
@@ -424,6 +414,7 @@ Timeout.
 | Option | Type |
 |---|---|
 | `clearTimer` | function |
+| `now` | function |
 | `setTimer` | function |
 
 These take no default: the feature behaves one way when you supply them and

@@ -7,18 +7,6 @@ main: kit: flow: BasicImageFlow:
   name: "BasicImageFlow",
   step: [
     {
-      o: "list",
-      v: [
-        {
-          apply: "ItemExists",
-          def: {
-            ref: "image_ref01"
-          }
-        }
-      ]
-    }
-
-    {
       i: {
         ref: "image_ref01",
         srcdatavar: "image_ref01_data",

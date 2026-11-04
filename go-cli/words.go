@@ -75,12 +75,12 @@ func runOp(client *sdk.NekosbestSDK, op string, query *eng.Value, entityAtom eng
 
 // entityFor dispatches on the lowercase entity name. The generator
 // emits one `case "<name>":` per entity defined in the SDK model.
-func entityFor(client *sdk.NekosbestSDK, name string) (sdk.NekosbestEntity, error) {
+func entityFor(client *sdk.NekosbestSDK, name string) (sdk.NekosbestEntityBase, error) {
 	switch strings.ToLower(name) {
-	case "get_random_by_category":
-		return client.GetRandomByCategory(nil), nil
 	case "image":
 		return client.Image(nil), nil
+	case "random_by_category":
+		return client.RandomByCategory(nil), nil
 	case "search":
 		return client.Search(nil), nil
 

@@ -9,24 +9,60 @@ import { isControlSkipped } from './utility'
 // scheme names, and the definition's own response example.
 const PLAN: any[] = [
   {
-    "entity": "get_random_by_category",
-    "accessor": "GetRandomByCategory",
+    "entity": "image",
+    "accessor": "Image",
+    "op": "load",
+    "method": "GET",
+    "path": "/endpoints",
+    "args": [],
+    "select": {},
+    "headers": [],
+    "cookies": [],
+    "responseMedia": [
+      "application/json"
+    ],
+    "query": [],
+    "queryArgs": [],
+    "auth": null,
+    "status": 200,
+    "sample": {
+      "endpoints": [
+        "neko",
+        "husbando",
+        "kitsune"
+      ]
+    },
+    "idField": "id"
+  },
+  {
+    "entity": "random_by_category",
+    "accessor": "RandomByCategory",
     "op": "list",
     "method": "GET",
     "path": "/{category}",
     "args": [
       {
-        "name": "id",
+        "name": "category",
         "wire": "category",
         "value": "neko"
       }
     ],
     "select": {
-      "amount": "v1"
+      "amount": 1
     },
     "headers": [],
+    "cookies": [],
+    "responseMedia": [
+      "application/json"
+    ],
     "query": [
       "amount"
+    ],
+    "queryArgs": [
+      {
+        "name": "amount",
+        "wire": "amount"
+      }
     ],
     "auth": null,
     "status": 200,
@@ -44,46 +80,6 @@ const PLAN: any[] = [
     "idField": "id"
   },
   {
-    "entity": "image",
-    "accessor": "Image",
-    "op": "list",
-    "method": "GET",
-    "path": "/endpoints",
-    "args": [],
-    "select": {},
-    "headers": [],
-    "query": [],
-    "auth": null,
-    "status": 200,
-    "sample": {
-      "endpoints": [
-        "neko",
-        "husbando",
-        "kitsune"
-      ]
-    },
-    "idField": "id"
-  },
-  {
-    "entity": "image",
-    "accessor": "Image",
-    "op": "load",
-    "method": "GET",
-    "path": "/stats",
-    "args": [],
-    "select": {},
-    "headers": [],
-    "query": [],
-    "auth": null,
-    "status": 200,
-    "sample": {
-      "total_images": 5000,
-      "total_gifs": 3000,
-      "categories": 48
-    },
-    "idField": "id"
-  },
-  {
     "entity": "search",
     "accessor": "Search",
     "op": "list",
@@ -91,26 +87,50 @@ const PLAN: any[] = [
     "path": "/search",
     "args": [],
     "select": {
-      "amount": "v1",
-      "category": "v1",
-      "query": "v1"
+      "query": "Senko",
+      "type": 1,
+      "amount": 10,
+      "category": "v1"
     },
     "headers": [],
+    "cookies": [],
+    "responseMedia": [
+      "application/json"
+    ],
     "query": [
       "query",
+      "type",
       "category",
       "amount"
+    ],
+    "queryArgs": [
+      {
+        "name": "amount",
+        "wire": "amount"
+      },
+      {
+        "name": "category",
+        "wire": "category"
+      },
+      {
+        "name": "query",
+        "wire": "query"
+      },
+      {
+        "name": "type",
+        "wire": "type"
+      }
     ],
     "auth": null,
     "status": 200,
     "sample": {
       "results": [
         {
-          "anime_name": "Anime Title",
           "artist_href": "https://www.pixiv.net/en/users/12345",
           "artist_name": "Artist Name",
           "source_url": "https://www.pixiv.net/en/artworks/67890",
-          "url": "https://nekos.best/api/v2/neko/001.png"
+          "url": "https://nekos.best/api/v2/neko/001.png",
+          "anime_name": "Anime Title"
         }
       ]
     },

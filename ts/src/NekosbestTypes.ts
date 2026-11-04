@@ -5,39 +5,25 @@
 // canonical type sentinels via @voxgig/sdkgen canonToType (source of truth:
 // @voxgig/apidef VALID_CANON). Do not edit by hand.
 
-export interface GetRandomByCategory {
+export interface Image {
+  format?: string
+}
+
+export interface ImageLoadMatch {
+  format?: string
+}
+
+export interface RandomByCategory {
   anime_name?: string
   artist_href?: string
   artist_name?: string
-  id?: string
   source_url?: string
   url: string
 }
 
-export interface GetRandomByCategoryListMatch {
-  id: string
+export interface RandomByCategoryListMatch {
+  category: string
   amount?: number
-}
-
-export interface Image {
-  categories?: number
-  endpoints?: any[]
-  total_gifs?: number
-  total_images?: number
-}
-
-export interface ImageLoadMatch {
-  categories?: number
-  endpoints?: any[]
-  total_gifs?: number
-  total_images?: number
-}
-
-export interface ImageListMatch {
-  categories?: number
-  endpoints?: any[]
-  total_gifs?: number
-  total_images?: number
 }
 
 export interface Search {
@@ -52,5 +38,6 @@ export interface SearchListMatch {
   amount?: number
   category?: string
   query: string
+  type: number
 }
 

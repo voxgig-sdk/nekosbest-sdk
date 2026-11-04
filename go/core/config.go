@@ -71,6 +71,7 @@ func MakeConfig() map[string]any {
 				},
 				"optspec": map[string]any{
 					"clearTimer": "`$FUNCTION`",
+					"now": "`$FUNCTION`",
 					"setTimer": "`$FUNCTION`",
 				},
 				"strict": false,
@@ -83,13 +84,58 @@ func MakeConfig() map[string]any {
 				"content-type": "application/json",
 			},
 			"entity": map[string]any{
-				"get_random_by_category": map[string]any{},
 				"image": map[string]any{},
+				"random_by_category": map[string]any{},
 				"search": map[string]any{},
 			},
 		},
 		"entity": map[string]any{
-			"get_random_by_category": map[string]any{
+			"image": map[string]any{
+				"fields": []any{
+					map[string]any{
+						"name": "format",
+						"title": "Format",
+						"type": "`$STRING`",
+					},
+				},
+				"name": "image",
+				"op": map[string]any{
+					"load": map[string]any{
+						"input": "data",
+						"name": "load",
+						"points": []any{
+							map[string]any{
+								"kind": "http",
+								"method": "GET",
+								"orig": "/endpoints",
+								"segments": []any{
+									map[string]any{
+										"lit": "endpoints",
+									},
+								},
+								"parts": []any{
+									"endpoints",
+								},
+								"rename": map[string]any{},
+								"transform": map[string]any{
+									"req": "`reqdata`",
+									"res": "`body`",
+								},
+								"args": map[string]any{},
+								"select": map[string]any{},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
+								},
+							},
+						},
+					},
+				},
+				"relations": map[string]any{
+					"ancestors": []any{},
+				},
+			},
+			"random_by_category": map[string]any{
 				"fields": []any{
 					map[string]any{
 						"name": "anime_name",
@@ -111,11 +157,6 @@ func MakeConfig() map[string]any {
 						"short": "Name of the artist who created the image",
 					},
 					map[string]any{
-						"name": "id",
-						"title": "Id",
-						"type": "`$STRING`",
-					},
-					map[string]any{
 						"name": "source_url",
 						"title": "Source Url",
 						"type": "`$STRING`",
@@ -131,11 +172,7 @@ func MakeConfig() map[string]any {
 						"format": "uri",
 					},
 				},
-				"id": map[string]any{
-					"field": "id",
-					"name": "id",
-				},
-				"name": "get_random_by_category",
+				"name": "random_by_category",
 				"op": map[string]any{
 					"list": map[string]any{
 						"input": "data",
@@ -147,17 +184,13 @@ func MakeConfig() map[string]any {
 								"orig": "/{category}",
 								"segments": []any{
 									map[string]any{
-										"var": "id",
+										"var": "category",
 									},
 								},
 								"parts": []any{
-									"{id}",
+									"{category}",
 								},
-								"rename": map[string]any{
-									"param": map[string]any{
-										"category": "id",
-									},
-								},
+								"rename": map[string]any{},
 								"transform": map[string]any{
 									"req": "`reqdata`",
 									"res": "`body.results`",
@@ -165,7 +198,7 @@ func MakeConfig() map[string]any {
 								"args": map[string]any{
 									"params": []any{
 										map[string]any{
-											"name": "id",
+											"name": "category",
 											"orig": "category",
 											"type": "`$STRING`",
 											"kind": "param",
@@ -185,96 +218,13 @@ func MakeConfig() map[string]any {
 								},
 								"select": map[string]any{
 									"exist": []any{
-										"amount",
-										"id",
+										"category",
 									},
 								},
-							},
-						},
-					},
-				},
-				"relations": map[string]any{
-					"ancestors": []any{},
-				},
-			},
-			"image": map[string]any{
-				"fields": []any{
-					map[string]any{
-						"name": "categories",
-						"title": "Categories",
-						"type": "`$INTEGER`",
-						"short": "Total number of categories",
-					},
-					map[string]any{
-						"name": "endpoints",
-						"title": "Endpoints",
-						"type": "`$ARRAY`",
-						"short": "Array of available category names",
-					},
-					map[string]any{
-						"name": "total_gifs",
-						"title": "Total Gifs",
-						"type": "`$INTEGER`",
-						"short": "Total number of GIFs available",
-					},
-					map[string]any{
-						"name": "total_images",
-						"title": "Total Images",
-						"type": "`$INTEGER`",
-						"short": "Total number of images available",
-					},
-				},
-				"name": "image",
-				"op": map[string]any{
-					"list": map[string]any{
-						"input": "data",
-						"name": "list",
-						"points": []any{
-							map[string]any{
-								"kind": "http",
-								"method": "GET",
-								"orig": "/endpoints",
-								"segments": []any{
-									map[string]any{
-										"lit": "endpoints",
-									},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
 								},
-								"parts": []any{
-									"endpoints",
-								},
-								"rename": map[string]any{},
-								"transform": map[string]any{
-									"req": "`reqdata`",
-									"res": "`body.endpoints`",
-								},
-								"args": map[string]any{},
-								"select": map[string]any{},
-							},
-						},
-					},
-					"load": map[string]any{
-						"input": "data",
-						"name": "load",
-						"points": []any{
-							map[string]any{
-								"kind": "http",
-								"method": "GET",
-								"orig": "/stats",
-								"segments": []any{
-									map[string]any{
-										"lit": "stats",
-									},
-								},
-								"parts": []any{
-									"stats",
-								},
-								"rename": map[string]any{},
-								"transform": map[string]any{
-									"req": "`reqdata`",
-									"res": "`body`",
-								},
-								"args": map[string]any{},
-								"select": map[string]any{},
 							},
 						},
 					},
@@ -364,15 +314,27 @@ func MakeConfig() map[string]any {
 											"type": "`$STRING`",
 											"kind": "query",
 											"reqd": true,
+											"example": "Senko",
+										},
+										map[string]any{
+											"name": "type",
+											"orig": "type",
+											"type": "`$INTEGER`",
+											"kind": "query",
+											"reqd": true,
+											"example": 1,
 										},
 									},
 								},
 								"select": map[string]any{
 									"exist": []any{
-										"amount",
-										"category",
 										"query",
+										"type",
 									},
+								},
+								"response": map[string]any{
+									"kind": "json",
+									"media": "application/json",
 								},
 							},
 						},

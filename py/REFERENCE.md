@@ -41,13 +41,13 @@ client = NekosbestSDK.test()
 
 ### Instance Methods
 
-#### `GetRandomByCategory(data=None)`
-
-Create a new `GetRandomByCategoryEntity` instance. Pass `None` for no initial data.
-
 #### `Image(data=None)`
 
 Create a new `ImageEntity` instance. Pass `None` for no initial data.
+
+#### `RandomByCategory(data=None)`
+
+Create a new `RandomByCategoryEntity` instance. Pass `None` for no initial data.
 
 #### `Search(data=None)`
 
@@ -85,64 +85,6 @@ Prepare a fetch definition without sending. Returns the `fetchdef` and raises on
 
 ---
 
-## GetRandomByCategoryEntity
-
-```python
-get_random_by_category = client.GetRandomByCategory()
-```
-
-### Fields
-
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `anime_name` | `str` | No | Name of the anime the character is from (if applicable) |
-| `artist_href` | `str` | No | URL to the artist's profile or website |
-| `artist_name` | `str` | No | Name of the artist who created the image |
-| `id` | `str` | No |  |
-| `source_url` | `str` | No | Original source URL of the image |
-| `url` | `str` | Yes | Direct URL to the image or GIF hosted on nekos.best |
-
-### Operations
-
-#### `list(reqmatch=None, ctrl=None) -> list`
-
-List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
-
-```python
-results = client.GetRandomByCategory().list({"id": "example"})
-for get_random_by_category in results:
-    print(get_random_by_category)
-```
-
-### Common Methods
-
-#### `data_get() -> dict`
-
-Get the entity data.
-
-#### `data_set(data)`
-
-Set the entity data.
-
-#### `match_get() -> dict`
-
-Get the entity match criteria.
-
-#### `match_set(match)`
-
-Set the entity match criteria.
-
-#### `make() -> Entity`
-
-Create a new `GetRandomByCategoryEntity` instance with the same options.
-
-#### `get_name() -> str`
-
-Return the entity name.
-
-
----
-
 ## ImageEntity
 
 ```python
@@ -153,26 +95,13 @@ image = client.Image()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `categories` | `int` | No | Total number of categories |
-| `endpoints` | `list` | No | Array of available category names |
-| `total_gifs` | `int` | No | Total number of GIFs available |
-| `total_images` | `int` | No | Total number of images available |
+| `format` | `str` | No |  |
 
 ### Operations
 
-#### `list(reqmatch=None, ctrl=None) -> list`
+#### `load(reqmatch, ctrl=None) -> ImageEntity`
 
-List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
-
-```python
-results = client.Image().list()
-for image in results:
-    print(image)
-```
-
-#### `load(reqmatch, ctrl=None) -> dict`
-
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Load a single entity matching the given criteria. Returns the entity, whose record `data_get()` reads, and raises on error.
 
 ```python
 result = client.Image().load()
@@ -207,6 +136,63 @@ Return the entity name.
 
 ---
 
+## RandomByCategoryEntity
+
+```python
+random_by_category = client.RandomByCategory()
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `anime_name` | `str` | No | Name of the anime the character is from (if applicable) |
+| `artist_href` | `str` | No | URL to the artist's profile or website |
+| `artist_name` | `str` | No | Name of the artist who created the image |
+| `source_url` | `str` | No | Original source URL of the image |
+| `url` | `str` | Yes | Direct URL to the image or GIF hosted on nekos.best |
+
+### Operations
+
+#### `list(reqmatch=None, ctrl=None) -> list[RandomByCategoryEntity]`
+
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entities, one per record, and raises on error.
+
+```python
+results = client.RandomByCategory().list({"category": "example"})
+for random_by_category in results:
+    print(random_by_category.data_get())
+```
+
+### Common Methods
+
+#### `data_get() -> dict`
+
+Get the entity data.
+
+#### `data_set(data)`
+
+Set the entity data.
+
+#### `match_get() -> dict`
+
+Get the entity match criteria.
+
+#### `match_set(match)`
+
+Set the entity match criteria.
+
+#### `make() -> Entity`
+
+Create a new `RandomByCategoryEntity` instance with the same options.
+
+#### `get_name() -> str`
+
+Return the entity name.
+
+
+---
+
 ## SearchEntity
 
 ```python
@@ -225,14 +211,14 @@ search = client.Search()
 
 ### Operations
 
-#### `list(reqmatch=None, ctrl=None) -> list`
+#### `list(reqmatch=None, ctrl=None) -> list[SearchEntity]`
 
-List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list of entities, one per record, and raises on error.
 
 ```python
-results = client.Search().list({"query": "example"})
+results = client.Search().list({"query": "example", "type": 1})
 for search in results:
-    print(search)
+    print(search.data_get())
 ```
 
 ### Common Methods
@@ -421,6 +407,7 @@ Timeout.
 | Option | Type |
 |---|---|
 | `clearTimer` | function |
+| `now` | function |
 | `setTimer` | function |
 
 These take no default: the feature behaves one way when you supply them and

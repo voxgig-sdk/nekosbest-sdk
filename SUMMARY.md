@@ -6,13 +6,19 @@ nekos.best is a RESTful API serving fully SFW and high quality anime images and 
 
 This guide introduces the API, the client libraries, and the companion tools in this repository. Start with the API capabilities, choose a client for your application, and use the linked reference when you need exact request and response details.
 
-The selected API surface contains 3 entities and 4 HTTP routes. There are 6 SDK targets and 2 companion tools.
+The selected API surface contains 3 entities and 3 HTTP routes. There are 6 SDK targets and 2 companion tools.
 
 An entity groups related API operations. An operation can have several routes with different inputs or authentication requirements. The SDK exposes the entity and its operations using the conventions of the selected language.
 
 ## What the API provides
 
-### GetRandomByCategory
+### Image
+
+Results: Successful response with list of available endpoints.
+
+SDK operations: `load`.
+
+### RandomByCategory
 
 Results: Successful response with image/GIF data.
 
@@ -25,19 +31,6 @@ Key fields to recognise:
 - `artist_name`: Name of the artist who created the image
 - `source_url`: Original source URL of the image
 - `url`: Direct URL to the image or GIF hosted on nekos.best
-
-### Image
-
-Results: Successful response with list of available endpoints; Successful response with API statistics.
-
-SDK operations: `list`, `load`.
-
-Key fields to recognise:
-
-- `categories`: Total number of categories
-- `endpoints`: Array of available category names
-- `total_gifs`: Total number of GIFs available
-- `total_images`: Total number of images available
 
 ### Search
 
@@ -59,9 +52,8 @@ Use this map to locate a capability. Consult the entity reference before supplyi
 
 | Entity | SDK operation | HTTP route | Authentication |
 | --- | --- | --- | --- |
-| GetRandomByCategory | `list` | `GET /{category}` | See reference |
-| Image | `list` | `GET /endpoints` | See reference |
-| Image | `load` | `GET /stats` | See reference |
+| Image | `load` | `GET /endpoints` | See reference |
+| RandomByCategory | `list` | `GET /{category}` | See reference |
 | Search | `list` | `GET /search` | See reference |
 
 ## Connect to the API
@@ -110,7 +102,7 @@ Use the MCP server to expose supported API operations to an MCP client.
 
 Repository directory: `go-mcp/`. Not published. Build from the go-mcp directory.
 
-- `nekosbest_list`: List records for an entity. Supported entities: `get_random_by_category`, `image`, `search`.
+- `nekosbest_list`: List records for an entity. Supported entities: `random_by_category`, `search`.
 - `nekosbest_load`: Load one record for an entity. Supported entities: `image`.
 
 ## Operational features

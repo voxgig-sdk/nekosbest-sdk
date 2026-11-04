@@ -24,6 +24,7 @@
         "repr": "auto"
       },
       "contributor": {},
+      "copies": "merge",
       "doc": {
         "active": true,
         "assets": {
@@ -91,7 +92,61 @@
         "target": {}
       },
       "entity": {
-        "get_random_by_category": {
+        "image": {
+          "active": true,
+          "alias": {
+            "field": {}
+          },
+          "fields": {
+            "format": {
+              "a": true,
+              "h": "Format",
+              "n": "format",
+              "r": false,
+              "t": "`$STRING`"
+            }
+          },
+          "name": "image",
+          "op": {
+            "load": {
+              "input": "data",
+              "name": "load",
+              "points": [
+                {
+                  "a": true,
+                  "co": {
+                    "id": "GET /endpoints",
+                    "source": "openapi3",
+                    "version": 2
+                  },
+                  "g": {},
+                  "k": "http",
+                  "m": "GET",
+                  "o": "/endpoints",
+                  "q": {},
+                  "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
+                  "s": [
+                    {
+                      "lit": "endpoints"
+                    }
+                  ],
+                  "t": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            }
+          },
+          "relations": {
+            "ancestors": []
+          }
+        },
+        "random_by_category": {
           "active": true,
           "alias": {
             "field": {}
@@ -122,13 +177,6 @@
               "sh": "Name of the artist who created the image",
               "t": "`$STRING`"
             },
-            "id": {
-              "a": true,
-              "h": "Id",
-              "n": "id",
-              "r": false,
-              "t": "`$STRING`"
-            },
             "source_url": {
               "a": true,
               "fo": "uri",
@@ -148,11 +196,7 @@
               "t": "`$STRING`"
             }
           },
-          "id": {
-            "field": "id",
-            "name": "id"
-          },
-          "name": "get_random_by_category",
+          "name": "random_by_category",
           "op": {
             "list": {
               "input": "data",
@@ -171,7 +215,7 @@
                         "a": true,
                         "ex": "neko",
                         "k": "param",
-                        "n": "id",
+                        "n": "category",
                         "or": "category",
                         "r": true,
                         "t": "`$STRING`"
@@ -194,127 +238,22 @@
                   "o": "/{category}",
                   "q": {
                     "exist": [
-                      "amount",
-                      "id"
+                      "category"
                     ]
                   },
-                  "r": {
-                    "param": {
-                      "category": "id"
-                    }
+                  "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
                   },
                   "s": [
                     {
-                      "var": "id"
+                      "var": "category"
                     }
                   ],
                   "t": {
                     "req": "`reqdata`",
                     "res": "`body.results`"
-                  }
-                }
-              ]
-            }
-          },
-          "relations": {
-            "ancestors": []
-          }
-        },
-        "image": {
-          "active": true,
-          "alias": {
-            "field": {}
-          },
-          "fields": {
-            "categories": {
-              "a": true,
-              "h": "Categories",
-              "n": "categories",
-              "r": false,
-              "sh": "Total number of categories",
-              "t": "`$INTEGER`"
-            },
-            "endpoints": {
-              "a": true,
-              "h": "Endpoints",
-              "n": "endpoints",
-              "r": false,
-              "sh": "Array of available category names",
-              "t": "`$ARRAY`"
-            },
-            "total_gifs": {
-              "a": true,
-              "h": "Total Gifs",
-              "n": "total_gifs",
-              "r": false,
-              "sh": "Total number of GIFs available",
-              "t": "`$INTEGER`"
-            },
-            "total_images": {
-              "a": true,
-              "h": "Total Images",
-              "n": "total_images",
-              "r": false,
-              "sh": "Total number of images available",
-              "t": "`$INTEGER`"
-            }
-          },
-          "name": "image",
-          "op": {
-            "list": {
-              "input": "data",
-              "name": "list",
-              "points": [
-                {
-                  "a": true,
-                  "co": {
-                    "id": "GET /endpoints",
-                    "source": "openapi3",
-                    "version": 2
-                  },
-                  "g": {},
-                  "k": "http",
-                  "m": "GET",
-                  "o": "/endpoints",
-                  "q": {},
-                  "r": {},
-                  "s": [
-                    {
-                      "lit": "endpoints"
-                    }
-                  ],
-                  "t": {
-                    "req": "`reqdata`",
-                    "res": "`body.endpoints`"
-                  }
-                }
-              ]
-            },
-            "load": {
-              "input": "data",
-              "name": "load",
-              "points": [
-                {
-                  "a": true,
-                  "co": {
-                    "id": "GET /stats",
-                    "source": "openapi3",
-                    "version": 2
-                  },
-                  "g": {},
-                  "k": "http",
-                  "m": "GET",
-                  "o": "/stats",
-                  "q": {},
-                  "r": {},
-                  "s": [
-                    {
-                      "lit": "stats"
-                    }
-                  ],
-                  "t": {
-                    "req": "`reqdata`",
-                    "res": "`body`"
                   }
                 }
               ]
@@ -408,11 +347,21 @@
                       },
                       {
                         "a": true,
+                        "ex": "Senko",
                         "k": "query",
                         "n": "query",
                         "or": "query",
                         "r": true,
                         "t": "`$STRING`"
+                      },
+                      {
+                        "a": true,
+                        "ex": 1,
+                        "k": "query",
+                        "n": "type",
+                        "or": "type",
+                        "r": true,
+                        "t": "`$INTEGER`"
                       }
                     ]
                   },
@@ -421,12 +370,15 @@
                   "o": "/search",
                   "q": {
                     "exist": [
-                      "amount",
-                      "category",
-                      "query"
+                      "query",
+                      "type"
                     ]
                   },
                   "r": {},
+                  "rs": {
+                    "kind": "json",
+                    "media": "application/json"
+                  },
                   "s": [
                     {
                       "lit": "search"
@@ -767,6 +719,7 @@
             },
             "optspec": {
               "clearTimer": "`$FUNCTION`",
+              "now": "`$FUNCTION`",
               "setTimer": "`$FUNCTION`"
             },
             "strict": false
@@ -856,34 +809,6 @@
         }
       },
       "flow": {
-        "BasicGetRandomByCategoryFlow": {
-          "active": true,
-          "entity": "get_random_by_category",
-          "key$": "BasicGetRandomByCategoryFlow",
-          "kind": "basic",
-          "name": "BasicGetRandomByCategoryFlow",
-          "param": {},
-          "step": [
-            {
-              "a": true,
-              "d": {},
-              "i": {},
-              "m": {
-                "category": "category01"
-              },
-              "o": "list",
-              "s": [],
-              "v": [
-                {
-                  "apply": "ItemExists",
-                  "def": {
-                    "ref": "get_random_by_category_ref01"
-                  }
-                }
-              ]
-            }
-          ]
-        },
         "BasicImageFlow": {
           "active": true,
           "entity": "image",
@@ -892,22 +817,6 @@
           "name": "BasicImageFlow",
           "param": {},
           "step": [
-            {
-              "a": true,
-              "d": {},
-              "i": {},
-              "m": {},
-              "o": "list",
-              "s": [],
-              "v": [
-                {
-                  "apply": "ItemExists",
-                  "def": {
-                    "ref": "image_ref01"
-                  }
-                }
-              ]
-            },
             {
               "a": true,
               "d": {},
@@ -924,6 +833,34 @@
                   "apply": "TextFieldMark",
                   "def": {
                     "mark": "Mark01-image_ref01"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "BasicRandomByCategoryFlow": {
+          "active": true,
+          "entity": "random_by_category",
+          "key$": "BasicRandomByCategoryFlow",
+          "kind": "basic",
+          "name": "BasicRandomByCategoryFlow",
+          "param": {},
+          "step": [
+            {
+              "a": true,
+              "d": {},
+              "i": {},
+              "m": {
+                "category": "category01"
+              },
+              "o": "list",
+              "s": [],
+              "v": [
+                {
+                  "apply": "ItemExists",
+                  "def": {
+                    "ref": "random_by_category_ref01"
                   }
                 }
               ]
@@ -957,6 +894,9 @@
           ]
         }
       },
+      "http": {
+        "useragent": "plain"
+      },
       "info": {
         "auth": false,
         "contact": {
@@ -985,7 +925,7 @@
       "optspec": {
         "allow": {
           "method": "GET,PUT,POST,PATCH,DELETE,OPTIONS",
-          "op": "create,update,load,list,remove,command,direct,graphql"
+          "op": "create,update,patch,load,list,remove,command,direct,graphql"
         },
         "apikey": "",
         "auth": {
@@ -1038,6 +978,11 @@
         "top": {
           "active": true
         }
+      },
+      "publisher": {
+        "name": "",
+        "security": "",
+        "url": ""
       },
       "repo": {
         "host": "github.com",
@@ -1268,7 +1213,10 @@
             "version": "0.0.1"
           },
           "superseded": [],
-          "title": "Go MCP server"
+          "title": "Go MCP server",
+          "tool": {
+            "write": false
+          }
         },
         "lua": {
           "active": true,
@@ -1645,6 +1593,17 @@
           "base": "",
           "strict": true
         }
+      },
+      "text": {
+        "about_md": "",
+        "docs_url": "",
+        "entity_desc": {},
+        "homepage": "",
+        "meta_source": "",
+        "summary": "",
+        "tagline": "",
+        "title": "",
+        "website": ""
       }
     }
   },

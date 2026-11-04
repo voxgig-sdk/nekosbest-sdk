@@ -4,7 +4,7 @@
 
 The Python SDK for the Nekosbest API — an entity-oriented client following Pythonic conventions.
 
-The SDK exposes the API as capitalised, semantic **Entities** — for example `client.GetRandomByCategory()` — each
+The SDK exposes the API as capitalised, semantic **Entities** — for example `client.Image()` — each
 carrying a small, uniform set of operations (`list`, `load`) instead of raw URL
 paths and query strings. You work with named resources and verbs, which
 keeps the cognitive load low.
@@ -15,7 +15,7 @@ keeps the cognitive load low.
 
 ## Install
 This package is not yet published to PyPI. Install it from the GitHub
-release tag (`py/vX.Y.Z`, see [Releases](https://github.com/voxgig-sdk/nekosbest-sdk/releases)) or
+release tag (`py/vX.Y.Z`, see [Tags](https://github.com/voxgig-sdk/nekosbest-sdk/tags)) or
 from a source checkout:
 
 ```bash
@@ -36,18 +36,16 @@ from nekosbest_sdk import NekosbestSDK
 client = NekosbestSDK()
 ```
 
-### 2. List getrandombycategory records
+### 3. Load an image
 
-`list()` returns a `list` of records (each a `dict`) and raises on
-error — iterate it directly.
+`load()` returns the ENTITY — call data_get() for the record — and raises on error.
 
 ```python
 try:
-    getrandombycategorys = client.GetRandomByCategory().list({"id": "example"})
-    for getrandombycategory in getrandombycategorys:
-        print(getrandombycategory)
+    image = client.Image().load()
+    print(image.data_get())
 except Exception as err:
-    print(f"list failed: {err}")
+    print(f"load failed: {err}")
 ```
 
 
@@ -57,8 +55,8 @@ Entity operations raise on failure, so wrap them in `try` / `except`:
 
 ```python
 try:
-    searchs = client.Search().list()
-    print(searchs)
+    searchs = client.Search().list({"query": "example", "type": 1})
+    print([item.data_get() for item in searchs])
 except Exception as err:
     print(f"list failed: {err}")
 ```
@@ -124,10 +122,9 @@ Create a mock client for unit testing — no server required:
 ```python
 client = NekosbestSDK.test()
 
-# Entity ops return the ENTITY and raises on error;
-# call data_get() for the record.
-search = client.Search().list()
-# search contains the mock response record
+# Entity ops return the entity, and list one per record; they raise on error.
+search = client.Search().list({"query": "example", "type": 1})
+# data_get() on an entity reads its mock response record
 ```
 
 ### Use a custom fetch function
@@ -203,8 +200,8 @@ Creates a test-mode client with mock transport. Both arguments may be `None`.
 | `get_utility` | `() -> Utility` | Copy of the SDK utility object. |
 | `prepare` | `(fetchargs) -> dict` | Build an HTTP request definition without sending. Raises on error. |
 | `direct` | `(fetchargs) -> dict` | Build and send an HTTP request. Returns a result dict (branch on `ok`). |
-| `GetRandomByCategory` | `(data) -> GetRandomByCategoryEntity` | Create a GetRandomByCategory entity instance. |
 | `Image` | `(data) -> ImageEntity` | Create an Image entity instance. |
+| `RandomByCategory` | `(data) -> RandomByCategoryEntity` | Create a RandomByCategory entity instance. |
 | `Search` | `(data) -> SearchEntity` | Create a Search entity instance. |
 
 ### Entity interface
@@ -213,8 +210,8 @@ All entities share the same interface.
 
 | Method | Signature | Description |
 | --- | --- | --- |
-| `load` | `(reqmatch, ctrl) -> any` | Load a single entity by match criteria. Raises on error. |
-| `list` | `(reqmatch, ctrl) -> list` | List entities matching the criteria. Raises on error. |
+| `load` | `(reqmatch, ctrl) -> any` | Load a single entity by match criteria, and return it. Raises on error. |
+| `list` | `(reqmatch, ctrl) -> list` | List entities matching the criteria, one per record. Raises on error. |
 | `data_get` | `() -> dict` | Get entity data. |
 | `data_set` | `(data)` | Set entity data. |
 | `match_get` | `() -> dict` | Get entity match criteria. |
@@ -224,9 +221,9 @@ All entities share the same interface.
 
 ### Result shape
 
-Entity operations return the ENTITY (call data_get() for the record) (a `dict` for single-entity
-ops, a `list` for `list`) and raise on error. Wrap calls in
-`try`/`except` to handle failures.
+Entity operations return the entity, and `list` a `list` of entities, one
+per record; an entity's `data_get()` reads its record (a `dict`). They raise
+on error, so wrap calls in `try`/`except` to handle failures.
 
 The `direct()` escape hatch never raises — it returns a result `dict`
 you branch on via `result["ok"]`:
@@ -242,33 +239,29 @@ On error, `ok` is `False` and `err` contains the error value.
 
 ### Entities
 
-#### GetRandomByCategory
+#### Image
+
+| Field | Description |
+| --- | --- |
+| `format` |  |
+
+Operations: Load.
+
+API path: `/endpoints`
+
+#### RandomByCategory
 
 | Field | Description |
 | --- | --- |
 | `anime_name` | Name of the anime the character is from (if applicable) |
 | `artist_href` | URL to the artist's profile or website |
 | `artist_name` | Name of the artist who created the image |
-| `id` |  |
 | `source_url` | Original source URL of the image |
 | `url` | Direct URL to the image or GIF hosted on nekos.best |
 
 Operations: List.
 
 API path: `/{category}`
-
-#### Image
-
-| Field | Description |
-| --- | --- |
-| `categories` | Total number of categories |
-| `endpoints` | Array of available category names |
-| `total_gifs` | Total number of GIFs available |
-| `total_images` | Total number of images available |
-
-Operations: List, Load.
-
-API path: `/endpoints`
 
 #### Search
 
@@ -289,9 +282,32 @@ API path: `/search`
 ## Entities
 
 
-### GetRandomByCategory
+### Image
 
-Create an instance: `get_random_by_category = client.GetRandomByCategory()`
+Create an instance: `image = client.Image()`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `load(match)` | Load a single entity by match criteria. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `format` | `str` |  |
+
+#### Example: Load
+
+```python
+image = client.Image().load()
+```
+
+
+### RandomByCategory
+
+Create an instance: `random_by_category = client.RandomByCategory()`
 
 #### Operations
 
@@ -306,47 +322,13 @@ Create an instance: `get_random_by_category = client.GetRandomByCategory()`
 | `anime_name` | `str` | Name of the anime the character is from (if applicable) |
 | `artist_href` | `str` | URL to the artist's profile or website |
 | `artist_name` | `str` | Name of the artist who created the image |
-| `id` | `str` |  |
 | `source_url` | `str` | Original source URL of the image |
 | `url` | `str` | Direct URL to the image or GIF hosted on nekos.best |
 
 #### Example: List
 
 ```python
-get_random_by_categorys = client.GetRandomByCategory().list({"id": "example"})
-```
-
-
-### Image
-
-Create an instance: `image = client.Image()`
-
-#### Operations
-
-| Method | Description |
-| --- | --- |
-| `list()` | List entities, optionally matching the given criteria. |
-| `load(match)` | Load a single entity by match criteria. |
-
-#### Fields
-
-| Field | Type | Description |
-| --- | --- | --- |
-| `categories` | `int` | Total number of categories |
-| `endpoints` | `list` | Array of available category names |
-| `total_gifs` | `int` | Total number of GIFs available |
-| `total_images` | `int` | Total number of images available |
-
-#### Example: Load
-
-```python
-image = client.Image().load()
-```
-
-#### Example: List
-
-```python
-images = client.Image().list()
+random_by_categorys = client.RandomByCategory().list({"category": "example"})
 ```
 
 
@@ -373,7 +355,7 @@ Create an instance: `search = client.Search()`
 #### Example: List
 
 ```python
-searchs = client.Search().list({"query": "example"})
+searchs = client.Search().list({"query": "example", "type": 1})
 ```
 
 ## Features
@@ -538,7 +520,7 @@ stores the returned data and match criteria internally.
 
 ```python
 search = client.Search()
-search.list()
+search.list({"query": "example", "type": 1})
 
 # search.data_get() now returns the search data from the last list
 # search.match_get() returns the last match criteria

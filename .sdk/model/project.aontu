@@ -35,3 +35,10 @@
 # Only npm targets. pypi, rubygems, luarocks and packagist name themselves.
 main: kit: target: ts: publish: registry: package: '@voxgig-sdk/nekosbest-sdk'
 # --- end npm package names ---
+
+# --- user agent (fleet, 2026-11-04) ---
+#
+# nekos.best answers 403 to the default browser-shaped agent and 200 to a
+# plain one (probed 2026-11-03).
+main: kit: http: useragent: 'plain'
+# --- end user agent ---

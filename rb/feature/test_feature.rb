@@ -9,6 +9,32 @@ class NekosbestTestFeature < NekosbestBaseFeature
   # ops unwrap body.data.<field>, not just one level.
   ENVELOPE_RES_RE = /\A`body\.(.+)`\z/
 
+  # The key a list's response transform
+  # ["`$EACH`", "body", { "`$MERGE`" => "`.<key>`" }] reads each item's record under.
+  ITEM_ENVELOPE_RE = /\A`\.([^.`$]+)`\z/
+
+  def self.item_envelope_key(restf)
+    return nil unless restf.is_a?(Array) && 3 == restf.length &&
+      '`$EACH`' == restf[0] && 'body' == restf[1] && restf[2].is_a?(Hash)
+    merge = restf[2]['`$MERGE`']
+    m = merge.is_a?(String) ? ITEM_ENVELOPE_RE.match(merge) : nil
+    m.nil? ? nil : m[1]
+  end
+
+  # The record the mock keeps: the request data without `$body`, which only the
+  # wire carries.
+  def self.record(reqdata)
+    return reqdata unless reqdata.is_a?(Hash)
+    reqdata.reject { |k, _v| k == "$body" }
+  end
+
+  # The entity's declared identity field (`entity.id.field`), where it names
+  # one other than the `id` every record already carries.
+  def self.declared_id_field(config, entity_name)
+    field = VoxgigStruct.getpath(config, ["entity", entity_name, "id", "field"])
+    field.is_a?(String) && !["", "id"].include?(field) ? field : nil
+  end
+
   def initialize
     super
     @version = "0.0.1"
@@ -28,12 +54,14 @@ class NekosbestTestFeature < NekosbestBaseFeature
     @client.mode = "test"
 
     # Ensure entity ids are correct.
-    VoxgigStruct.walk(entity) do |key, val, parent, path|
+    VoxgigStruct.walk(entity, ->(key, val, _parent, path) {
       if path.length == 2 && val.is_a?(Hash) && key
         val["id"] = key
+        id_field = NekosbestTestFeature.declared_id_field(ctx.config, path[0])
+        val[id_field] = key unless id_field.nil?
       end
       val
-    end
+    })
 
     test_self = self
 
@@ -51,6 +79,8 @@ class NekosbestTestFeature < NekosbestBaseFeature
         transform = point["transform"]
         next data unless transform.is_a?(Hash)
         restf = transform["res"]
+        key = NekosbestTestFeature.item_envelope_key(restf)
+        next data.map { |item| { key => item } } if !key.nil? && data.is_a?(Array)
         next data unless restf.is_a?(String)
         m = ENVELOPE_RES_RE.match(restf)
         next data if m.nil?
@@ -106,7 +136,7 @@ class NekosbestTestFeature < NekosbestBaseFeature
         out = VoxgigStruct.clone(found)
         respond.call(200, out, nil)
 
-      elsif op.name == "update"
+      elsif op.name == "update" || op.name == "patch"
         # Match the existing entity by id only (or its alias). reqdata also
         # contains the new field values, which would otherwise cause select
         # to filter out the entity we want to update. When reqdata has no id,
@@ -130,7 +160,7 @@ class NekosbestTestFeature < NekosbestBaseFeature
         # update miss: 404, never another record
         return respond.call(404, nil, { "statusText" => "Not found" }) unless ent
         if ent.is_a?(Hash) && fctx.reqdata.is_a?(Hash)
-          VoxgigStruct.merge([ent, fctx.reqdata])
+          VoxgigStruct.merge([ent, NekosbestTestFeature.record(fctx.reqdata)])
         end
         VoxgigStruct.delprop(ent, "$KEY")
         out = VoxgigStruct.clone(ent)
@@ -153,9 +183,11 @@ class NekosbestTestFeature < NekosbestBaseFeature
         id = fctx.utility.param.call(fctx, "id")
         id ||= "%04x%04x%04x%04x" % [rand(0x10000), rand(0x10000), rand(0x10000), rand(0x10000)]
 
-        ent = VoxgigStruct.clone(fctx.reqdata)
+        ent = VoxgigStruct.clone(NekosbestTestFeature.record(fctx.reqdata))
         if ent.is_a?(Hash)
           ent["id"] = id
+          id_field = NekosbestTestFeature.declared_id_field(fctx.config, op.entity)
+          ent[id_field] = id if !id_field.nil? && ent[id_field].nil?
           entmap[id.to_s] = ent if id.is_a?(String)
           VoxgigStruct.delprop(ent, "$KEY")
           out = VoxgigStruct.clone(ent)
